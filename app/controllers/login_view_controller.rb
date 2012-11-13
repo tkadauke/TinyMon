@@ -18,7 +18,8 @@ class LoginViewController < Formotion::FormController
 
 private
   def build_form
-    @form ||= Formotion::Form.new({
+    @form ||= Formotion::Form.persist({
+      persist_as: :credentials,
       sections: [{
         rows: [{
           title: "Email",
@@ -33,10 +34,6 @@ private
           placeholder: "required",
           type: :string,
           secure: true
-        }, {
-          title: "Remember?",
-          key: :remember,
-          type: :switch,
         }]
       }, {
         title: "Server",
