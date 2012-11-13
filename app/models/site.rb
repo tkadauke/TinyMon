@@ -1,6 +1,6 @@
 class Site < RemoteModule::RemoteModel
   attribute :url, :name
-  attr_accessor :account_id, :permalink
+  attr_accessor :account_id, :permalink, :status
   
   collection_url "sites"
   member_url "accounts/:account_id/sites/:permalink"

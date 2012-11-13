@@ -100,6 +100,14 @@ private
           value: health_check.enabled ? 'Yes' : 'No',
           title: "Active",
           type: :static
+        }, {
+          value: UIImage.imageNamed("#{health_check.status}.png"),
+          title: "Status",
+          type: :icon,
+        }, {
+          value: UIImage.imageNamed("weather-#{health_check.weather}.png"),
+          title: "Weather",
+          type: :icon,
         }]
       }, {
         rows: [{

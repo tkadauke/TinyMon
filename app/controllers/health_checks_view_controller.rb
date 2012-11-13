@@ -36,8 +36,10 @@ class HealthChecksViewController < UITableViewController
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = health_checks[indexPath.row].name
+    health_check = health_checks[indexPath.row]
+    cell.textLabel.text = health_check.name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell.imageView.image = UIImage.imageNamed("#{health_check.status}.png")
     cell
   end
   

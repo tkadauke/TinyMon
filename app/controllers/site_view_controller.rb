@@ -91,6 +91,10 @@ private
           value: site.url,
           title: "Base URL",
           type: :static,
+        }, {
+          value: UIImage.imageNamed("#{site.status}.png"),
+          title: "Status",
+          type: :icon,
         }]
       }, {
         rows: [{

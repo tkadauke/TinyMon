@@ -37,8 +37,10 @@ class SitesViewController < UITableViewController
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = sites[indexPath.row].name
+    site = sites[indexPath.row]
+    cell.textLabel.text = site.name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
     cell
   end
   
