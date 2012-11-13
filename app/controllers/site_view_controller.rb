@@ -137,7 +137,9 @@ private
         value: site.url,
         title: "Base URL",
         key: :url,
-        type: :string
+        type: :string,
+        auto_correction: :no,
+        auto_capitalization: :none
       }]
     }, {
       rows: [{
