@@ -22,7 +22,7 @@ class LoginViewController < Formotion::FormController
           "Cookie" => cookie_hash.map { |key, value| "#{key}=#{value}" }.join(";")
         }
       }
-      self.navigationController.pushViewController SitesViewController.alloc.init, animated:true
+      UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInNavigationController.alloc.init
     end
   end
 
