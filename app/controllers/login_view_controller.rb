@@ -9,7 +9,10 @@ class LoginViewController < Formotion::FormController
   end
   
   def submit(form)
-    session = UserSession.new(form.render)
+    login_data = form.render
+    RemoteModule::RemoteModel.root_url = "http://#{login_data.delete(:server)}/"
+    
+    session = UserSession.new(login_data)
     session.login do |response, json|
       Account.current_account_id = json["attempted_record"]["current_account_id"]
       UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
@@ -37,8 +40,6 @@ private
         }]
       }, {
         title: "Server",
-        key: :account_type,
-        select_one: true,
         rows: [{
           title: "Host name",
           value: "mon.tinymon.org",

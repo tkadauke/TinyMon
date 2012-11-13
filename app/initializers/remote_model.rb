@@ -1,5 +1,5 @@
 module RemoteModule
   class RemoteModel
-    self.root_url = "http://10.0.1.62:3000/"
+    self.root_url = "http://mon.tinymon.org/"
   end
 end
