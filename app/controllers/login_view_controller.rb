@@ -10,12 +10,24 @@ class LoginViewController < Formotion::FormController
   
   def submit(form)
     login_data = form.render
-    RemoteModule::RemoteModel.root_url = "http://#{login_data.delete(:server)}/"
-    
-    session = UserSession.new(login_data)
-    session.login do |response, json|
-      Account.current_account_id = json["attempted_record"]["current_account_id"]
-      UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
+    server = login_data.delete(:server)
+    RemoteModule::RemoteModel.root_url = "http://#{server}/"
+    TinyMon.server = server.split(":").first
+
+    TinyMon.when_reachable do
+      session = UserSession.new(login_data)
+      session.login do |response, json|
+        if response.error_message
+          UIAlertView.alert("Login failed", response.error_message)
+        else
+          if json
+            Account.current_account_id = json["attempted_record"]["current_account_id"]
+            UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
+          else
+            UIAlertView.alert("Login failed", "Wrong username or password")
+          end
+        end
+      end
     end
   end
 
@@ -45,6 +57,8 @@ private
           value: "mon.tinymon.org",
           key: :server,
           type: :string,
+          auto_correction: :no,
+          auto_capitalization: :none
         }]
       }, {
         rows: [{
