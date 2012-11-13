@@ -9,6 +9,7 @@ Motion::Project::App.setup do |app|
   app.identifier = "org.tinymon.TinyMon"
   app.name = 'TinyMon'
   app.files = Dir.glob("lib/**/*.rb") + app.files
+  app.vendor_project('vendor/ViewDeck', :static)
   
   app.development do
     app.testflight do

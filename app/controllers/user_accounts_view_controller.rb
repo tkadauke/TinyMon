@@ -1,23 +1,20 @@
-class SitesViewController < UITableViewController
-  attr_accessor :sites
+class UserAccountsViewController < UITableViewController
+  attr_accessor :user_accounts
   
   def init
-    self.sites = []
+    self.user_accounts = []
     super
   end
   
   def viewDidLoad
-    self.title = "Sites"
-    Site.find_all do |results|
-      self.sites = results
+    self.title = "Users"
+    UserAccount.find_all(:account_id => Account.current_account_id) do |results|
+      self.user_accounts = results
       tableView.reloadData
     end
     
     @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
     self.navigationItem.leftBarButtonItem = @menu_button
-    
-    @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
-    self.navigationItem.rightBarButtonItem = @plus_button
   end
   
   def viewWillAppear(animated)
@@ -30,23 +27,20 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.sites.size
+    self.user_accounts.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = sites[indexPath.row].name
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    user_account = user_accounts[indexPath.row]
+    cell.textLabel.text = user_account.user.full_name
+    cell.detailTextLabel.text = user_account.role
     cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(SiteViewController.alloc.initWithSite(sites[indexPath.row], parent:self), animated:true)
-  end
-  
-  def add
-    navigationController.pushViewController(SiteViewController.alloc.initWithParent(self), animated:true)
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
   end
 end

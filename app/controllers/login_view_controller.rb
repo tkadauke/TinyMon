@@ -11,18 +11,8 @@ class LoginViewController < Formotion::FormController
   def submit(form)
     session = UserSession.new(form.render)
     session.login do |response, json|
-      cookies = response.headers['Set-Cookie'].split(/,\s*/)
-      cookie_hash = cookies.inject({}) do |hash, cookie|
-        name, content = *cookie.split(/;\s*/).first.split(/=/)
-        hash[name] = content
-        hash
-      end
-      RemoteModule::RemoteModel.default_url_options = {
-        :headers => {
-          "Cookie" => cookie_hash.map { |key, value| "#{key}=#{value}" }.join(";")
-        }
-      }
-      UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInNavigationController.alloc.init
+      Account.current_account_id = json["attempted_record"]["current_account_id"]
+      UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
     end
   end
 

@@ -1,23 +1,20 @@
-class SitesViewController < UITableViewController
-  attr_accessor :sites
+class AccountsViewController < UITableViewController
+  attr_accessor :accounts
   
   def init
-    self.sites = []
+    self.accounts = []
     super
   end
   
   def viewDidLoad
-    self.title = "Sites"
-    Site.find_all do |results|
-      self.sites = results
+    self.title = "Accounts"
+    Account.find_all do |results|
+      self.accounts = results
       tableView.reloadData
     end
     
     @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
     self.navigationItem.leftBarButtonItem = @menu_button
-    
-    @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
-    self.navigationItem.rightBarButtonItem = @plus_button
   end
   
   def viewWillAppear(animated)
@@ -30,23 +27,21 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.sites.size
+    self.accounts.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = sites[indexPath.row].name
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell.textLabel.text = accounts[indexPath.row].name
     cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(SiteViewController.alloc.initWithSite(sites[indexPath.row], parent:self), animated:true)
-  end
-  
-  def add
-    navigationController.pushViewController(SiteViewController.alloc.initWithParent(self), animated:true)
+    accounts[indexPath.row].switch do
+      viewController = SitesViewController.alloc.init
+      self.viewDeckController.centerController = LoggedInNavigationController.alloc.initWithRootViewController(viewController)
+    end
   end
 end
