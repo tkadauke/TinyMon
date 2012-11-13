@@ -34,18 +34,28 @@ class SiteViewController < Formotion::FormController
   
   def done_editing
     self.site.update_attributes(form.render)
-    if @new_record
-      self.site.create do |result|
-        @parent.sites << result
-        self.navigationController.popViewControllerAnimated(true)
-      end
-    else
-      self.site.save do |result|
-        self.form = build_form
-        self.form.controller = self
-        tableView.reloadData
-        self.title = site.name
-        show_edit_button
+    TinyMon.when_reachable do
+      if @new_record
+        self.site.create do |result|
+          if result
+            @parent.sites << result
+            self.navigationController.popViewControllerAnimated(true)
+          else
+            TinyMon.offline_alert
+          end
+        end
+      else
+        self.site.save do |result|
+          if result
+            self.form = build_form
+            self.form.controller = self
+            tableView.reloadData
+            self.title = site.name
+            show_edit_button
+          else
+            TinyMon.offline_alert
+          end
+        end
       end
     end
   end
@@ -72,9 +82,15 @@ class SiteViewController < Formotion::FormController
   
   def actionSheet(sender, clickedButtonAtIndex:index)
     if index == sender.destructiveButtonIndex
-      self.site.destroy do
-        @parent.sites.delete(self.site)
-        self.navigationController.popViewControllerAnimated(true)
+      TinyMon.when_reachable do
+        self.site.destroy do |result|
+          if result
+            @parent.sites.delete(self.site)
+            self.navigationController.popViewControllerAnimated(true)
+          else
+            TinyMon.offline_alert
+          end
+        end
       end
     end
   end

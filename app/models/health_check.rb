@@ -16,17 +16,21 @@ class HealthCheck < RemoteModule::RemoteModel
   end
   
   def save(&block)
-    put(member_url, :payload => { :health_check => attributes }, &block)
+    put(member_url, :payload => { :health_check => attributes }) do |response, json|
+      block.call json ? HealthCheck.new(json) : nil
+    end
   end
   
   def create(&block)
     post(collection_url, :payload => { :health_check => attributes }) do |response, json|
-      block.call HealthCheck.new(json)
+      block.call json ? HealthCheck.new(json) : nil
     end
   end
   
   def destroy(&block)
-    delete(member_url, &block)
+    delete(member_url) do |response, json|
+      block.call json ? HealthCheck.new(json) : nil
+    end
   end
   
   def check_runs(&block)

@@ -35,18 +35,28 @@ class HealthCheckViewController < Formotion::FormController
   
   def done_editing
     self.health_check.update_attributes(form.render)
-    if @new_record
-      self.health_check.create do |result|
-        @parent.health_checks << result
-        self.navigationController.popViewControllerAnimated(true)
-      end
-    else
-      self.health_check.save do |result|
-        self.form = build_form
-        self.form.controller = self
-        tableView.reloadData
-        self.title = health_check.name
-        show_edit_button
+    TinyMon.when_reachable do
+      if @new_record
+        self.health_check.create do |result|
+          if result
+            @parent.health_checks << result
+            self.navigationController.popViewControllerAnimated(true)
+          else
+            TinyMon.offline_alert
+          end
+        end
+      else
+        self.health_check.save do |result|
+          if result
+            self.form = build_form
+            self.form.controller = self
+            tableView.reloadData
+            self.title = health_check.name
+            show_edit_button
+          else
+            TinyMon.offline_alert
+          end
+        end
       end
     end
   end
@@ -73,9 +83,15 @@ class HealthCheckViewController < Formotion::FormController
   
   def actionSheet(sender, clickedButtonAtIndex:index)
     if index == sender.destructiveButtonIndex
-      self.health_check.destroy do
-        @parent.health_checks.delete(self.health_check)
-        self.navigationController.popViewControllerAnimated(true)
+      TinyMon.when_reachable do
+        self.health_check.destroy do |result|
+          if result
+            @parent.health_checks.delete(self.health_check)
+            self.navigationController.popViewControllerAnimated(true)
+          else
+            TinyMon.offline_alert
+          end
+        end
       end
     end
   end

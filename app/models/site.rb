@@ -6,17 +6,21 @@ class Site < RemoteModule::RemoteModel
   member_url "accounts/:account_id/sites/:permalink"
   
   def save(&block)
-    put(member_url, :payload => { :site => attributes }, &block)
+    put(member_url, :payload => { :site => attributes }) do |response, json|
+      block.call json ? Site.new(json) : nil
+    end
   end
   
   def create(&block)
     post(collection_url, :payload => { :site => attributes }) do |response, json|
-      block.call Site.new(json)
+      block.call json ? Site.new(json) : nil
     end
   end
   
   def destroy(&block)
-    delete(member_url, &block)
+    delete(member_url) do |response, json|
+      block.call json ? Site.new(json) : nil
+    end
   end
   
   def reset_health_checks
