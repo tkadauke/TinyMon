@@ -58,10 +58,16 @@ class SitesViewController < UITableViewController
   end
   
   def load_data
-    Site.find_all do |results|
-      self.sites = results
-      tableView.reloadData
-      end_refreshing
+    TinyMon.when_reachable do
+      Site.find_all do |results|
+        if results
+          self.sites = results
+          tableView.reloadData
+        else
+          TinyMon.offline_alert
+        end
+        end_refreshing
+      end
     end
   end
 end

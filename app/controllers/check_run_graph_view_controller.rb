@@ -18,9 +18,15 @@ class CheckRunGraphViewController < UIViewController
   end
   
   def load_data
-    health_check.check_runs do |results|
-      self.check_runs = results
-      view.addSubview(graph_view)
+    TinyMon.when_reachable do
+      health_check.check_runs do |results|
+        if results
+          self.check_runs = results
+          view.addSubview(graph_view)
+        else
+          TinyMon.offline_alert
+        end
+      end
     end
   end
   

@@ -51,10 +51,16 @@ class UserAccountsViewController < UITableViewController
   end
   
   def load_data
-    UserAccount.find_all(:account_id => Account.current_account_id) do |results|
-      self.user_accounts = results
-      tableView.reloadData
-      end_refreshing
+    TinyMon.when_reachable do
+      UserAccount.find_all(:account_id => Account.current_account_id) do |results|
+        if results
+          self.user_accounts = results
+          tableView.reloadData
+        else
+          TinyMon.offline_alert
+        end
+        end_refreshing
+      end
     end
   end
 end

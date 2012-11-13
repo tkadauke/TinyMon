@@ -33,8 +33,10 @@ class HealthCheck < RemoteModule::RemoteModel
     block.call(@check_runs) and return if @check_runs
     
     CheckRun.find_all(:account_id => account_id, :site_permalink => site_permalink, :check_permalink => permalink) do |results|
-      results.each do |result|
-        result.health_check = self
+      if results
+        results.each do |result|
+          result.health_check = self
+        end
       end
       @check_runs = results
       block.call(results)
@@ -45,8 +47,10 @@ class HealthCheck < RemoteModule::RemoteModel
     block.call(@steps) and return if @steps
     
     Step.find_all(:account_id => account_id, :site_permalink => site_permalink, :check_permalink => permalink) do |results|
-      results.each do |result|
-        result.health_check = self
+      if results
+        results.each do |result|
+          result.health_check = self
+        end
       end
       @steps = results
       block.call(results)

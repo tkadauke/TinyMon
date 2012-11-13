@@ -52,10 +52,16 @@ class AccountsViewController < UITableViewController
   end
   
   def load_data
-    Account.find_all do |results|
-      self.accounts = results
-      tableView.reloadData
-      end_refreshing
+    TinyMon.when_reachable do
+      Account.find_all do |results|
+        if results
+          self.accounts = results
+          tableView.reloadData
+        else
+          TinyMon.offline_alert
+        end
+        end_refreshing
+      end
     end
   end
 end

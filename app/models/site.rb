@@ -27,8 +27,10 @@ class Site < RemoteModule::RemoteModel
     block.call(@health_checks) and return if @health_checks
     
     HealthCheck.find_all(:account_id => account_id, :site_permalink => permalink) do |results|
-      results.each do |result|
-        result.site = self
+      if results
+        results.each do |result|
+          result.site = self
+        end
       end
       @health_checks = results
       block.call(results)

@@ -58,10 +58,16 @@ class HealthChecksViewController < UITableViewController
   end
   
   def load_data
-    site.health_checks do |results|
-      self.health_checks = results
-      tableView.reloadData
-      end_refreshing
+    TinyMon.when_reachable do
+      site.health_checks do |results|
+        if results
+          self.health_checks = results
+          tableView.reloadData
+        else
+          TinyMon.offline_alert
+        end
+        end_refreshing
+      end
     end
   end
 end

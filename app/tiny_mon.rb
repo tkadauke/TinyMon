@@ -10,7 +10,11 @@ class TinyMon
     if reachable?
       yield
     else
-      UIAlertView.alert("Internet connection", "Can not reach TinyMon server")
+      offline_alert
     end
+  end
+  
+  def self.offline_alert
+    UIAlertView.alert("Internet connection", "Can not reach TinyMon server")
   end
 end
