@@ -118,6 +118,10 @@ private
           title: "Check runs",
           key: :check_runs,
           type: :disclose
+        }, {
+          title: "Graph",
+          key: :graph,
+          type: :disclose
         }]
       }]
     })
@@ -128,6 +132,8 @@ private
         navigationController.pushViewController(StepsViewController.alloc.initWithHealthCheck(health_check), animated:true)
       when :check_runs
         navigationController.pushViewController(CheckRunsViewController.alloc.initWithHealthCheck(health_check), animated:true)
+      when :graph
+        navigationController.pushViewController(CheckRunGraphViewController.alloc.initWithHealthCheck(health_check), animated:true)
       end
     end
     form

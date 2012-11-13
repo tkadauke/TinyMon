@@ -11,6 +11,7 @@ Motion::Project::App.setup do |app|
   app.files = Dir.glob("lib/**/*.rb") + app.files
   app.vendor_project('vendor/ViewDeck', :static)
   app.vendor_project('vendor/Reachability', :static)
+  app.vendor_project('vendor/iOSPlot', :static)
   
   app.development do
     app.testflight do
