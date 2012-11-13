@@ -1,4 +1,6 @@
 class UserAccountsViewController < UITableViewController
+  include Refreshable
+  
   attr_accessor :user_accounts
   
   def init
@@ -8,13 +10,17 @@ class UserAccountsViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Users"
-    UserAccount.find_all(:account_id => Account.current_account_id) do |results|
-      self.user_accounts = results
-      tableView.reloadData
-    end
+    
+    load_data
     
     @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
     self.navigationItem.leftBarButtonItem = @menu_button
+    
+    on_refresh do
+      load_data
+    end
+    
+    super
   end
   
   def viewWillAppear(animated)
@@ -42,5 +48,13 @@ class UserAccountsViewController < UITableViewController
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
+  end
+  
+  def load_data
+    UserAccount.find_all(:account_id => Account.current_account_id) do |results|
+      self.user_accounts = results
+      tableView.reloadData
+      end_refreshing
+    end
   end
 end

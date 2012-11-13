@@ -52,4 +52,12 @@ class HealthCheck < RemoteModule::RemoteModel
       block.call(results)
     end
   end
+  
+  def reset_check_runs
+    @check_runs = nil
+  end
+  
+  def reset_steps
+    @steps = nil
+  end
 end

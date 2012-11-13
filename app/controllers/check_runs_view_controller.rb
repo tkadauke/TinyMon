@@ -1,4 +1,6 @@
 class CheckRunsViewController < UITableViewController
+  include Refreshable
+  
   attr_accessor :health_check
   attr_accessor :check_runs
   
@@ -10,10 +12,15 @@ class CheckRunsViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Check Runs"
-    health_check.check_runs do |results|
-      self.check_runs = results
-      tableView.reloadData
+    
+    load_data
+    
+    on_refresh do
+      health_check.reset_check_runs
+      load_data
     end
+    
+    super
   end
   
   def numberOfSectionsInTableView(tableView)
@@ -35,5 +42,13 @@ class CheckRunsViewController < UITableViewController
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(check_runs[indexPath.row]), animated:true)
+  end
+  
+  def load_data
+    health_check.check_runs do |results|
+      self.check_runs = results
+      tableView.reloadData
+      end_refreshing
+    end
   end
 end

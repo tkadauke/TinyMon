@@ -1,4 +1,6 @@
 class StepsViewController < UITableViewController
+  include Refreshable
+  
   attr_accessor :health_check
   attr_accessor :steps
   
@@ -10,10 +12,15 @@ class StepsViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Steps"
-    health_check.steps do |results|
-      self.steps = results
-      tableView.reloadData
+    
+    load_data
+    
+    on_refresh do
+      health_check.reset_steps
+      load_data
     end
+    
+    super
   end
   
   def numberOfSectionsInTableView(tableView)
@@ -35,5 +42,13 @@ class StepsViewController < UITableViewController
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     # navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(steps[indexPath.row]), animated:true)
+  end
+  
+  def load_data
+    health_check.steps do |results|
+      self.steps = results
+      tableView.reloadData
+      end_refreshing
+    end
   end
 end

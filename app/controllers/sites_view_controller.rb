@@ -1,4 +1,6 @@
 class SitesViewController < UITableViewController
+  include Refreshable
+  
   attr_accessor :sites
   
   def init
@@ -8,16 +10,19 @@ class SitesViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Sites"
-    Site.find_all do |results|
-      self.sites = results
-      tableView.reloadData
-    end
+    load_data
     
     @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
     self.navigationItem.leftBarButtonItem = @menu_button
     
     @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
     self.navigationItem.rightBarButtonItem = @plus_button
+    
+    on_refresh do
+      load_data
+    end
+    
+    super
   end
   
   def viewWillAppear(animated)
@@ -50,5 +55,13 @@ class SitesViewController < UITableViewController
   
   def add
     navigationController.pushViewController(SiteViewController.alloc.initWithParent(self), animated:true)
+  end
+  
+  def load_data
+    Site.find_all do |results|
+      self.sites = results
+      tableView.reloadData
+      end_refreshing
+    end
   end
 end

@@ -19,6 +19,10 @@ class Site < RemoteModule::RemoteModel
     delete(member_url, &block)
   end
   
+  def reset_health_checks
+    @health_checks = nil
+  end
+  
   def health_checks(&block)
     block.call(@health_checks) and return if @health_checks
     

@@ -1,4 +1,6 @@
 class HealthChecksViewController < UITableViewController
+  include Refreshable
+  
   attr_accessor :site
   attr_accessor :health_checks
   
@@ -10,13 +12,17 @@ class HealthChecksViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Health Checks"
-    site.health_checks do |results|
-      self.health_checks = results
-      tableView.reloadData
-    end
+    load_data
     
     @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
     self.navigationItem.rightBarButtonItem = @plus_button
+    
+    on_refresh do
+      site.reset_health_checks
+      load_data
+    end
+    
+    super
   end
   
   def viewWillAppear(animated)
@@ -49,5 +55,13 @@ class HealthChecksViewController < UITableViewController
   
   def add
     navigationController.pushViewController(HealthCheckViewController.alloc.initWithSite(site, parent:self), animated:true)
+  end
+  
+  def load_data
+    site.health_checks do |results|
+      self.health_checks = results
+      tableView.reloadData
+      end_refreshing
+    end
   end
 end
