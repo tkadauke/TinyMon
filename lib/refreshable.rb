@@ -17,6 +17,8 @@ module Refreshable
   end
   
   def end_refreshing
+    return unless @refresh
+    
     @refresh.attributedTitle = NSAttributedString.alloc.initWithString("Last updated on #{Time.now.strftime("%H:%M:%S")}")
     @refresh.endRefreshing
   end
