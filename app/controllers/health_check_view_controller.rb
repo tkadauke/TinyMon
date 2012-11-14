@@ -116,6 +116,16 @@ private
           value: health_check.enabled ? 'Yes' : 'No',
           title: "Active",
           type: :static
+        }]
+      }, {
+        rows: [{
+          value: health_check.last_checked_at.ago_in_words,
+          title: "Last Check",
+          type: :static
+        }, {
+          value: health_check.next_check_at.future_in_words,
+          title: "Next Check",
+          type: :static
         }, {
           value: UIImage.imageNamed("#{health_check.status}.png"),
           title: "Status",

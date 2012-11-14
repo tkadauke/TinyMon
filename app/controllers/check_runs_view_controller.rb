@@ -40,7 +40,7 @@ class CheckRunsViewController < UITableViewController
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
     check_run = check_runs[indexPath.row]
-    cell.textLabel.text = check_run.created_at
+    cell.textLabel.text = check_run.created_at.ago_in_words
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.imageView.image = UIImage.imageNamed(check_run.status)
     cell

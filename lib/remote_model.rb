@@ -14,6 +14,15 @@ module RemoteModule
         self.attributes += fields
       end
       
+      def date_field(*fields)
+        attr_reader *fields
+        fields.each do |field|
+          define_method "#{field}=" do |value|
+            instance_variable_set("@#{field}", Time.parse(value))
+          end
+        end
+      end
+      
       def association(name, params)
         backwards_association = self.name.underscore
     
