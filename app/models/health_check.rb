@@ -15,6 +15,14 @@ class HealthCheck < RemoteModule::RemoteModel
     site && site.permalink
   end
   
+  def status_icon
+    if enabled
+      status
+    else
+      "offline"
+    end
+  end
+  
   def save(&block)
     put(member_url, :payload => { :health_check => attributes }) do |response, json|
       block.call json ? HealthCheck.new(json) : nil

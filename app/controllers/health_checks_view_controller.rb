@@ -45,7 +45,7 @@ class HealthChecksViewController < UITableViewController
     health_check = health_checks[indexPath.row]
     cell.textLabel.text = health_check.name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed("#{health_check.status}.png")
+    cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
     cell
   end
   

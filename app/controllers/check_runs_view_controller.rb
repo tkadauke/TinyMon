@@ -35,8 +35,10 @@ class CheckRunsViewController < UITableViewController
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = check_runs[indexPath.row].created_at
+    check_run = check_runs[indexPath.row]
+    cell.textLabel.text = check_run.created_at
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell.imageView.image = UIImage.imageNamed(check_run.status)
     cell
   end
   
