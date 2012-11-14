@@ -21,7 +21,7 @@ class RecentCheckRunsViewController < CheckRunsViewController
     
     check_run = check_runs[indexPath.row]
     cell.textLabel.text = check_run.health_check.name
-    cell.detailTextLabel.text = check_run.health_check.site.name + " " + Time.ago_in_words(check_run.created_at_to_now)
+    cell.detailTextLabel.text = check_run.health_check.site.name + ", " + Time.ago_in_words(check_run.created_at_to_now)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.imageView.image = UIImage.imageNamed(check_run.status)
     cell

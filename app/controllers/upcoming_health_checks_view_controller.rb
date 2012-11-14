@@ -26,7 +26,7 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
     
     health_check = health_checks[indexPath.row]
     cell.textLabel.text = health_check.name
-    cell.detailTextLabel.text = Time.future_in_words(health_check.next_check_at_to_now)
+    cell.detailTextLabel.text = health_check.site.name + ", " + Time.future_in_words(health_check.next_check_at_to_now)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
     cell
