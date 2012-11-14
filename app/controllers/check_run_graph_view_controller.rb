@@ -39,7 +39,7 @@ class CheckRunGraphViewController < UIViewController
     points = []
     x_labels = []
     check_runs.each_with_index do |check_run, i|
-      x_labels << -i
+      x_labels << (i % 5 == 0 ? -i : "")
       points << check_run.duration
     end
     component.setPoints(points)
