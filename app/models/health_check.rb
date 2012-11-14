@@ -1,7 +1,6 @@
 class HealthCheck < RemoteModule::RemoteModel
   attribute :name, :enabled, :interval, :description
-  attr_accessor :id, :permalink, :status, :site_id, :weather
-  date_field :last_checked_at, :next_check_at
+  attr_accessor :id, :permalink, :status, :site_id, :weather, :last_checked_at_to_now, :next_check_at_to_now
   
   collection_url "accounts/:account_id/sites/:site_permalink/health_checks"
   member_url "accounts/:account_id/sites/:site_permalink/health_checks/:permalink"

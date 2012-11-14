@@ -119,11 +119,11 @@ private
         }]
       }, {
         rows: [{
-          value: health_check.last_checked_at.ago_in_words,
+          value: Time.ago_in_words(health_check.last_checked_at_to_now),
           title: "Last Check",
           type: :static
         }, {
-          value: health_check.next_check_at.future_in_words,
+          value: Time.future_in_words(health_check.next_check_at_to_now),
           title: "Next Check",
           type: :static
         }, {

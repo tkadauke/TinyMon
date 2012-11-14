@@ -5,8 +5,8 @@ class Time
     date_formatter.dateFromString string
   end
   
-  def ago_in_words
-    duration = Time.now - self
+  def self.ago_in_words(seconds)
+    duration = seconds.abs
     case duration
     when 0..15
       'just now'
@@ -21,8 +21,8 @@ class Time
     end 
   end
   
-  def future_in_words
-    duration = self - Time.now
+  def self.future_in_words(seconds)
+    duration = seconds.abs
     case duration
     when 0..15
       'very soon'
