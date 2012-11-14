@@ -4,9 +4,13 @@ class HealthChecksViewController < UITableViewController
   attr_accessor :site
   attr_accessor :health_checks
   
+  def init
+    self.health_checks = []
+    super
+  end
+  
   def initWithSite(site)
     self.site = site
-    self.health_checks = []
     init
   end
   

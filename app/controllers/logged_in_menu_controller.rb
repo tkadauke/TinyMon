@@ -2,6 +2,9 @@ class LoggedInMenuController < UITableViewController
   ITEMS = [{
     title: "Monitoring",
     rows: [{
+      title: "Activity",
+      key: :activity
+    }, {
       title: "Sites",
       key: :sites
     }]
@@ -44,7 +47,11 @@ class LoggedInMenuController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    viewController = case ITEMS[indexPath.section][:rows][indexPath.row][:key]
+    selected = ITEMS[indexPath.section][:rows][indexPath.row][:key]
+    
+    viewController = case selected
+    when :activity
+      RecentCheckRunsViewController.alloc.init
     when :sites
       SitesViewController.alloc.init
     when :accounts

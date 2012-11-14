@@ -1,5 +1,6 @@
 class UserAccountsViewController < UITableViewController
   include Refreshable
+  include RootController
   
   attr_accessor :user_accounts
   
@@ -12,9 +13,6 @@ class UserAccountsViewController < UITableViewController
     self.title = "Users"
     
     load_data
-    
-    @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
-    self.navigationItem.leftBarButtonItem = @menu_button
     
     on_refresh do
       load_data

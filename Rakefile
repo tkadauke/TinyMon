@@ -12,6 +12,7 @@ Motion::Project::App.setup do |app|
   app.vendor_project('vendor/ViewDeck', :static)
   app.vendor_project('vendor/Reachability', :static)
   app.vendor_project('vendor/iOSPlot', :static)
+  app.vendor_project('vendor/TVNavigationController', :static)
   
   app.development do
     app.testflight do

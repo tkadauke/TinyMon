@@ -1,5 +1,6 @@
 class SitesViewController < UITableViewController
   include Refreshable
+  include RootController
   
   attr_accessor :sites
   
@@ -11,9 +12,6 @@ class SitesViewController < UITableViewController
   def viewDidLoad
     self.title = "Sites"
     load_data
-    
-    @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
-    self.navigationItem.leftBarButtonItem = @menu_button
     
     @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
     self.navigationItem.rightBarButtonItem = @plus_button

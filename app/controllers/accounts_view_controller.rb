@@ -1,5 +1,6 @@
 class AccountsViewController < UITableViewController
   include Refreshable
+  include RootController
   
   attr_accessor :accounts
   
@@ -12,9 +13,6 @@ class AccountsViewController < UITableViewController
     self.title = "Accounts"
     
     load_data
-    
-    @menu_button = UIBarButtonItem.alloc.initWithTitle("Menu", style:UIBarButtonItemStyleBordered, target:self.viewDeckController, action:'toggleLeftView')
-    self.navigationItem.leftBarButtonItem = @menu_button
     
     on_refresh do
       load_data
@@ -46,8 +44,7 @@ class AccountsViewController < UITableViewController
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     accounts[indexPath.row].switch do
-      viewController = SitesViewController.alloc.init
-      self.viewDeckController.centerController = LoggedInNavigationController.alloc.initWithRootViewController(viewController)
+      self.viewDeckController.centerController = LoggedInNavigationController.alloc.initWithRootViewController(RecentCheckRunsViewController.alloc.init)
     end
   end
   

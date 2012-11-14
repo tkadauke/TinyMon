@@ -3,5 +3,6 @@ class MonitorNavigationController < UINavigationController
     super
     view_controller = LoginViewController.alloc.init
     pushViewController view_controller, animated:false
+    self
   end
 end

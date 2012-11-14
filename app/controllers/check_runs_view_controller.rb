@@ -4,9 +4,13 @@ class CheckRunsViewController < UITableViewController
   attr_accessor :health_check
   attr_accessor :check_runs
   
+  def init
+    self.check_runs = []
+    super
+  end
+  
   def initWithHealthCheck(health_check)
     self.health_check = health_check
-    self.check_runs = []
     init
   end
   

@@ -5,7 +5,9 @@ class HealthCheck < RemoteModule::RemoteModel
   collection_url "accounts/:account_id/sites/:site_permalink/health_checks"
   member_url "accounts/:account_id/sites/:site_permalink/health_checks/:permalink"
   
-  attr_accessor :site
+  custom_urls :upcoming_url => 'health_checks/upcoming'
+  
+  belongs_to :site
   
   def account_id
     site && site.account_id
@@ -75,5 +77,33 @@ class HealthCheck < RemoteModule::RemoteModel
   
   def reset_steps
     @steps = nil
+  end
+  
+  def self.upcoming(&block)
+    get(upcoming_url) do |response, json|
+      if response.ok?
+        objs = []
+        arr_rep = nil
+        if json.class == Array
+          arr_rep = json
+        elsif json.class == Hash
+          plural_sym = self.pluralize.to_sym
+          if json.has_key? plural_sym
+            arr_rep = json[plural_sym]
+          end
+        else
+          # the returned data was something else
+          # ie a string, number
+          request_block_call(block, nil, response)
+          return
+        end
+        arr_rep.each { |one_obj_hash|
+          objs << self.new(one_obj_hash)
+        }
+        request_block_call(block, objs, response)
+      else
+        request_block_call(block, nil, response)
+      end
+    end
   end
 end
