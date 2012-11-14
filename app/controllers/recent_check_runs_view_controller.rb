@@ -31,7 +31,8 @@ class RecentCheckRunsViewController < CheckRunsViewController
     TinyMon.when_reachable do
       CheckRun.recent do |results|
         if results
-          self.check_runs = results
+          self.all_check_runs = results
+          change_filter(@filter)
           tableView.reloadData
         else
           TinyMon.offline_alert

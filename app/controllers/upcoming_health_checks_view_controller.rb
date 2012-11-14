@@ -36,7 +36,8 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
     TinyMon.when_reachable do
       HealthCheck.upcoming do |results|
         if results
-          self.health_checks = results
+          self.all_health_checks = results
+          change_filter(@filter)
           tableView.reloadData
         else
           TinyMon.offline_alert

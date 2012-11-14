@@ -3,6 +3,7 @@ class HealthChecksViewController < UITableViewController
   
   attr_accessor :site
   attr_accessor :health_checks
+  attr_accessor :all_health_checks
   
   def init
     self.health_checks = []
@@ -16,6 +17,8 @@ class HealthChecksViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Health Checks"
+    self.toolbarItems = toolbar_items
+    
     load_data
     
     @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
@@ -65,7 +68,8 @@ class HealthChecksViewController < UITableViewController
     TinyMon.when_reachable do
       site.health_checks do |results|
         if results
-          self.health_checks = results
+          self.all_health_checks = results
+          self.change_filter(@filter)
           tableView.reloadData
         else
           TinyMon.offline_alert
@@ -73,5 +77,34 @@ class HealthChecksViewController < UITableViewController
         end_refreshing
       end
     end
+  end
+  
+  def toolbar_items
+    space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
+ 
+    @filter = UISegmentedControl.alloc.initWithItems(["All", "Success", "Failure", "Enabled", "Disabled"])
+    @filter.segmentedControlStyle = UISegmentedControlStyleBar
+    @filter.selectedSegmentIndex = 0
+    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
+ 
+    filter_button_item = UIBarButtonItem.alloc.initWithCustomView(@filter)
+    
+    [space, filter_button_item, space]
+  end
+  
+  def change_filter(sender)
+    case sender.selectedSegmentIndex
+    when 0
+      self.health_checks = self.all_health_checks
+    when 1
+      self.health_checks = self.all_health_checks.select { |x| x.status == 'success' }
+    when 2
+      self.health_checks = self.all_health_checks.select { |x| x.status == 'failure' }
+    when 3
+      self.health_checks = self.all_health_checks.select { |x| x.enabled == true }
+    when 4
+      self.health_checks = self.all_health_checks.select { |x| x.enabled == false }
+    end
+    self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
   end
 end

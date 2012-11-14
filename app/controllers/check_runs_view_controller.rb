@@ -2,6 +2,7 @@ class CheckRunsViewController < UITableViewController
   include Refreshable
   
   attr_accessor :health_check
+  attr_accessor :all_check_runs
   attr_accessor :check_runs
   
   def init
@@ -16,6 +17,7 @@ class CheckRunsViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Check Runs"
+    self.toolbarItems = toolbar_items
     
     load_data
     
@@ -54,7 +56,8 @@ class CheckRunsViewController < UITableViewController
     TinyMon.when_reachable do
       health_check.check_runs do |results|
         if results
-          self.check_runs = results
+          self.all_check_runs = results
+          change_filter(@filter)
           tableView.reloadData
         else
           TinyMon.offline_alert
@@ -62,5 +65,30 @@ class CheckRunsViewController < UITableViewController
         end_refreshing
       end
     end
+  end
+
+  def toolbar_items
+    space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
+ 
+    @filter = UISegmentedControl.alloc.initWithItems(["All", "Success", "Failure"])
+    @filter.segmentedControlStyle = UISegmentedControlStyleBar
+    @filter.selectedSegmentIndex = 0
+    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
+ 
+    filter_button_item = UIBarButtonItem.alloc.initWithCustomView(@filter)
+    
+    [space, filter_button_item, space]
+  end
+
+  def change_filter(sender)
+    case sender.selectedSegmentIndex
+    when 0
+      self.check_runs = self.all_check_runs
+    when 1
+      self.check_runs = self.all_check_runs.select { |x| x.status == 'success' }
+    when 2
+      self.check_runs = self.all_check_runs.select { |x| x.status == 'failure' }
+    end
+    self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
   end
 end
