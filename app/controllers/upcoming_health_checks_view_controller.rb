@@ -46,4 +46,8 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
       end
     end
   end
+  
+  def filter_items
+    ["All", "Success", "Failure"]
+  end
 end

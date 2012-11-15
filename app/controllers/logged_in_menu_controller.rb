@@ -7,6 +7,9 @@ class LoggedInMenuController < UITableViewController
     }, {
       title: "Sites",
       key: :sites
+    }, {
+      title: "Health Checks",
+      key: :health_checks
     }]
   }, {
     title: "Account",
@@ -54,6 +57,8 @@ class LoggedInMenuController < UITableViewController
       RecentCheckRunsViewController.alloc.init
     when :sites
       SitesViewController.alloc.init
+    when :health_checks
+      AllHealthChecksViewController.alloc.init
     when :accounts
       AccountsViewController.alloc.init
     when :users

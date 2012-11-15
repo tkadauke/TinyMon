@@ -79,10 +79,14 @@ class HealthChecksViewController < UITableViewController
     end
   end
   
+  def filter_items
+    ["All", "Success", "Failure", "Enabled", "Disabled"]
+  end
+  
   def toolbar_items
     space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
  
-    @filter = UISegmentedControl.alloc.initWithItems(["All", "Success", "Failure", "Enabled", "Disabled"])
+    @filter = UISegmentedControl.alloc.initWithItems(filter_items)
     @filter.segmentedControlStyle = UISegmentedControlStyleBar
     @filter.selectedSegmentIndex = 0
     @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
