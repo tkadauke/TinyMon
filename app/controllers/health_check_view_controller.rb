@@ -111,7 +111,7 @@ private
         }, {
           value: health_check.interval,
           title: "Check Interval",
-          type: :static,
+          type: :static
         }, {
           value: health_check.enabled ? 'Yes' : 'No',
           title: "Active",
@@ -129,11 +129,11 @@ private
         }, {
           value: UIImage.imageNamed("#{health_check.status}.png"),
           title: "Status",
-          type: :icon,
+          type: :icon
         }, {
           value: UIImage.imageNamed("weather-#{health_check.weather}.png"),
           title: "Weather",
-          type: :icon,
+          type: :icon
         }]
       }, {
         rows: [{
