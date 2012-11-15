@@ -24,6 +24,11 @@ class CheckRunViewController < UITableViewController
     
     cell.textLabel.text = check_run.log[indexPath.row].last
     cell.detailTextLabel.text = check_run.log[indexPath.row].first
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
+  end
+
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(check_run.log[indexPath.row].last, title:"Log entry"), animated:true)
   end
 end
