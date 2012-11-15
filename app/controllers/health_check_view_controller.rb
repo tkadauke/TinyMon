@@ -107,7 +107,8 @@ private
         }, {
           value: health_check.description,
           title: "Description",
-          type: :static,
+          key: :description,
+          type: health_check.description.blank? ? :static : :disclose
         }, {
           value: health_check.interval,
           title: "Check Interval",
@@ -154,6 +155,8 @@ private
     
     form.on_select do |key|
       case key
+      when :description
+        navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(health_check.description, title:"Description"), animated:true)
       when :steps
         navigationController.pushViewController(StepsViewController.alloc.initWithHealthCheck(health_check), animated:true)
       when :check_runs
@@ -176,7 +179,8 @@ private
         value: health_check.description,
         title: "Description",
         key: :description,
-        type: :text
+        type: :text,
+        row_height: 100
       }, {
         value: health_check.interval.to_s,
         title: "Check Interval",
