@@ -17,10 +17,10 @@ class AllHealthChecksViewController < HealthChecksViewController
         if results
           self.all_health_checks = results
           self.change_filter(@filter)
-          tableView.reloadData
         else
           TinyMon.offline_alert
         end
+        done_loading
         end_refreshing
       end
     end

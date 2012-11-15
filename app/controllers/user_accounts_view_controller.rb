@@ -1,6 +1,7 @@
 class UserAccountsViewController < UITableViewController
   include Refreshable
   include RootController
+  include LoadingController
   
   attr_accessor :user_accounts
   
@@ -31,20 +32,29 @@ class UserAccountsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.user_accounts.size
+    if loading
+      1
+    else
+      self.user_accounts.size
+    end
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    if loading
+      loading_cell
+    else
+      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    user_account = user_accounts[indexPath.row]
-    cell.textLabel.text = user_account.user.full_name
-    cell.detailTextLabel.text = user_account.role
-    cell
+      user_account = user_accounts[indexPath.row]
+      cell.textLabel.text = user_account.user.full_name
+      cell.detailTextLabel.text = user_account.role
+      cell
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    return if loading
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
   end
   
@@ -53,10 +63,10 @@ class UserAccountsViewController < UITableViewController
       UserAccount.find_all(:account_id => Account.current_account_id) do |results|
         if results
           self.user_accounts = results
-          tableView.reloadData
         else
           TinyMon.offline_alert
         end
+        done_loading
         end_refreshing
       end
     end

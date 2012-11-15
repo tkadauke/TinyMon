@@ -1,5 +1,6 @@
 class CheckRunsViewController < UITableViewController
   include Refreshable
+  include LoadingController
   
   attr_accessor :health_check
   attr_accessor :all_check_runs
@@ -34,21 +35,30 @@ class CheckRunsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.check_runs.size
+    if loading
+      1
+    else
+      self.check_runs.size
+    end
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    if loading
+      loading_cell
+    else
+      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    check_run = check_runs[indexPath.row]
-    cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed(check_run.status)
-    cell
+      check_run = check_runs[indexPath.row]
+      cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      cell.imageView.image = UIImage.imageNamed(check_run.status)
+      cell
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    return if loading
     navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(check_runs[indexPath.row]), animated:true)
   end
   
@@ -58,10 +68,10 @@ class CheckRunsViewController < UITableViewController
         if results
           self.all_check_runs = results
           change_filter(@filter)
-          tableView.reloadData
         else
           TinyMon.offline_alert
         end
+        done_loading
         end_refreshing
       end
     end

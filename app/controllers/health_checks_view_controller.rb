@@ -1,5 +1,6 @@
 class HealthChecksViewController < UITableViewController
   include Refreshable
+  include LoadingController
   
   attr_accessor :site
   attr_accessor :health_checks
@@ -42,21 +43,30 @@ class HealthChecksViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.health_checks.size
+    if loading
+      1
+    else
+      self.health_checks.size
+    end
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    if loading
+      loading_cell
+    else
+      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    health_check = health_checks[indexPath.row]
-    cell.textLabel.text = health_check.name
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
-    cell
+      health_check = health_checks[indexPath.row]
+      cell.textLabel.text = health_check.name
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
+      cell
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    return if loading
     navigationController.pushViewController(HealthCheckViewController.alloc.initWithHealthCheck(health_checks[indexPath.row], parent:self), animated:true)
   end
   
@@ -70,10 +80,10 @@ class HealthChecksViewController < UITableViewController
         if results
           self.all_health_checks = results
           self.change_filter(@filter)
-          tableView.reloadData
         else
           TinyMon.offline_alert
         end
+        done_loading
         end_refreshing
       end
     end
