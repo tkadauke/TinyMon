@@ -4,6 +4,8 @@ class AllHealthChecksViewController < HealthChecksViewController
   def viewDidLoad
     super
     
+    self.title = "All Health Checks"
+    
     self.navigationItem.rightBarButtonItem = nil
     
     on_refresh do
