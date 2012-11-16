@@ -105,6 +105,10 @@ private
           title: "Name",
           type: :static
         }, {
+          value: health_check.site.name,
+          title: "Site",
+          type: :static
+        }, {
           value: health_check.description,
           title: "Description",
           key: :description,
