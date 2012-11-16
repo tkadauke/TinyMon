@@ -59,6 +59,9 @@ class HealthChecksViewController < UITableViewController
     
       health_check = health_checks[indexPath.row]
       cell.textLabel.text = health_check.name
+      detail_info = [health_check.site.name]
+      detail_info << Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled
+      cell.detailTextLabel.text = detail_info.join(", ")
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
       cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
       cell
