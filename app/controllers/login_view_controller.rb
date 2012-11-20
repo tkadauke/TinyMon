@@ -1,7 +1,7 @@
 class LoginViewController < Formotion::FormController
   def init
     initWithForm(build_form)
-    self.title = "Login"
+    self.title = "TinyMon - Login"
     @form.on_submit do |form|
       submit(form)
     end
