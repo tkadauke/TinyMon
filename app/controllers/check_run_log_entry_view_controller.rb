@@ -11,7 +11,7 @@ class CheckRunLogEntryViewController < HtmlViewController
   def viewDidLoad
     super
     
-    @up_down = UISegmentedControl.alloc.initWithItems(["▲", "▼"])
+    @up_down = UISegmentedControl.alloc.initWithItems([" ▲ ", " ▼ "])
     @up_down.segmentedControlStyle = UISegmentedControlStyleBar
     @up_down.momentary = true
     @up_down.addTarget(self, action:"up_down:", forControlEvents:UIControlEventValueChanged)
