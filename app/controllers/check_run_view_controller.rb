@@ -1,34 +1,62 @@
-class CheckRunViewController < UITableViewController
+class CheckRunViewController < Formotion::FormController
   attr_accessor :check_run
   
   def initWithCheckRun(check_run)
     self.check_run = check_run
-    init
-  end
-  
-  def viewDidLoad
+    initWithForm(build_form)
     self.title = "Check Run"
+    self
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
-  def tableView(tableView, numberOfRowsInSection:section)
-    self.check_run.log.size
-  end
-  
-  def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+private
+  def build_form
+    form = Formotion::Form.new({
+      sections: [{
+        rows: [{
+          value: check_run.health_check.name,
+          title: "Health Check",
+          type: :static
+        }, {
+          value: check_run.health_check.site.name,
+          title: "Site",
+          type: :static
+        }]
+      }, {
+        rows: [{
+          value: UIImage.imageNamed("#{check_run.status}.png"),
+          title: "Status",
+          type: :icon
+        }, {
+          value: Time.ago_in_words(check_run.created_at_to_now),
+          title: "When",
+          type: :static
+        }, {
+          value: "#{check_run.duration} s",
+          title: "Duration",
+          type: :static
+        }, {
+          value: check_run.error_message,
+          title: "Message",
+          key: :message,
+          type: :disclose
+        }]
+      }, {
+        rows: [{
+          title: "Log",
+          key: :log,
+          type: :disclose
+        }]
+      }]
+    })
     
-    cell.textLabel.text = check_run.log[indexPath.row].last
-    cell.detailTextLabel.text = check_run.log[indexPath.row].first
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell
-  end
-
-  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(check_run.log[indexPath.row].last, title:"Log entry"), animated:true)
+    form.on_select do |key|
+      case key
+      when :message
+        navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(check_run.error_message, title:"Message"), animated:true)
+      when :log
+        navigationController.pushViewController(CheckRunLogViewController.alloc.initWithCheckRun(check_run), animated:true)
+      end
+    end
+    form
   end
 end
