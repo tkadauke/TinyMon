@@ -1,4 +1,7 @@
 class LoginViewController < Formotion::FormController
+  cattr_accessor :first_login
+  self.first_login = true
+  
   def init
     initWithForm(build_form)
     self.title = "TinyMon - Login"
@@ -6,6 +9,17 @@ class LoginViewController < Formotion::FormController
       submit(form)
     end
     self
+  end
+  
+  def viewDidLoad
+    super
+    return unless self.class.first_login
+    
+    login_data = @form.render
+    if login_data[:server].present? && login_data[:email].present? && login_data[:password].present? && login_data[:auto_login]
+      submit(@form)
+      self.class.first_login = false
+    end
   end
   
   def submit(form)
@@ -61,9 +75,16 @@ private
           auto_capitalization: :none
         }]
       }, {
+        title: "Settings",
+        rows: [{
+          title: "Auto log in",
+          key: :auto_login,
+          type: :switch
+        }]
+      }, {
         rows: [{
           title: "Login",
-          type: :submit,
+          type: :submit
         }]
       }]
     })
