@@ -31,7 +31,7 @@ private
           title: "When",
           type: :static
         }, {
-          value: "#{check_run.duration} s",
+          value: "#{"%2.1f" % check_run.duration} s",
           title: "Duration",
           type: :static
         }, {
