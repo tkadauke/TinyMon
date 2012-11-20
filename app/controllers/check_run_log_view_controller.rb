@@ -7,7 +7,7 @@ class CheckRunLogViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Check Run"
+    self.title = "Log"
   end
   
   def numberOfSectionsInTableView(tableView)
@@ -29,6 +29,6 @@ class CheckRunLogViewController < UITableViewController
   end
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(check_run.log[indexPath.row].last, title:"Log entry"), animated:true)
+    navigationController.pushViewController(CheckRunLogEntryViewController.alloc.initWithCheckRun(check_run, index:indexPath.row), animated:true)
   end
 end

@@ -11,7 +11,7 @@ class HtmlViewController < UIViewController
     self.view = UIWebView.alloc.initWithFrame(navigationController.view.bounds)
     view.delegate = self
     
-    view.loadHTMLString(content, baseURL:nil)
+    reload_content
   end
   
   def webView(webView, shouldStartLoadWithRequest:request, navigationType:navigationType)
@@ -40,5 +40,9 @@ class HtmlViewController < UIViewController
       </html>
     end
     template.sub('CONTENT', html)
+  end
+  
+  def reload_content
+    view.loadHTMLString(content, baseURL:nil)
   end
 end
