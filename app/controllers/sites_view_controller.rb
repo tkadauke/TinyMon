@@ -3,6 +3,7 @@ class SitesViewController < UITableViewController
   include RootController
   
   attr_accessor :sites
+  attr_accessor :all_sites
   
   def init
     self.sites = []
@@ -11,6 +12,8 @@ class SitesViewController < UITableViewController
   
   def viewDidLoad
     self.title = "Sites"
+    self.toolbarItems = toolbar_items
+
     load_data
     
     @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
@@ -61,7 +64,8 @@ class SitesViewController < UITableViewController
       Site.find_all do |results|
         SVProgressHUD.dismiss
         if results
-          self.sites = results
+          self.all_sites = results
+          self.change_filter(@filter)
         else
           TinyMon.offline_alert
         end
@@ -69,5 +73,34 @@ class SitesViewController < UITableViewController
         end_refreshing
       end
     end
+  end
+
+  def filter_items
+    ["All", "Success", "Failure"]
+  end
+  
+  def toolbar_items
+    space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
+ 
+    @filter = UISegmentedControl.alloc.initWithItems(filter_items)
+    @filter.segmentedControlStyle = UISegmentedControlStyleBar
+    @filter.selectedSegmentIndex = 0
+    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
+ 
+    filter_button_item = UIBarButtonItem.alloc.initWithCustomView(@filter)
+    
+    [space, filter_button_item, space]
+  end
+  
+  def change_filter(sender)
+    case sender.selectedSegmentIndex
+    when 0
+      self.sites = self.all_sites
+    when 1
+      self.sites = self.all_sites.select { |x| x.status == 'success' }
+    when 2
+      self.sites = self.all_sites.select { |x| x.status == 'failure' }
+    end
+    self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
   end
 end
