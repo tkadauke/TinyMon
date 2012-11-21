@@ -19,7 +19,7 @@ module RemoteModule
     
         define_method name do |&block|
           cached = instance_variable_get("@#{name}")
-          block.call(cached) if cached
+          block.call(cached) and return if cached
       
           Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results|
             if results

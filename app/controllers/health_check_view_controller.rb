@@ -131,7 +131,8 @@ private
         rows: [{
           value: Time.ago_in_words(health_check.last_checked_at_to_now),
           title: "Last Check",
-          type: :static
+          type: :disclose,
+          key: :last_check
         }, {
           value: (Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled),
           title: "Next Check",
@@ -166,6 +167,18 @@ private
       case key
       when :description
         navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(health_check.description, title:"Description"), animated:true)
+      when :last_check
+        TinyMon.when_reachable do
+          SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
+          health_check.check_runs do |results|
+            SVProgressHUD.dismiss
+            if results
+              navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(results.first), animated:true)
+            else
+              TinyMon.offline_alert
+            end
+          end
+        end
       when :steps
         navigationController.pushViewController(StepsViewController.alloc.initWithHealthCheck(health_check), animated:true)
       when :check_runs
