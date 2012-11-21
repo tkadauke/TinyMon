@@ -28,6 +28,14 @@ class LoggedInMenuController < UITableViewController
     }]
   }]
   
+  def init
+    super
+    tableView.backgroundColor = UIColor.colorWithRed(50.0/255, green: 57.0/255, blue: 73.0/255, alpha:1)
+    tableView.separatorColor = UIColor.blackColor
+    tableView.sectionHeaderHeight = 30
+    self
+  end
+  
   def numberOfSectionsInTableView(tableView)
     ITEMS.size
   end
@@ -45,8 +53,13 @@ class LoggedInMenuController < UITableViewController
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
     cell.textLabel.text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
+    cell.textLabel.textColor = UIColor.whiteColor
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
+  end
+  
+  def tableView(tableView, willDisplayCell:cell, forRowAtIndexPath:indexPath)
+    cell.backgroundColor = UIColor.colorWithRed(50.0/255, green: 57.0/255, blue: 73.0/255, alpha:1)
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
