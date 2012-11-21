@@ -10,6 +10,7 @@ module Formotion
         @image_view.contentMode = UIViewContentModeScaleAspectFit
         @image_view.backgroundColor = UIColor.clearColor
         cell.addSubview(@image_view)
+        cell.selectionStyle = UITableViewCellSelectionStyleNone
 
         cell.swizzle(:layoutSubviews) do
           def layoutSubviews
