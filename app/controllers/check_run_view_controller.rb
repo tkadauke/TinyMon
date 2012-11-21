@@ -34,12 +34,12 @@ private
           value: "#{"%2.1f" % check_run.duration} s",
           title: "Duration",
           type: :static
-        }, {
+        }, ({
           value: check_run.error_message,
           title: "Message",
           key: :message,
           type: :disclose
-        }]
+        } if check_run.error_message.present?)].compact
       }, {
         rows: [{
           title: "Log",
