@@ -5,7 +5,8 @@ class CheckRunLogEntryViewController < HtmlViewController
   def initWithCheckRun(check_run, index:index)
     self.check_run = check_run
     self.current_index = index
-    initWithHTML(check_run.log[index].last, title:"Log entry")
+    refresh_title
+    initWithHTML(check_run.log[index].last)
   end
   
   def viewDidLoad
@@ -31,6 +32,12 @@ class CheckRunLogEntryViewController < HtmlViewController
     end
     
     self.html = check_run.log[self.current_index].last
+    refresh_title
     reload_content
+  end
+
+private
+  def refresh_title
+    self.title = "Log Entry #{current_index + 1} of #{check_run.log.size}"
   end
 end

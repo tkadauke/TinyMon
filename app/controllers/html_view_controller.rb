@@ -1,10 +1,14 @@
 class HtmlViewController < UIViewController
   attr_accessor :html
   
-  def initWithHTML(html, title:title)
+  def initWithHTML(html)
     self.html = html
-    self.title = title
     init
+  end
+  
+  def initWithHTML(html, title:title)
+    self.title = title
+    initWithHTML(html)
   end
   
   def viewDidLoad
