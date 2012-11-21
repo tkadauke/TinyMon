@@ -1,6 +1,5 @@
 class CheckRunsViewController < UITableViewController
   include Refreshable
-  include LoadingController
   
   attr_accessor :health_check
   attr_accessor :all_check_runs
@@ -35,43 +34,36 @@ class CheckRunsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    if loading
-      1
-    else
-      self.check_runs.size
-    end
+    self.check_runs.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    if loading
-      loading_cell
-    else
-      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-      check_run = check_runs[indexPath.row]
-      cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
-      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-      cell.imageView.image = UIImage.imageNamed(check_run.status)
-      cell
-    end
+    check_run = check_runs[indexPath.row]
+    cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell.imageView.image = UIImage.imageNamed(check_run.status)
+    cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    return if loading
     navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(check_runs[indexPath.row]), animated:true)
   end
   
   def load_data
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       health_check.check_runs do |results|
+        SVProgressHUD.dismiss
         if results
           self.all_check_runs = results
           change_filter(@filter)
         else
           TinyMon.offline_alert
         end
-        done_loading
+        tableView.reloadData
         end_refreshing
       end
     end

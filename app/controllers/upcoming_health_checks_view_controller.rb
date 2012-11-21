@@ -22,14 +22,16 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
   
   def load_data
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       HealthCheck.upcoming do |results|
+        SVProgressHUD.dismiss
         if results
           self.all_health_checks = results
           change_filter(@filter)
         else
           TinyMon.offline_alert
         end
-        done_loading
+        tableView.reloadData
         end_refreshing
       end
     end

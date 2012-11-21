@@ -1,6 +1,5 @@
 class StepsViewController < UITableViewController
   include Refreshable
-  include LoadingController
   
   attr_accessor :health_check
   attr_accessor :steps
@@ -29,40 +28,33 @@ class StepsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    if loading
-      1
-    else
-      self.steps.size
-    end
+    self.steps.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    if loading
-      loading_cell
-    else
-      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-      cell.textLabel.text = steps[indexPath.row].type
-      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-      cell
-    end
+    cell.textLabel.text = steps[indexPath.row].type
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    return if loading
     # navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(steps[indexPath.row]), animated:true)
   end
   
   def load_data
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       health_check.steps do |results|
+        SVProgressHUD.dismiss
         if results
           self.steps = results
         else
           TinyMon.offline_alert
         end
-        done_loading
+        tableView.reloadData
         end_refreshing
       end
     end

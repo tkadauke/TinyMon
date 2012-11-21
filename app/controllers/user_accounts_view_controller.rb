@@ -1,7 +1,6 @@
 class UserAccountsViewController < UITableViewController
   include Refreshable
   include RootController
-  include LoadingController
   
   attr_accessor :user_accounts
   
@@ -32,41 +31,34 @@ class UserAccountsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    if loading
-      1
-    else
-      self.user_accounts.size
-    end
+    self.user_accounts.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    if loading
-      loading_cell
-    else
-      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-      user_account = user_accounts[indexPath.row]
-      cell.textLabel.text = user_account.user.full_name
-      cell.detailTextLabel.text = user_account.role
-      cell
-    end
+    user_account = user_accounts[indexPath.row]
+    cell.textLabel.text = user_account.user.full_name
+    cell.detailTextLabel.text = user_account.role
+    cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    return if loading
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
   end
   
   def load_data
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       UserAccount.find_all(:account_id => Account.current_account_id) do |results|
+        SVProgressHUD.dismiss
         if results
           self.user_accounts = results
         else
           TinyMon.offline_alert
         end
-        done_loading
+        tableView.reloadData
         end_refreshing
       end
     end

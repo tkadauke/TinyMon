@@ -1,7 +1,6 @@
 class SitesViewController < UITableViewController
   include Refreshable
   include RootController
-  include LoadingController
   
   attr_accessor :sites
   
@@ -34,30 +33,21 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    if loading
-      1
-    else
-      self.sites.size
-    end
+    self.sites.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    if loading
-      loading_cell
-    else
-      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-      site = sites[indexPath.row]
-      cell.textLabel.text = site.name
-      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-      cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
-      cell
-    end
+    site = sites[indexPath.row]
+    cell.textLabel.text = site.name
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
+    cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    return if loading
     navigationController.pushViewController(SiteViewController.alloc.initWithSite(sites[indexPath.row], parent:self), animated:true)
   end
   
@@ -67,13 +57,15 @@ class SitesViewController < UITableViewController
   
   def load_data
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       Site.find_all do |results|
+        SVProgressHUD.dismiss
         if results
           self.sites = results
         else
           TinyMon.offline_alert
         end
-        done_loading
+        tableView.reloadData
         end_refreshing
       end
     end

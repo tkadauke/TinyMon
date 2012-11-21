@@ -35,8 +35,10 @@ class SiteViewController < Formotion::FormController
   def done_editing
     self.site.update_attributes(form.render)
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       if @new_record
         self.site.create do |result|
+          SVProgressHUD.dismiss
           if result
             @parent.sites << result
             self.navigationController.popViewControllerAnimated(true)
@@ -46,6 +48,7 @@ class SiteViewController < Formotion::FormController
         end
       else
         self.site.save do |result|
+          SVProgressHUD.dismiss
           if result
             self.form = build_form
             self.form.controller = self
@@ -83,7 +86,9 @@ class SiteViewController < Formotion::FormController
   def actionSheet(sender, clickedButtonAtIndex:index)
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
+        SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
         self.site.destroy do |result|
+          SVProgressHUD.dismiss
           if result
             @parent.sites.delete(self.site)
             self.navigationController.popViewControllerAnimated(true)

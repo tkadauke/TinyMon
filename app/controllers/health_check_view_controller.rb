@@ -36,8 +36,10 @@ class HealthCheckViewController < Formotion::FormController
   def done_editing
     self.health_check.update_attributes(form.render)
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       if @new_record
         self.health_check.create do |result|
+          SVProgressHUD.dismiss
           if result
             @parent.health_checks << result
             self.navigationController.popViewControllerAnimated(true)
@@ -47,6 +49,7 @@ class HealthCheckViewController < Formotion::FormController
         end
       else
         self.health_check.save do |result|
+          SVProgressHUD.dismiss
           if result
             self.form = build_form
             self.form.controller = self
@@ -84,7 +87,9 @@ class HealthCheckViewController < Formotion::FormController
   def actionSheet(sender, clickedButtonAtIndex:index)
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
+        SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
         self.health_check.destroy do |result|
+          SVProgressHUD.dismiss
           if result
             @parent.health_checks.delete(self.health_check)
             self.navigationController.popViewControllerAnimated(true)

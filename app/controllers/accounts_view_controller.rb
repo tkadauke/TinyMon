@@ -1,7 +1,6 @@
 class AccountsViewController < UITableViewController
   include Refreshable
   include RootController
-  include LoadingController
   
   attr_accessor :accounts
   
@@ -32,27 +31,18 @@ class AccountsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    if loading
-      1
-    else
-      self.accounts.size
-    end
+    self.accounts.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    if loading
-      loading_cell
-    else
-      cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-      cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
+    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-      cell.textLabel.text = accounts[indexPath.row].name
-      cell
-    end
+    cell.textLabel.text = accounts[indexPath.row].name
+    cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    return if loading
     accounts[indexPath.row].switch do
       self.viewDeckController.centerController = LoggedInNavigationController.alloc.initWithRootViewController(RecentCheckRunsViewController.alloc.init)
     end
@@ -60,13 +50,15 @@ class AccountsViewController < UITableViewController
   
   def load_data
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       Account.find_all do |results|
+        SVProgressHUD.dismiss
         if results
           self.accounts = results
         else
           TinyMon.offline_alert
         end
-        done_loading
+        tableView.reloadData
         end_refreshing
       end
     end

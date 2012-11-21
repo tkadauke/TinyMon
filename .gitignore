@@ -16,3 +16,4 @@ nbproject
 *.o
 *.a
 *.bridgesupport
+vendor/Pods

@@ -29,8 +29,10 @@ class LoginViewController < Formotion::FormController
     TinyMon.server = server.split(":").first
 
     TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
       session = UserSession.new(login_data)
       session.login do |response, json|
+        SVProgressHUD.dismiss
         if response.error_message
           UIAlertView.alert("Login failed", response.error_message)
         else

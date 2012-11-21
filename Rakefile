@@ -18,6 +18,10 @@ Motion::Project::App.setup do |app|
   app.files_dependencies 'app/controllers/all_health_checks_view_controller.rb' => 'app/controllers/health_checks_view_controller.rb'
   app.files_dependencies 'app/controllers/check_run_log_entry_view_controller.rb' => 'app/controllers/html_view_controller.rb'
   
+  app.pods do
+    pod 'SVProgressHUD'
+  end
+  
   app.development do
     app.testflight do
       app.testflight.sdk = 'vendor/TestFlight'
