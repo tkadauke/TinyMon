@@ -38,7 +38,9 @@ class AccountsViewController < UITableViewController
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = accounts[indexPath.row].name
+    account = accounts[indexPath.row]
+    cell.textLabel.text = account.name
+    cell.imageView.image = UIImage.imageNamed("#{account.status}.png")
     cell
   end
   

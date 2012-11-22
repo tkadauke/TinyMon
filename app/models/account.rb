@@ -1,5 +1,5 @@
 class Account < RemoteModule::RemoteModel
-  attr_accessor :id, :name
+  attr_accessor :id, :name, :status
   
   cattr_accessor :current_account_id
   
