@@ -1,14 +1,17 @@
 
 PODS: 
 - SVProgressHUD (0.8)
+- TestFlightSDK (1.1)
 - ViewDeck (1.4.2)
 
 DEPENDENCIES: 
 - SVProgressHUD
+- TestFlightSDK (= 1.1)
 - ViewDeck (= 1.4.2)
 
 SPEC CHECKSUMS: 
   SVProgressHUD: 51042a14e3a716efdbdd73cbb2181fb23ee94389
+  TestFlightSDK: 2a2cdb82967c7f05655683c61854c92d36e9104d
   ViewDeck: a05ad18f6dcd87a95429c0b5bcaf58a450787c87
 
 COCOAPODS: 0.15.2

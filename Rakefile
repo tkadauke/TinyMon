@@ -20,11 +20,11 @@ Motion::Project::App.setup do |app|
   app.pods do
     pod 'SVProgressHUD'
     pod 'ViewDeck', '1.4.2'
+    pod 'TestFlightSDK', '1.1'
   end
   
   app.development do
     app.testflight do
-      app.testflight.sdk = 'vendor/TestFlight'
       app.testflight.api_token = 'apitoken'
       app.testflight.team_token = 'teamtoken'
     end
