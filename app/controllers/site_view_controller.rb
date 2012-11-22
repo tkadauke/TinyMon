@@ -111,7 +111,8 @@ private
         }, {
           value: site.url,
           title: "Base URL",
-          type: :static,
+          type: :disclose,
+          key: :url
         }, {
           value: UIImage.imageNamed("#{site.status}.png"),
           title: "Status",
@@ -120,13 +121,19 @@ private
       }, {
         rows: [{
           title: "Health Checks",
-          type: :disclose
+          type: :disclose,
+          key: :checks
         }]
       }]
     })
     
     form.on_select do |key|
-      navigationController.pushViewController(HealthChecksViewController.alloc.initWithSite(site), animated:true)
+      case key
+      when :url
+        UIApplication.sharedApplication.openURL(NSURL.URLWithString(site.url))
+      when :checks
+        navigationController.pushViewController(HealthChecksViewController.alloc.initWithSite(site), animated:true)
+      end
     end
     form
   end
