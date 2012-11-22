@@ -1,8 +1,8 @@
 module Formotion
   module RowType
-    class StaticRow < StringRow
+    class LabelRow < Base
       def after_build(cell)
-        self.row.text_field.enabled = false
+        cell.detailTextLabel.text = row.value.to_s
         cell.selectionStyle = UITableViewCellSelectionStyleNone
       end
     end

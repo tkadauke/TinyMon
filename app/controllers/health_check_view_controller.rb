@@ -108,24 +108,24 @@ private
         rows: [{
           value: health_check.name,
           title: "Name",
-          type: :static
+          type: :label
         }, {
           value: health_check.site.name,
           title: "Site",
-          type: :static
+          type: :label
         }, {
           value: health_check.description,
           title: "Description",
           key: :description,
-          type: health_check.description.blank? ? :static : :disclose
+          type: health_check.description.blank? ? :label : :disclose
         }, {
           value: health_check.interval,
           title: "Check Interval",
-          type: :static
+          type: :label
         }, {
           value: health_check.enabled ? 'Yes' : 'No',
           title: "Active",
-          type: :static
+          type: :label
         }]
       }, {
         rows: [{
@@ -136,7 +136,7 @@ private
         }, {
           value: (Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled),
           title: "Next Check",
-          type: :static
+          type: :label
         }, {
           value: UIImage.imageNamed("#{health_check.status}.png"),
           title: "Status",

@@ -107,7 +107,7 @@ private
         rows: [{
           value: site.name,
           title: "Name",
-          type: :static
+          type: :label
         }, {
           value: site.url,
           title: "Base URL",

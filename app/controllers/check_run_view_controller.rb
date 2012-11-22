@@ -15,11 +15,11 @@ private
         rows: [{
           value: check_run.health_check.name,
           title: "Health Check",
-          type: :static
+          type: :label
         }, {
           value: check_run.health_check.site.name,
           title: "Site",
-          type: :static
+          type: :label
         }]
       }, {
         rows: [{
@@ -29,11 +29,11 @@ private
         }, {
           value: Time.ago_in_words(check_run.created_at_to_now),
           title: "When",
-          type: :static
+          type: :label
         }, {
           value: "#{"%2.1f" % check_run.duration} s",
           title: "Duration",
-          type: :static
+          type: :label
         }, ({
           value: check_run.error_message,
           title: "Message",
