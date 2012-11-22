@@ -1,11 +1,14 @@
 
 PODS: 
 - SVProgressHUD (0.8)
+- ViewDeck (1.4.2)
 
 DEPENDENCIES: 
 - SVProgressHUD
+- ViewDeck (= 1.4.2)
 
 SPEC CHECKSUMS: 
   SVProgressHUD: 51042a14e3a716efdbdd73cbb2181fb23ee94389
+  ViewDeck: a05ad18f6dcd87a95429c0b5bcaf58a450787c87
 
 COCOAPODS: 0.15.2

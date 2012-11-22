@@ -9,7 +9,6 @@ Motion::Project::App.setup do |app|
   app.identifier = "org.tinymon.TinyMon"
   app.name = 'TinyMon'
   app.files = Dir.glob("lib/**/*.rb") + app.files
-  app.vendor_project('vendor/ViewDeck', :static)
   app.vendor_project('vendor/Reachability', :static)
   app.vendor_project('vendor/iOSPlot', :static)
   app.vendor_project('vendor/TVNavigationController', :static)
@@ -20,6 +19,7 @@ Motion::Project::App.setup do |app|
   
   app.pods do
     pod 'SVProgressHUD'
+    pod 'ViewDeck', '1.4.2'
   end
   
   app.development do
