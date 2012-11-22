@@ -39,6 +39,11 @@ class AccountsViewController < UITableViewController
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
     account = accounts[indexPath.row]
+    if account.id == Account.current_account_id
+      cell.accessoryType = UITableViewCellAccessoryCheckmark
+    else
+      cell.accessoryType = UITableViewCellAccessoryNone
+    end
     cell.textLabel.text = account.name
     cell.imageView.image = UIImage.imageNamed("#{account.status}.png")
     cell
