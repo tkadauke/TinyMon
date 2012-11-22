@@ -16,14 +16,18 @@ end
 
 module Formotion
   module RowType
-    class DiscloseRow < StringRow
+    class DiscloseRow < Base
       def after_build(cell)
-        self.row.text_field.enabled = false
+        cell.detailTextLabel.text = row.value
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
       end
       
       def on_select(tableView, tableViewDelegate)
         tableViewDelegate.select(row.key)
+      end
+      
+      def cell_style
+        UITableViewCellStyleValue1
       end
     end
   end
