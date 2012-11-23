@@ -50,16 +50,13 @@ class LoggedInMenuController < UITableViewController
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= begin
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-      
+    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
       layout cell, :cell do
         subview(UIView, :top_line)
         subview(UIView, :bottom_line)
       end
       
       cell.setSelectedBackgroundView(layout(UIView.alloc.init, :selected))
-      cell
     end
 
     cell.textLabel.text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
