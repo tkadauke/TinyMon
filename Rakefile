@@ -8,7 +8,7 @@ Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.identifier = "org.tinymon.TinyMon"
   app.name = 'TinyMon'
-  app.files = Dir.glob("lib/**/*.rb") + app.files
+  app.files = (app.files - Dir.glob('./app/**/*.rb')) + Dir.glob("./lib/**/*.rb") + Dir.glob("./app/**/*.rb")
   app.vendor_project('vendor/Reachability', :static)
   app.vendor_project('vendor/iOSPlot', :static)
   app.vendor_project('vendor/TVNavigationController', :static)

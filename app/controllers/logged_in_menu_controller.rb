@@ -1,4 +1,6 @@
 class LoggedInMenuController < UITableViewController
+  stylesheet :logged_in_menu_sheet
+  
   ITEMS = [{
     title: "Monitoring",
     rows: [{
@@ -30,9 +32,7 @@ class LoggedInMenuController < UITableViewController
   
   def init
     super
-    tableView.backgroundColor = UIColor.colorWithRed(50.0/255, green: 57.0/255, blue: 73.0/255, alpha:1)
-    tableView.separatorColor = UIColor.blackColor
-    tableView.sectionHeaderHeight = 30
+    layout tableView, :table
     self
   end
   
@@ -50,16 +50,20 @@ class LoggedInMenuController < UITableViewController
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
+    cell ||= begin
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+      
+      layout cell, :cell do
+        subview(UIView, :top_line)
+        subview(UIView, :bottom_line)
+      end
+      
+      cell.setSelectedBackgroundView(layout(UIView.alloc.init, :selected))
+      cell
+    end
+
     cell.textLabel.text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
-    cell.textLabel.textColor = UIColor.whiteColor
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
-  end
-  
-  def tableView(tableView, willDisplayCell:cell, forRowAtIndexPath:indexPath)
-    cell.backgroundColor = UIColor.colorWithRed(50.0/255, green: 57.0/255, blue: 73.0/255, alpha:1)
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
