@@ -5,7 +5,7 @@ PODS:
 - ViewDeck (1.4.2)
 
 DEPENDENCIES: 
-- SVProgressHUD
+- SVProgressHUD (= 0.8)
 - TestFlightSDK (= 1.1)
 - ViewDeck (= 1.4.2)
 

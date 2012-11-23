@@ -18,7 +18,7 @@ Motion::Project::App.setup do |app|
   app.files_dependencies 'app/controllers/check_run_log_entry_view_controller.rb' => 'app/controllers/html_view_controller.rb'
   
   app.pods do
-    pod 'SVProgressHUD'
+    pod 'SVProgressHUD', '0.8'
     pod 'ViewDeck', '1.4.2'
     pod 'TestFlightSDK', '1.1'
   end
