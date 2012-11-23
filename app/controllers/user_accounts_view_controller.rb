@@ -51,7 +51,7 @@ class UserAccountsViewController < UITableViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      UserAccount.find_all(:account_id => Account.current_account_id) do |results|
+      UserAccount.find_all(:account_id => Account.current.id) do |results|
         SVProgressHUD.dismiss
         if results
           self.user_accounts = results

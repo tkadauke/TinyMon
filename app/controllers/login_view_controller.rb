@@ -37,8 +37,14 @@ class LoginViewController < Formotion::FormController
           UIAlertView.alert("Login failed", response.error_message)
         else
           if json
-            Account.current_account_id = json["attempted_record"]["current_account_id"]
-            UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
+            Account.find(json["attempted_record"]["current_account_id"]) do |account|
+              if json
+                Account.current = account
+                UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
+              else
+                UIAlertView.alert("Login failed", "Wrong username or password")
+              end
+            end
           else
             UIAlertView.alert("Login failed", "Wrong username or password")
           end

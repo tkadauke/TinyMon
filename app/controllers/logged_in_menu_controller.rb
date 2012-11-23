@@ -2,6 +2,11 @@ class LoggedInMenuController < UITableViewController
   stylesheet :logged_in_menu_sheet
   
   ITEMS = [{
+    rows: [{
+      title: lambda { Account.current.name },
+      key: :account
+    }]
+  }, {
     title: "Monitoring",
     rows: [{
       title: "Activity",
@@ -59,8 +64,14 @@ class LoggedInMenuController < UITableViewController
       cell.setSelectedBackgroundView(layout(UIView.alloc.init, :selected))
     end
 
-    cell.textLabel.text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
+    text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
+    text = text.call if text.respond_to?(:call)
+    cell.textLabel.text = text
     cell
+  end
+  
+  def tableView(tableView, heightForHeaderInSection:section)
+    section == 0 ? 0 : 30
   end
   
   def tableView(tableView, viewForHeaderInSection:section)

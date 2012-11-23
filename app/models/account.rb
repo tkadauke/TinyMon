@@ -1,7 +1,7 @@
 class Account < RemoteModule::RemoteModel
   attr_accessor :id, :name, :status
   
-  cattr_accessor :current_account_id
+  cattr_accessor :current
   
   collection_url "accounts"
   member_url "accounts/:id"
@@ -10,7 +10,7 @@ class Account < RemoteModule::RemoteModel
   
   def switch(&block)
     post(switch_url) do |response, json|
-      Account.current_account_id = self.id
+      Account.current = self
       block.call
     end
   end

@@ -39,7 +39,7 @@ class AccountsViewController < UITableViewController
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
     account = accounts[indexPath.row]
-    if account.id == Account.current_account_id
+    if account.id == Account.current.id
       cell.accessoryType = UITableViewCellAccessoryCheckmark
     else
       cell.accessoryType = UITableViewCellAccessoryNone
@@ -51,6 +51,7 @@ class AccountsViewController < UITableViewController
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     accounts[indexPath.row].switch do
+      self.viewDeckController.leftController.tableView.reloadData
       self.viewDeckController.centerController = LoggedInNavigationController.alloc.initWithRootViewController(RecentCheckRunsViewController.alloc.init)
     end
   end
