@@ -23,4 +23,13 @@ Teacup::Stylesheet.new :logged_in_menu_sheet do
     top: lambda { superview.bounds.size.height - 1 },
     backgroundColor: UIColor.colorWithRed(36.0/255, green: 42.0/255, blue: 55.0/255, alpha:1),
     autoresizingMask: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth
+  
+  style :header,
+    gradient: { colors: [UIColor.colorWithRed(67.0/255, green: 75.0/255, blue: 93.0/255, alpha:1).CGColor, UIColor.colorWithRed(57.0/255, green: 64.0/255, blue: 81.0/255, alpha:1).CGColor] }
+  
+  style :header_label,
+    frame: [[10, 5], [200, 20]],
+    textColor: UIColor.colorWithRed(156.0/255, green: 164.0/255, blue: 179.0/255, alpha:1),
+    font: UIFont.boldSystemFontOfSize(17),
+    backgroundColor: UIColor.clearColor
 end

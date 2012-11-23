@@ -63,6 +63,16 @@ class LoggedInMenuController < UITableViewController
     cell
   end
   
+  def tableView(tableView, viewForHeaderInSection:section)
+    view = UIView.alloc.initWithFrame([[0, 0], [320, 30]])
+    layout(view, :header) do
+      subview(UIView, :bottom_line)
+      label = subview(UILabel, :header_label)
+      label.text = tableView(tableView, titleForHeaderInSection:section)
+    end
+    view
+  end
+  
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     selected = ITEMS[indexPath.section][:rows][indexPath.row][:key]
     
