@@ -30,3 +30,14 @@ Motion::Project::App.setup do |app|
     end
   end
 end
+
+if File.exists?('devices.yml')
+  namespace :device do
+    YAML.load(File.read('devices.yml')).each do |name, id|
+      desc "Deploy on #{name}"
+      task name do
+        sh "rake device id=#{id}"
+      end
+    end
+  end
+end

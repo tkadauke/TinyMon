@@ -17,3 +17,4 @@ nbproject
 *.a
 *.bridgesupport
 vendor/Pods
+devices.yml
