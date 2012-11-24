@@ -136,8 +136,12 @@ module RemoteModule
         end
         BubbleWrap::HTTP.send(method, complete_url(url), options) do |response|
           if response.ok?
-            json = BubbleWrap::JSON.parse(response.body.to_str)
-            block.call response, json
+            body = response.body.to_str.strip
+            if body.blank?
+              block.call(response, {})
+            else
+              block.call response, BubbleWrap::JSON.parse(body)
+            end
           else
             block.call response, nil
           end

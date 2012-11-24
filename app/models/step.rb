@@ -24,6 +24,10 @@ class Step < RemoteModule::RemoteModel
     http_call(:post, url, params.merge(:query => { :type => self.name.sub("Step", "").underscore }), &block)
   end
   
+  def self.sort(array, &block)
+    post(array.first.sort_url, :payload => { :step => array.map { |s| s.id } }, &block)
+  end
+  
   def site_permalink
     health_check && health_check.site && health_check.site.permalink
   end

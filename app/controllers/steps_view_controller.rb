@@ -16,13 +16,16 @@ class StepsViewController < UITableViewController
     load_data
     
     @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
-    self.navigationItem.rightBarButtonItem = @plus_button
+    @edit_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemEdit, target:self, action:'edit')
+    @done_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:'done_editing')
+    
+    self.navigationItem.setRightBarButtonItems [@plus_button, @edit_button]
     
     on_refresh do
       health_check.reset_steps
       load_data
     end
-    
+
     super
   end
   
@@ -54,6 +57,59 @@ class StepsViewController < UITableViewController
     navigationController.pushViewController(StepViewController.alloc.initWithStep(steps[indexPath.row], parent:self, newRecord:false), animated:true)
   end
   
+  def tableView(tableView, canMoveRowAtIndexPath:indexPath)
+    true
+  end
+  
+  def tableView(tableView, moveRowAtIndexPath:source, toIndexPath:dest)
+    step = steps.delete_at(source.row)
+    steps.insert(dest.row, step)
+    
+    TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
+      Step.sort(self.steps) do |result|
+        SVProgressHUD.dismiss
+        unless result
+          TinyMon.offline_alert
+        end
+      end
+    end
+  end
+  
+  def tableView(tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
+    if editingStyle == UITableViewCellEditingStyleDelete
+      @step_to_delete = steps[indexPath.row]
+      actionSheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+                                                               delegate:self,
+                                                      cancelButtonTitle:"No",
+                                                 destructiveButtonTitle:"Yes, delete",
+                                                      otherButtonTitles:nil)
+
+      actionSheet.showInView(UIApplication.sharedApplication.keyWindow)
+    end
+  end
+  
+  def actionSheet(sender, clickedButtonAtIndex:index)
+    if index == sender.destructiveButtonIndex
+      TinyMon.when_reachable do
+        SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
+        @step_to_delete.destroy do |result|
+          SVProgressHUD.dismiss
+          if result
+            self.steps.delete(@step_to_delete)
+            tableView.reloadData
+          else
+            TinyMon.offline_alert
+          end
+        end
+      end
+    else
+      self.tableView.reloadData
+      self.setEditing(true, animated:true)
+      self.tableView.setEditing(true, animated:true)
+    end
+  end
+  
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
@@ -72,5 +128,17 @@ class StepsViewController < UITableViewController
   
   def add
     navigationController.pushViewController(SelectStepViewController.alloc.initWithHealthCheck(self.health_check, parent:self), animated:true)
+  end
+  
+  def edit
+    tableView.setEditing true, animated:true
+    self.viewDeckController.panningMode = IIViewDeckNoPanning
+    self.navigationItem.setRightBarButtonItems [@plus_button, @done_button]
+  end
+  
+  def done_editing
+    tableView.setEditing false, animated:true
+    self.viewDeckController.panningMode = IIViewDeckFullViewPanning
+    self.navigationItem.setRightBarButtonItems [@plus_button, @edit_button]
   end
 end
