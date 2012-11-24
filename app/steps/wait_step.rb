@@ -5,7 +5,7 @@ class WaitStep < Step
   
   include Formotion::Formable
   
-  form_property :duration, :integer
+  form_property :duration, :number
   
   def self.attributes
     superclass.attributes
