@@ -6,6 +6,8 @@ class Time
   end
   
   def self.ago_in_words(seconds)
+    return "" unless seconds
+    
     duration = seconds.abs
     case duration
     when 0..15
@@ -22,6 +24,8 @@ class Time
   end
   
   def self.future_in_words(seconds)
+    return "" unless seconds
+
     duration = seconds.abs
     case duration
     when 0..15

@@ -23,6 +23,11 @@ class StepsViewController < UITableViewController
     super
   end
   
+  def viewWillAppear(animated)
+    super
+    tableView.reloadData
+  end
+  
   def numberOfSectionsInTableView(tableView)
     1
   end
@@ -42,7 +47,7 @@ class StepsViewController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    # navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(steps[indexPath.row]), animated:true)
+    navigationController.pushViewController(StepViewController.alloc.initWithStep(steps[indexPath.row], parent:self), animated:true)
   end
   
   def load_data

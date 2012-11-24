@@ -10,7 +10,16 @@ module RemoteModule
       end
       
       def attribute(*fields)
-        attr_accessor *fields
+        attr_reader *fields
+        fields.each do |field|
+          define_method "#{field}=" do |value|
+            if value.is_a?(Hash) || value.is_a?(Array)
+              instance_variable_set("@#{field}", value.dup)
+            else
+              instance_variable_set("@#{field}", value)
+            end
+          end
+        end
         self.attributes += fields
       end
       
