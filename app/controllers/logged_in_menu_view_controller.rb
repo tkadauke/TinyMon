@@ -1,4 +1,4 @@
-class LoggedInMenuController < UITableViewController
+class LoggedInMenuViewController < UITableViewController
   stylesheet :logged_in_menu_sheet
   
   ITEMS = [{
