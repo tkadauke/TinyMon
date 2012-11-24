@@ -18,6 +18,9 @@ class SelectStepViewController < UITableViewController
   def initWithHealthCheck(health_check, parent:parent)
     @health_check = health_check
     @parent = parent
+    
+    self.title = "Add Step"
+    
     self
   end
   
