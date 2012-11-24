@@ -36,11 +36,9 @@ class UserAccountsViewController < UITableViewController
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
+    cell ||= UserTableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    user_account = user_accounts[indexPath.row]
-    cell.textLabel.text = user_account.user.full_name
-    cell.detailTextLabel.text = user_account.role
+    cell.user_account = user_accounts[indexPath.row]
     cell
   end
   

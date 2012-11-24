@@ -12,6 +12,7 @@ Motion::Project::App.setup do |app|
   app.vendor_project('vendor/Reachability', :static)
   app.vendor_project('vendor/iOSPlot', :static)
   app.vendor_project('vendor/TVNavigationController', :static)
+  app.vendor_project('vendor/HJCache', :static)
   
   app.detect_dependencies = false
   app.files_dependencies 'app/controllers/all_health_checks_view_controller.rb' => 'app/controllers/health_checks_view_controller.rb'
@@ -21,6 +22,7 @@ Motion::Project::App.setup do |app|
     pod 'SVProgressHUD', '0.8'
     pod 'ViewDeck', '1.4.2'
     pod 'TestFlightSDK', '1.1'
+    pod 'NSData+MD5Digest'
   end
   
   app.development do

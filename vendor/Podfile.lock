@@ -1,15 +1,18 @@
 
 PODS: 
+- NSData+MD5Digest (1.0.0)
 - SVProgressHUD (0.8)
 - TestFlightSDK (1.1)
 - ViewDeck (1.4.2)
 
 DEPENDENCIES: 
+- NSData+MD5Digest
 - SVProgressHUD (= 0.8)
 - TestFlightSDK (= 1.1)
 - ViewDeck (= 1.4.2)
 
 SPEC CHECKSUMS: 
+  NSData+MD5Digest: 8275479b2a935e6caa8a92a9a814fb5abecba367
   SVProgressHUD: 51042a14e3a716efdbdd73cbb2181fb23ee94389
   TestFlightSDK: 2a2cdb82967c7f05655683c61854c92d36e9104d
   ViewDeck: a05ad18f6dcd87a95429c0b5bcaf58a450787c87
