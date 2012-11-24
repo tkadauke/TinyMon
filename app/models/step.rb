@@ -9,7 +9,8 @@ class Step < RemoteModule::RemoteModel
   def self.data_attribute(*fields)
     fields.each do |field|
       define_method field do
-        data[field.to_s]
+        self.data ||= {}
+        self.data[field.to_s]
       end
       
       define_method "#{field}=" do |value|
@@ -17,6 +18,10 @@ class Step < RemoteModule::RemoteModel
         self.data[field.to_s] = value
       end
     end
+  end
+  
+  def self.post(url, params = {}, &block)
+    http_call(:post, url, params.merge(:query => { :type => self.name.sub("Step", "").underscore }), &block)
   end
   
   def site_permalink

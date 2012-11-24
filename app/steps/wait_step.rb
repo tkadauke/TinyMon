@@ -1,6 +1,7 @@
 class WaitStep < Step
   data_attribute :duration
   
+  collection_url "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps"
   member_url "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/:id"
   
   include Formotion::Formable

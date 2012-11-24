@@ -1,8 +1,8 @@
 class StepViewController < Formotion::FormableController
   attr_accessor :step
   
-  def initWithStep(step, parent:parent)
-    @new_record = false
+  def initWithStep(step, parent:parent, newRecord:new_record)
+    @new_record = new_record
     @parent = parent
     self.step = step
     initWithModel(step)
@@ -15,19 +15,21 @@ class StepViewController < Formotion::FormableController
       }]
     )
     
-    self.form.create_section(
-      rows: [{
-        title: "Delete",
-        type: :delete
-      }]
-    )
-    
     self.form.on_submit do
       done_editing
     end
+
+    unless new_record
+      self.form.create_section(
+        rows: [{
+          title: "Delete",
+          type: :delete
+        }]
+      )
     
-    self.form.on_delete do
-      delete
+      self.form.on_delete do
+        delete
+      end
     end
     
     self
@@ -41,7 +43,8 @@ class StepViewController < Formotion::FormableController
           SVProgressHUD.dismiss
           if result
             @parent.steps << result
-            self.navigationController.popViewControllerAnimated(true)
+            target = self.navigationController.viewControllers[-3]
+            self.navigationController.popToViewController(target, animated:true)
           else
             TinyMon.offline_alert
           end

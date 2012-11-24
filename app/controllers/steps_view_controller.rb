@@ -15,6 +15,9 @@ class StepsViewController < UITableViewController
     
     load_data
     
+    @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
+    self.navigationItem.rightBarButtonItem = @plus_button
+    
     on_refresh do
       health_check.reset_steps
       load_data
@@ -48,7 +51,7 @@ class StepsViewController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(StepViewController.alloc.initWithStep(steps[indexPath.row], parent:self), animated:true)
+    navigationController.pushViewController(StepViewController.alloc.initWithStep(steps[indexPath.row], parent:self, newRecord:false), animated:true)
   end
   
   def load_data
@@ -65,5 +68,9 @@ class StepsViewController < UITableViewController
         end_refreshing
       end
     end
+  end
+  
+  def add
+    navigationController.pushViewController(SelectStepViewController.alloc.initWithHealthCheck(self.health_check, parent:self), animated:true)
   end
 end
