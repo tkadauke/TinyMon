@@ -43,3 +43,13 @@ if File.exists?('devices.yml')
     end
   end
 end
+
+task :resources do
+  icons = %w(success failure offline)
+  icons += (0..5).to_a.collect { |i| "weather-#{i}" }
+  
+  icons.each do |icon|
+    sh "convert -resize 88x88 res_src/#{icon}.png resources/#{icon}@2x.png"
+    sh "convert -resize 44x44 res_src/#{icon}.png resources/#{icon}.png"
+  end
+end
