@@ -106,9 +106,9 @@ class HealthChecksViewController < UITableViewController
     when 0
       self.health_checks = self.all_health_checks
     when 1
-      self.health_checks = self.all_health_checks.select { |x| x.status == 'success' }
+      self.health_checks = self.all_health_checks.select { |x| x.status == 'success' && x.enabled == true }
     when 2
-      self.health_checks = self.all_health_checks.select { |x| x.status == 'failure' }
+      self.health_checks = self.all_health_checks.select { |x| x.status == 'failure' && x.enabled == true }
     when 3
       self.health_checks = self.all_health_checks.select { |x| x.enabled == true }
     when 4
