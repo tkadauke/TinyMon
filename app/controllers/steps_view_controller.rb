@@ -43,6 +43,7 @@ class StepsViewController < UITableViewController
     step = steps[indexPath.row]
     cell.textLabel.text = step.summary
     cell.detailTextLabel.text = step.detail
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
   end
   
