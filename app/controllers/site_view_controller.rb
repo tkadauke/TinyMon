@@ -80,7 +80,7 @@ class SiteViewController < Formotion::FormController
                                                destructiveButtonTitle:"Yes, delete",
                                                     otherButtonTitles:nil)
   
-    actionSheet.showInView(self.view)
+    actionSheet.showInView(UIApplication.sharedApplication.keyWindow)
   end
   
   def actionSheet(sender, clickedButtonAtIndex:index)
