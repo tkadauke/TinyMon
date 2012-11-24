@@ -21,8 +21,10 @@ class HealthChecksViewController < UITableViewController
     
     load_data
     
-    @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
-    self.navigationItem.rightBarButtonItem = @plus_button
+    if User.current.can_create_health_checks?
+      @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
+      self.navigationItem.rightBarButtonItem = @plus_button
+    end
     
     on_refresh do
       site.reset_health_checks

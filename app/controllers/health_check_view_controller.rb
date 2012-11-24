@@ -21,7 +21,9 @@ class HealthCheckViewController < Formotion::FormController
   end
   
   def viewDidLoad
-    show_edit_button unless @new_record
+    if User.current.can_edit_health_checks?
+      show_edit_button unless @new_record
+    end
     super
   end
   
@@ -220,13 +222,12 @@ private
         title: "Save",
         type: :submit
       }]
-    }, {
+    }, ({
       rows: [{
         title: "Delete",
         type: :delete
       }]
-    }]
-    sections.pop if @new_record
+    } if !@new_record && User.current.can_delete_health_checks?)].compact
     
     form = Formotion::Form.new({
       sections: sections

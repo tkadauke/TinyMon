@@ -37,7 +37,8 @@ class LoginViewController < Formotion::FormController
           UIAlertView.alert("Login failed", response.error_message)
         else
           if json
-            Account.find(json["attempted_record"]["current_account_id"]) do |account|
+            User.current = User.new(json["attempted_record"])
+            Account.find(User.current.current_account_id) do |account|
               if json
                 Account.current = account
                 UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init

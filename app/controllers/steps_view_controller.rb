@@ -15,11 +15,13 @@ class StepsViewController < UITableViewController
     
     load_data
     
-    @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
-    @edit_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemEdit, target:self, action:'edit')
-    @done_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:'done_editing')
+    if User.current.can_edit_health_checks?
+      @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
+      @edit_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemEdit, target:self, action:'edit')
+      @done_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:'done_editing')
     
-    self.navigationItem.setRightBarButtonItems [@plus_button, @edit_button]
+      self.navigationItem.setRightBarButtonItems [@plus_button, @edit_button]
+    end
     
     on_refresh do
       health_check.reset_steps

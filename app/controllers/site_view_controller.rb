@@ -20,7 +20,9 @@ class SiteViewController < Formotion::FormController
   end
   
   def viewDidLoad
-    show_edit_button unless @new_record
+    if User.current.can_edit_sites?
+      show_edit_button unless @new_record
+    end
     super
   end
   
@@ -158,13 +160,12 @@ private
         title: "Save",
         type: :submit
       }]
-    }, {
+    }, ({
       rows: [{
         title: "Delete",
         type: :delete
       }]
-    }]
-    sections.pop if @new_record
+    } if !@new_record && User.current.can_delete_sites?)]
     
     form = Formotion::Form.new({
       sections: sections

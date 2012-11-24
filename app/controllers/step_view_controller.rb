@@ -8,27 +8,29 @@ class StepViewController < Formotion::FormableController
     initWithModel(step)
     self.title = step.summary
     
-    self.form.create_section(
-      rows: [{
-        title: "Save",
-        type: :submit
-      }]
-    )
-    
-    self.form.on_submit do
-      done_editing
-    end
-
-    unless new_record
+    if User.current.can_edit_health_checks?
       self.form.create_section(
         rows: [{
-          title: "Delete",
-          type: :delete
+          title: "Save",
+          type: :submit
         }]
       )
     
-      self.form.on_delete do
-        delete
+      self.form.on_submit do
+        done_editing
+      end
+
+      unless new_record
+        self.form.create_section(
+          rows: [{
+            title: "Delete",
+            type: :delete
+          }]
+        )
+    
+        self.form.on_delete do
+          delete
+        end
       end
     end
     

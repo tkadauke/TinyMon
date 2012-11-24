@@ -16,8 +16,10 @@ class SitesViewController < UITableViewController
 
     load_data
     
-    @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
-    self.navigationItem.rightBarButtonItem = @plus_button
+    if User.current.can_create_sites?
+      @plus_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add')
+      self.navigationItem.rightBarButtonItem = @plus_button
+    end
     
     on_refresh do
       load_data
