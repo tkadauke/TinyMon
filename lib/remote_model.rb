@@ -14,13 +14,50 @@ module RemoteModule
         self.attributes += fields
       end
       
+      def find_all(params = {}, &block)
+        get(collection_url.format(params)) do |response, json|
+          if response.ok?
+            objs = []
+            arr_rep = nil
+            if json.class == Array
+              arr_rep = json
+            elsif json.class == Hash
+              plural_sym = self.pluralize.to_sym
+              if json.has_key? plural_sym
+                arr_rep = json[plural_sym]
+              end
+            else
+              # the returned data was something else
+              # ie a string, number
+              request_block_call(block, nil, response)
+              return
+            end
+            arr_rep.each { |one_obj_hash|
+              if one_obj_hash[:type]
+                begin
+                  klass = Object.const_get(one_obj_hash[:type].to_s)
+                  objs << klass.new(one_obj_hash)
+                rescue NameError
+                  objs << self.new(one_obj_hash)
+                end
+              else
+                objs << self.new(one_obj_hash)
+              end
+            }
+            request_block_call(block, objs, response)
+          else
+            request_block_call(block, nil, response)
+          end
+        end
+      end
+      
       def association(name, params)
         backwards_association = self.name.underscore
-    
+        
         define_method name do |&block|
           cached = instance_variable_get("@#{name}")
           block.call(cached) and return if cached
-      
+          
           Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results|
             if results
               results.each do |result|

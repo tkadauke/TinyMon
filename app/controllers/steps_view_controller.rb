@@ -35,8 +35,9 @@ class StepsViewController < UITableViewController
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    cell.textLabel.text = steps[indexPath.row].type
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    step = steps[indexPath.row]
+    cell.textLabel.text = step.summary
+    cell.detailTextLabel.text = step.detail
     cell
   end
   
