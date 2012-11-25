@@ -8,6 +8,30 @@ class CheckRunViewController < Formotion::FormController
     self
   end
   
+  def viewDidLoad
+    set_timer
+    super
+  end
+  
+  def reload
+    self.check_run.reload do |run|
+      if run
+        self.check_run = run
+        set_timer
+        self.form = build_form
+        self.form.controller = self
+        self.title = "Check Run"
+        tableView.reloadData
+      end
+    end
+  end
+  
+  def set_timer
+    if check_run.status.blank?
+      NSTimer.scheduledTimerWithTimeInterval(2, target:self, selector:'reload', userInfo:nil, repeats:false)
+    end
+  end
+  
 private
   def build_form
     form = Formotion::Form.new({
@@ -25,7 +49,7 @@ private
         rows: [{
           value: UIImage.imageNamed("#{check_run.status}.png"),
           title: "Status",
-          type: :icon
+          type: check_run.status.present? ? :icon : :spinner
         }, {
           value: Time.ago_in_words(check_run.created_at_to_now),
           title: "When",

@@ -131,6 +131,12 @@ private
         }]
       }, {
         rows: [{
+          title: "Run now",
+          type: :disclose,
+          key: :run
+        }]
+      }, {
+        rows: [{
           value: Time.ago_in_words(health_check.last_checked_at_to_now),
           title: "Last Check",
           type: :disclose,
@@ -169,6 +175,18 @@ private
       case key
       when :description
         navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(health_check.description, title:"Description"), animated:true)
+      when :run
+        TinyMon.when_reachable do
+          SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
+          self.health_check.run do |result|
+            SVProgressHUD.dismiss
+            if result
+              navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(result), animated:true)
+            else
+              TinyMon.offline_alert
+            end
+          end
+        end
       when :last_check
         TinyMon.when_reachable do
           SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)

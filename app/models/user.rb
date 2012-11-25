@@ -1,5 +1,5 @@
 class User < RemoteModule::RemoteModel
-  attr_accessor :role, :full_name, :current_account_id, :email
+  attr_accessor :id, :role, :full_name, :current_account_id, :email
   
   cattr_accessor :current
   

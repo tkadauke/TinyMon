@@ -173,5 +173,11 @@ module RemoteModule
         block.call json ? self.class.new(json) : nil
       end
     end
+    
+    def reload(&block)
+      self.class.get(member_url) do |response, json|
+        block.call json ? self.class.new(json) : nil
+      end
+    end
   end
 end

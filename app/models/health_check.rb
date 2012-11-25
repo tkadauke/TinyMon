@@ -31,4 +31,10 @@ class HealthCheck < RemoteModule::RemoteModel
       "offline"
     end
   end
+  
+  def run(&block)
+    @check_run = CheckRun.new(:user_id => User.current.id)
+    @check_run.health_check = self
+    @check_run.create(&block)
+  end
 end
