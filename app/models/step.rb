@@ -4,6 +4,7 @@ class Step < RemoteModule::RemoteModel
   
   self.collection_url = "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps"
   self.member_url = "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/:id"
+  custom_urls :sort_url => "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/sort"
   
   attr_accessor :health_check
   
