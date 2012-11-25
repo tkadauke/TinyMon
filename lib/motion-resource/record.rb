@@ -75,19 +75,5 @@ module RemoteModule
         end
       end
     end
-
-    # EX
-    # a_model.destroy do |response, json|
-    #   if json[:success]
-    #     p "success!"
-    #   end
-    # end
-    def destroy(&block)
-      delete(member_url) do |response, json|
-        if block
-          block.call response, json
-        end
-      end
-    end
   end
 end
