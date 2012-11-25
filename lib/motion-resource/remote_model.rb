@@ -32,10 +32,6 @@ module RemoteModule
         make_fn_lookup "belongs_to", params, singular_klass_str_lambda
       end
 
-      def pluralize
-        self.to_s.downcase + "s"
-      end
-
       def method_missing(method, *args, &block)
         if self.custom_urls.has_key? method
           return self.custom_urls[method].format(args && args[0], self)
@@ -270,7 +266,7 @@ module RemoteModule
               if json.class == Array
                 arr_rep = json
               elsif json.class == Hash
-                plural_sym = self.pluralize.to_sym
+                plural_sym = self.name.pluralize.to_sym
                 if json.has_key? plural_sym
                   arr_rep = json[plural_sym]
                 end
