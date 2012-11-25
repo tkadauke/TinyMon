@@ -1,7 +1,11 @@
 class User < RemoteModule::RemoteModel
   attr_accessor :id, :role, :full_name, :current_account_id, :email
   
+  member_url "users/:id"
+  
   cattr_accessor :current
+  
+  has_many :accounts
   
   def initialize(*args)
     super

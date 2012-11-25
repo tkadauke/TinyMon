@@ -3,6 +3,9 @@ class LoggedInMenuViewController < UITableViewController
   
   ITEMS = [{
     rows: [{
+      title: lambda { User.current.full_name },
+      key: :user
+    }, {
       title: lambda { Account.current.name },
       key: :account
     }]
@@ -88,6 +91,8 @@ class LoggedInMenuViewController < UITableViewController
     selected = ITEMS[indexPath.section][:rows][indexPath.row][:key]
     
     viewController = case selected
+    when :user
+      CurrentUserViewController.alloc.init
     when :activity
       RecentCheckRunsViewController.alloc.init
     when :sites

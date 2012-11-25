@@ -39,11 +39,12 @@ class UserAccountsViewController < UITableViewController
     cell ||= UserTableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
     cell.user_account = user_accounts[indexPath.row]
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+    navigationController.pushViewController(UserViewController.alloc.initWithUser(user_accounts[indexPath.row].user), animated:true)
   end
   
   def load_data

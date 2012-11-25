@@ -17,6 +17,7 @@ Motion::Project::App.setup do |app|
   app.detect_dependencies = false
   app.files_dependencies 'app/controllers/all_health_checks_view_controller.rb' => 'app/controllers/health_checks_view_controller.rb'
   app.files_dependencies 'app/controllers/check_run_log_entry_view_controller.rb' => 'app/controllers/html_view_controller.rb'
+  app.files_dependencies 'app/controllers/current_user_view_controller.rb' => 'app/controllers/user_view_controller.rb'
   
   app.pods do
     pod 'SVProgressHUD', '0.8'
