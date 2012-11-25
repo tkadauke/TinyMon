@@ -5,14 +5,11 @@ class HealthCheck < RemoteModule::RemoteModel
   self.collection_url = "accounts/:account_id/sites/:site_permalink/health_checks"
   self.member_url = "accounts/:account_id/sites/:site_permalink/health_checks/:permalink"
   
-  custom_urls :all_url => 'health_checks'
-  custom_urls :upcoming_url => 'health_checks/upcoming'
-  
   has_many :check_runs, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
   has_many :steps, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
   
-  scope :all
-  scope :upcoming
+  scope :all, :url => 'health_checks'
+  scope :upcoming, :url => 'health_checks/upcoming'
 
   belongs_to :site
   

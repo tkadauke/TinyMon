@@ -82,7 +82,9 @@ module RemoteModule
     end
 
     class << self
-      def scope(name)
+      def scope(name, options = {})
+        custom_urls "#{name}_url" => options[:url] if options[:url]
+        
         metaclass.send(:define_method, name) do |&block|
           fetch_collection(send("#{name}_url"), &block)
         end

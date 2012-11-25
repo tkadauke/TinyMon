@@ -5,11 +5,9 @@ class CheckRun < RemoteModule::RemoteModel
   self.collection_url = "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/check_runs"
   self.member_url = "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/check_runs/:id"
   
-  custom_urls :recent_url => "check_runs/recent"
-  
   belongs_to :health_check
   
-  scope :recent
+  scope :recent, :url => "check_runs/recent"
   
   def site_permalink
     health_check && health_check.site && health_check.site.permalink
