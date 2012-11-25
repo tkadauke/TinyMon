@@ -6,6 +6,7 @@ class HealthChecksViewController < UITableViewController
   attr_accessor :filtered_health_checks
   
   def init
+    $h=self
     self.health_checks = []
     self.filtered_health_checks = []
     super
@@ -28,6 +29,7 @@ class HealthChecksViewController < UITableViewController
     search_controller.searchContentsController = self
     search_controller.searchResultsDataSource = self
     search_controller.searchResultsDelegate = self
+    search_controller.searchResultsTableView.backgroundColor = UIColor.whiteColor
     self.searchDisplayController = search_controller
     
     load_data
@@ -82,7 +84,8 @@ class HealthChecksViewController < UITableViewController
   end
   
   def filter_search(string, animated:animated)
-    string ||= (@search_bar.text || "").downcase
+    string ||= @search_bar.text || ""
+    string = string.downcase
     
     self.filtered_health_checks = case @filter.selectedSegmentIndex
     when 0
@@ -99,11 +102,17 @@ class HealthChecksViewController < UITableViewController
     self.filtered_health_checks = self.filtered_health_checks.select { |h| h.name.downcase.include?(string) } unless string.blank?
     
     if animated
-      self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
-      searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      if self.searchDisplayController.isActive
+        searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      else
+        self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      end
     else
-      self.tableView.reloadData
-      searchDisplayController.searchResultsTableView.reloadData
+      if self.searchDisplayController.isActive
+        searchDisplayController.searchResultsTableView.reloadData
+      else
+        self.tableView.reloadData
+      end
     end
   end
   

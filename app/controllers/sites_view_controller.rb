@@ -73,7 +73,9 @@ class SitesViewController < UITableViewController
   end
   
   def filter_search(string, animated:animated)
-    string ||= (@search_bar.text || "").downcase
+    string ||= @search_bar.text || ""
+    string = string.downcase
+    
     self.filtered_sites = case @filter.selectedSegmentIndex
     when 0
       self.sites
@@ -85,11 +87,17 @@ class SitesViewController < UITableViewController
     self.filtered_sites = self.filtered_sites.select { |s| s.name.downcase.include?(string) } unless string.blank?
     
     if animated
-      self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
-      searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      if self.searchDisplayController.isActive
+        searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      else
+        self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      end
     else
-      self.tableView.reloadData
-      searchDisplayController.searchResultsTableView.reloadData
+      if self.searchDisplayController.isActive
+        searchDisplayController.searchResultsTableView.reloadData
+      else
+        self.tableView.reloadData
+      end
     end
   end
   
