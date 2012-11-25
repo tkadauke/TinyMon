@@ -4,7 +4,7 @@ module RemoteModule
   class RemoteModel
     class << self
       def find(id, params = {}, &block)
-        get(RemoteModule::FormatableString.new(member_url).format(params.merge(id: id))) do |response, json|
+        get(member_url.format(params.merge(id: id))) do |response, json|
           if response.ok?
             obj = self.new(json)
             request_block_call(block, obj, response)
@@ -15,7 +15,7 @@ module RemoteModule
       end
 
       def find_all(params = {}, &block)
-        get(RemoteModule::FormatableString.new(collection_url).format(params)) do |response, json|
+        get(collection_url.format(params)) do |response, json|
           if response.ok?
             objs = []
             arr_rep = nil
@@ -75,7 +75,7 @@ module RemoteModule
     #   end
     # end
     def destroy(&block)
-      delete(RemoteModule::FormatableString.new(member_url)) do |response, json|
+      delete(member_url) do |response, json|
         if block
           block.call response, json
         end

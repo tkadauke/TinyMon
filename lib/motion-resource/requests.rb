@@ -10,12 +10,23 @@ module RemoteModule
       
       class_inheritable_accessor :collection_url, :member_url
       
+      def collection_url=(value)
+        @collection_url = RemoteModule::FormatableString.new(value)
+      end
+      
+      def member_url=(value)
+        @member_url = RemoteModule::FormatableString.new(value)
+      end
+      
       def custom_urls(params = {})
-        @custom_urls ||= {}
-        params.each do |fn, url_format|
-          @custom_urls[fn] = RemoteModule::FormatableString.new(url_format)
+        params.each do |name, url_format|
+          define_method name do
+            RemoteModule::FormatableString.new(url_format)
+          end
+          metaclass.send :define_method, name do
+            RemoteModule::FormatableString.new(url_format)
+          end
         end
-        @custom_urls
       end
 
       #################################
@@ -77,11 +88,11 @@ module RemoteModule
     end
 
     def collection_url(params = {})
-      RemoteModule::FormatableString.new(self.class.collection_url).format(params, self)
+      self.class.collection_url.format(params, self)
     end
 
     def member_url(params = {})
-      RemoteModule::FormatableString.new(self.class.member_url).format(params, self)
+      self.class.member_url.format(params, self)
     end
   end
 end

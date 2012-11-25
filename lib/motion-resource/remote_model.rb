@@ -81,14 +81,6 @@ module RemoteModule
           instance_variable_set("@#{name}", nil)
         end
       end
-
-      def method_missing(method, *args, &block)
-        if self.custom_urls.has_key? method
-          return self.custom_urls[method].format(args && args[0], self)
-        end
-
-        super
-      end
     end
 
     def initialize(params = {})
@@ -105,11 +97,6 @@ module RemoteModule
     end
 
     def method_missing(method, *args, &block)
-      # Check for custom URLs
-      if self.class.custom_urls.has_key? method
-        return self.class.custom_urls[method].format(args && args[0], self)
-      end
-
       # HTTP methods
       if RemoteModule::RemoteModel::HTTP_METHODS.member? method
         return self.class.send(method, *args, &block)
