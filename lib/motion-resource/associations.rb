@@ -8,7 +8,7 @@ module RemoteModule
         
         define_method "#{name}=" do |value|
           klass = Object.const_get(name.to_s.classify)
-          value = klass.new(value) if value.is_a?(Hash)
+          value = klass.instantiate(value) if value.is_a?(Hash)
           instance_variable_set("@#{name}", value)
         end
         
@@ -44,7 +44,7 @@ module RemoteModule
           instance_variable_set("@#{name}", []) if instance_variable_get("@#{name}").blank?
           
           array.each do |value|
-            value = klass.new(value) if value.is_a?(Hash)
+            value = klass.instantiate(value) if value.is_a?(Hash)
             instance_variable_get("@#{name}") << value
           end
         end
@@ -71,7 +71,7 @@ module RemoteModule
         
         define_method "#{name}=" do |value|
           klass = Object.const_get(name.to_s.classify)
-          value = klass.new(value) if value.is_a?(Hash)
+          value = klass.instantiate(value) if value.is_a?(Hash)
           instance_variable_set("@#{name}", value)
         end
         

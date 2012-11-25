@@ -12,7 +12,7 @@ module RemoteModule
       def fetch_member(url, &block)
         get(url) do |response, json|
           if response.ok?
-            obj = self.new(json)
+            obj = instantiate(json)
             request_block_call(block, obj, response)
           else
             request_block_call(block, nil, response)
@@ -39,16 +39,7 @@ module RemoteModule
               return
             end
             arr_rep.each { |one_obj_hash|
-              if one_obj_hash[:type]
-                begin
-                  klass = Object.const_get(one_obj_hash[:type].to_s)
-                  objs << klass.new(one_obj_hash)
-                rescue NameError
-                  objs << self.new(one_obj_hash)
-                end
-              else
-                objs << self.new(one_obj_hash)
-              end
+              objs << instantiate(one_obj_hash)
             }
             request_block_call(block, objs, response)
           else
@@ -56,9 +47,21 @@ module RemoteModule
           end
         end
       end
+    
+      def instantiate(json)
+        if json[:type]
+          begin
+            klass = Object.const_get(json[:type].to_s)
+            klass.new(json)
+          rescue NameError
+            self.new(json)
+          end
+        else
+          self.new(json)
+        end
+      end
 
-      # Enables the find
-      private
+    private
       def request_block_call(block, default_arg, extra_arg)
         if block
           if block.arity == 1
