@@ -20,8 +20,8 @@ module RemoteModule
       
       def custom_urls(params = {})
         params.each do |name, url_format|
-          define_method name do
-            RemoteModule::FormatableString.new(url_format)
+          define_method name do |params = {}|
+            RemoteModule::FormatableString.new(url_format).format(params, self)
           end
           metaclass.send :define_method, name do
             RemoteModule::FormatableString.new(url_format)
