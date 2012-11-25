@@ -2,6 +2,12 @@ module RemoteModule
   class RemoteModel
     HTTP_METHODS = [:get, :post, :put, :delete]
 
+    HTTP_METHODS.each do |method|
+      define_method method do |*args, &block|
+        self.class.send(method, *args, &block)
+      end
+    end
+
     class << self
       def has_one(name)
         define_method name do
@@ -94,15 +100,6 @@ module RemoteModule
           self.send((key.to_s + "=:").to_sym, value)
         end
       end
-    end
-
-    def method_missing(method, *args, &block)
-      # HTTP methods
-      if RemoteModule::RemoteModel::HTTP_METHODS.member? method
-        return self.class.send(method, *args, &block)
-      end
-
-      super
     end
     
     class << self
