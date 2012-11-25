@@ -3,10 +3,11 @@ class HealthChecksViewController < UITableViewController
   
   attr_accessor :site
   attr_accessor :health_checks
-  attr_accessor :all_health_checks
+  attr_accessor :filtered_health_checks
   
   def init
     self.health_checks = []
+    self.filtered_health_checks = []
     super
   end
   
@@ -18,6 +19,16 @@ class HealthChecksViewController < UITableViewController
   def viewDidLoad
     self.title = "Health Checks"
     self.toolbarItems = toolbar_items
+    
+    @search_bar = UISearchBar.alloc.initWithFrame([[0, 0], [320, 44]])
+    @search_bar.delegate = self
+    tableView.tableHeaderView = @search_bar
+    search_controller = UISearchDisplayController.alloc.initWithSearchBar(@search_bar, contentsController:self)
+    search_controller.delegate = self
+    search_controller.searchContentsController = self
+    search_controller.searchResultsDataSource = self
+    search_controller.searchResultsDelegate = self
+    self.searchDisplayController = search_controller
     
     load_data
     
@@ -44,14 +55,14 @@ class HealthChecksViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.health_checks.size
+    self.filtered_health_checks.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    health_check = health_checks[indexPath.row]
+    health_check = filtered_health_checks[indexPath.row]
     cell.textLabel.text = health_check.name
     detail_info = [health_check.site.name]
     detail_info << Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled
@@ -62,7 +73,38 @@ class HealthChecksViewController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(HealthCheckViewController.alloc.initWithHealthCheck(health_checks[indexPath.row], parent:self), animated:true)
+    navigationController.pushViewController(HealthCheckViewController.alloc.initWithHealthCheck(filtered_health_checks[indexPath.row], parent:self), animated:true)
+  end
+  
+  def searchDisplayController(controller, shouldReloadTableForSearchString:string)
+    self.filter_search(string, animated:false)
+    true
+  end
+  
+  def filter_search(string, animated:animated)
+    string ||= (@search_bar.text || "").downcase
+    
+    self.filtered_health_checks = case @filter.selectedSegmentIndex
+    when 0
+      self.health_checks
+    when 1
+      self.health_checks.select { |x| x.status == 'success' && x.enabled == true }
+    when 2
+      self.health_checks.select { |x| x.status == 'failure' && x.enabled == true }
+    when 3
+      self.health_checks.select { |x| x.enabled == true }
+    when 4
+      self.health_checks.select { |x| x.enabled == false }
+    end
+    self.filtered_health_checks = self.filtered_health_checks.select { |h| h.name.downcase.include?(string) } unless string.blank?
+    
+    if animated
+      self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+    else
+      self.tableView.reloadData
+      searchDisplayController.searchResultsTableView.reloadData
+    end
   end
   
   def add
@@ -75,8 +117,8 @@ class HealthChecksViewController < UITableViewController
       site.health_checks do |results|
         SVProgressHUD.dismiss
         if results
-          self.all_health_checks = results
-          self.change_filter(@filter)
+          self.health_checks = results
+          self.filter_search("", animated:false)
         else
           TinyMon.offline_alert
         end
@@ -104,18 +146,10 @@ class HealthChecksViewController < UITableViewController
   end
   
   def change_filter(sender)
-    case sender.selectedSegmentIndex
-    when 0
-      self.health_checks = self.all_health_checks
-    when 1
-      self.health_checks = self.all_health_checks.select { |x| x.status == 'success' && x.enabled == true }
-    when 2
-      self.health_checks = self.all_health_checks.select { |x| x.status == 'failure' && x.enabled == true }
-    when 3
-      self.health_checks = self.all_health_checks.select { |x| x.enabled == true }
-    when 4
-      self.health_checks = self.all_health_checks.select { |x| x.enabled == false }
-    end
-    self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+    filter_search(nil, animated:true)
+  end
+  
+  def searchBarCancelButtonClicked(searchBar)
+    filter_search("", animated:true)
   end
 end

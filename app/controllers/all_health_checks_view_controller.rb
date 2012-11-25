@@ -19,8 +19,8 @@ class AllHealthChecksViewController < HealthChecksViewController
       HealthCheck.all do |results|
         SVProgressHUD.dismiss
         if results
-          self.all_health_checks = results
-          self.change_filter(@filter)
+          self.health_checks = results
+          self.filter_search("", animated:false)
         else
           TinyMon.offline_alert
         end

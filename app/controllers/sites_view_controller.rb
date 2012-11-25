@@ -3,10 +3,11 @@ class SitesViewController < UITableViewController
   include RootController
   
   attr_accessor :sites
-  attr_accessor :all_sites
+  attr_accessor :filtered_sites
   
   def init
     self.sites = []
+    self.filtered_sites = []
     super
   end
   
@@ -14,6 +15,16 @@ class SitesViewController < UITableViewController
     self.title = "Sites"
     self.toolbarItems = toolbar_items
 
+    @search_bar = UISearchBar.alloc.initWithFrame([[0, 0], [320, 44]])
+    @search_bar.delegate = self
+    tableView.tableHeaderView = @search_bar
+    search_controller = UISearchDisplayController.alloc.initWithSearchBar(@search_bar, contentsController:self)
+    search_controller.delegate = self
+    search_controller.searchContentsController = self
+    search_controller.searchResultsDataSource = self
+    search_controller.searchResultsDelegate = self
+    self.searchDisplayController = search_controller
+    
     load_data
     
     if User.current.can_create_sites?
@@ -38,14 +49,14 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.sites.size
+    self.filtered_sites.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    site = sites[indexPath.row]
+    site = self.filtered_sites[indexPath.row]
     cell.textLabel.text = site.name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
@@ -53,7 +64,33 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(SiteViewController.alloc.initWithSite(sites[indexPath.row], parent:self), animated:true)
+    navigationController.pushViewController(SiteViewController.alloc.initWithSite(self.filtered_sites[indexPath.row], parent:self), animated:true)
+  end
+  
+  def searchDisplayController(controller, shouldReloadTableForSearchString:string)
+    self.filter_search(string, animated:false)
+    true
+  end
+  
+  def filter_search(string, animated:animated)
+    string ||= (@search_bar.text || "").downcase
+    self.filtered_sites = case @filter.selectedSegmentIndex
+    when 0
+      self.sites
+    when 1
+      self.sites.select { |x| x.status == 'success' }
+    when 2
+      self.sites.select { |x| x.status == 'failure' }
+    end
+    self.filtered_sites = self.filtered_sites.select { |s| s.name.downcase.include?(string) } unless string.blank?
+    
+    if animated
+      self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+      searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+    else
+      self.tableView.reloadData
+      searchDisplayController.searchResultsTableView.reloadData
+    end
   end
   
   def add
@@ -66,8 +103,8 @@ class SitesViewController < UITableViewController
       Site.find_all do |results|
         SVProgressHUD.dismiss
         if results
-          self.all_sites = results
-          self.change_filter(@filter)
+          self.sites = results
+          self.filter_search("", animated:false)
         else
           TinyMon.offline_alert
         end
@@ -76,7 +113,7 @@ class SitesViewController < UITableViewController
       end
     end
   end
-
+  
   def filter_items
     ["All", "Success", "Failure"]
   end
@@ -95,14 +132,10 @@ class SitesViewController < UITableViewController
   end
   
   def change_filter(sender)
-    case sender.selectedSegmentIndex
-    when 0
-      self.sites = self.all_sites
-    when 1
-      self.sites = self.all_sites.select { |x| x.status == 'success' }
-    when 2
-      self.sites = self.all_sites.select { |x| x.status == 'failure' }
-    end
-    self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+    filter_search(nil, animated:true)
+  end
+  
+  def searchBarCancelButtonClicked(searchBar)
+    filter_search("", animated:true)
   end
 end

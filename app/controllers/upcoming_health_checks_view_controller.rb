@@ -10,6 +10,8 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
   def viewDidLoad
     super
     
+    tableView.tableHeaderView = nil
+    
     # Remove plus button from base class
     self.navigationItem.rightBarButtonItem = nil
     
@@ -26,8 +28,8 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
       HealthCheck.upcoming do |results|
         SVProgressHUD.dismiss
         if results
-          self.all_health_checks = results
-          change_filter(@filter)
+          self.health_checks = results
+          self.filter_search("", animated:false)
         else
           TinyMon.offline_alert
         end
