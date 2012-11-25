@@ -7,13 +7,12 @@ module RemoteModule
         self.class.send(method, *args, &block)
       end
     end
-
+    
     class_inheritable_accessor :collection_url, :member_url
-
+    class_inheritable_accessor :root_url, :default_url_options
+    cattr_writer :extension
+    
     class << self
-      attr_accessor :root_url, :default_url_options
-      attr_writer :extension
-
       def extension
         @extension || (self == RemoteModel ? false : RemoteModel.extension) || ".json"
       end
