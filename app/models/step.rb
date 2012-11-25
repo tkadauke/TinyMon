@@ -20,12 +20,14 @@ class Step < RemoteModule::RemoteModel
     end
   end
   
-  def self.post(url, params = {}, &block)
-    http_call(:post, url, params.merge(:query => { :type => self.name.sub("Step", "").underscore }), &block)
+  def self.sort(array, &block)
+    self.post(array.first.sort_url, :payload => { :step => array.map { |s| s.id } }, &block)
   end
   
-  def self.sort(array, &block)
-    post(array.first.sort_url, :payload => { :step => array.map { |s| s.id } }, &block)
+  def create(&block)
+    self.class.post(collection_url, :payload => { self.class.name.underscore => attributes }, :query => { :type => self.name.sub("Step", "").underscore }) do |response, json|
+      block.call json ? self.class.new(json) : nil
+    end
   end
   
   def site_permalink

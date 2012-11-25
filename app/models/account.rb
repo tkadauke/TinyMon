@@ -14,7 +14,7 @@ class Account < RemoteModule::RemoteModel
   end
   
   def switch(&block)
-    post(switch_url) do |response, json|
+    self.class.post(switch_url) do |response, json|
       Account.current = self
       block.call
     end

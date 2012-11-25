@@ -157,19 +157,19 @@ module RemoteModule
     end
     
     def save(&block)
-      put(member_url, :payload => { self.class.name.underscore => attributes }) do |response, json|
+      self.class.put(member_url, :payload => { self.class.name.underscore => attributes }) do |response, json|
         block.call json ? self.class.new(json) : nil
       end
     end
   
     def create(&block)
-      post(collection_url, :payload => { self.class.name.underscore => attributes }) do |response, json|
+      self.class.post(collection_url, :payload => { self.class.name.underscore => attributes }) do |response, json|
         block.call json ? self.class.new(json) : nil
       end
     end
   
     def destroy(&block)
-      delete(member_url) do |response, json|
+      self.class.delete(member_url) do |response, json|
         block.call json ? self.class.new(json) : nil
       end
     end
