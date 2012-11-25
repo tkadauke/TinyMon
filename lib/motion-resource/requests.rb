@@ -1,5 +1,13 @@
 module RemoteModule
   class RemoteModel
+    HTTP_METHODS = [:get, :post, :put, :delete]
+
+    HTTP_METHODS.each do |method|
+      define_method method do |*args, &block|
+        self.class.send(method, *args, &block)
+      end
+    end
+
     class << self
       attr_accessor :root_url, :default_url_options
       attr_writer :extension

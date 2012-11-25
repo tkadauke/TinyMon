@@ -4,7 +4,15 @@ module RemoteModule
   class RemoteModel
     class << self
       def find(id, params = {}, &block)
-        get(member_url.format(params.merge(id: id))) do |response, json|
+        fetch_member(member_url.format(params.merge(id: id)), &block)
+      end
+
+      def find_all(params = {}, &block)
+        fetch_collection(collection_url.format(params), &block)
+      end
+      
+      def fetch_member(url, &block)
+        get(url) do |response, json|
           if response.ok?
             obj = self.new(json)
             request_block_call(block, obj, response)
@@ -14,8 +22,8 @@ module RemoteModule
         end
       end
 
-      def find_all(params = {}, &block)
-        get(collection_url.format(params)) do |response, json|
+      def fetch_collection(url, &block)
+        get(url) do |response, json|
           if response.ok?
             objs = []
             arr_rep = nil
