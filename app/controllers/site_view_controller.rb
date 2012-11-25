@@ -2,7 +2,6 @@ class SiteViewController < Formotion::FormController
   attr_accessor :site
   
   def initWithSite(site, parent:parent)
-    @new_record = false
     @parent = parent
     self.site = site
     initWithForm(build_form)
@@ -11,7 +10,6 @@ class SiteViewController < Formotion::FormController
   end
   
   def initWithParent(parent)
-    @new_record = true
     @parent = parent
     self.site = Site.new
     initWithForm(build_edit_form)
@@ -21,7 +19,7 @@ class SiteViewController < Formotion::FormController
   
   def viewDidLoad
     if User.current.can_edit_sites?
-      show_edit_button unless @new_record
+      show_edit_button unless self.site.new_record
     end
     super
   end
@@ -38,28 +36,21 @@ class SiteViewController < Formotion::FormController
     self.site.update_attributes(form.render)
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      if @new_record
-        self.site.create do |result|
-          SVProgressHUD.dismiss
-          if result
+      self.site.save do |result|
+        SVProgressHUD.dismiss
+        if result
+          if self.site.new_record
             @parent.sites << result
             self.navigationController.popViewControllerAnimated(true)
           else
-            TinyMon.offline_alert
-          end
-        end
-      else
-        self.site.save do |result|
-          SVProgressHUD.dismiss
-          if result
             self.form = build_form
             self.form.controller = self
             tableView.reloadData
             self.title = site.name
             show_edit_button
-          else
-            TinyMon.offline_alert
           end
+        else
+          TinyMon.offline_alert
         end
       end
     end
@@ -165,7 +156,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !@new_record && User.current.can_delete_sites?)].compact
+    } if !self.site.new_record && User.current.can_delete_sites?)].compact
     
     form = Formotion::Form.new({
       sections: sections

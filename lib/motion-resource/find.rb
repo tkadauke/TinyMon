@@ -49,7 +49,7 @@ module RemoteModule
       end
     
       def instantiate(json)
-        if json[:type]
+        result = if json[:type]
           begin
             klass = Object.const_get(json[:type].to_s)
             klass.new(json)
@@ -59,6 +59,8 @@ module RemoteModule
         else
           self.new(json)
         end
+        result.new_record = false
+        result
       end
 
     private

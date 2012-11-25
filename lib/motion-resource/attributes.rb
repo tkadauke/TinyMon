@@ -18,7 +18,10 @@ module RemoteModule
       end
     end
     
+    attr_accessor :new_record
+    
     def initialize(params = {})
+      @new_record = true
       update_attributes(params)
     end
 

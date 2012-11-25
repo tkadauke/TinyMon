@@ -1,6 +1,10 @@
 module RemoteModule
   class RemoteModel
     def save(&block)
+      @new_record ? create(&block) : update(&block)
+    end
+    
+    def update(&block)
       self.class.put(member_url, :payload => { self.class.name.underscore => attributes }) do |response, json|
         block.call json ? self.class.instantiate(json) : nil if block
       end

@@ -56,7 +56,7 @@ class StepsViewController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(StepViewController.alloc.initWithStep(steps[indexPath.row], parent:self, newRecord:false), animated:true)
+    navigationController.pushViewController(StepViewController.alloc.initWithStep(steps[indexPath.row], parent:self), animated:true)
   end
   
   def tableView(tableView, canMoveRowAtIndexPath:indexPath)

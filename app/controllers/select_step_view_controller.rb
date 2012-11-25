@@ -43,6 +43,6 @@ class SelectStepViewController < UITableViewController
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     klass = Object.const_get(STEPS[indexPath.row].last)
-    navigationController.pushViewController(StepViewController.alloc.initWithStep(klass.new(:health_check => @health_check), parent:@parent, newRecord:true), animated:true)
+    navigationController.pushViewController(StepViewController.alloc.initWithStep(klass.new(:health_check => @health_check), parent:@parent), animated:true)
   end
 end

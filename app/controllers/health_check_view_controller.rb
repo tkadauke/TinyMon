@@ -2,7 +2,6 @@ class HealthCheckViewController < Formotion::FormController
   attr_accessor :health_check
   
   def initWithHealthCheck(health_check, parent:parent)
-    @new_record = false
     @parent = parent
     self.health_check = health_check
     initWithForm(build_form)
@@ -12,7 +11,6 @@ class HealthCheckViewController < Formotion::FormController
   
   def initWithSite(site, parent:parent)
     @parent = parent
-    @new_record = true
     self.health_check = HealthCheck.new
     self.health_check.site = site
     initWithForm(build_edit_form)
@@ -22,7 +20,7 @@ class HealthCheckViewController < Formotion::FormController
   
   def viewDidLoad
     if User.current.can_edit_health_checks?
-      show_edit_button unless @new_record
+      show_edit_button unless self.health_check.new_record
     end
     super
   end
@@ -39,28 +37,21 @@ class HealthCheckViewController < Formotion::FormController
     self.health_check.update_attributes(form.render)
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      if @new_record
-        self.health_check.create do |result|
-          SVProgressHUD.dismiss
-          if result
+      self.health_check.save do |result|
+        SVProgressHUD.dismiss
+        if result
+          if self.health_check.new_record
             @parent.health_checks << result
             self.navigationController.popViewControllerAnimated(true)
           else
-            TinyMon.offline_alert
-          end
-        end
-      else
-        self.health_check.save do |result|
-          SVProgressHUD.dismiss
-          if result
             self.form = build_form
             self.form.controller = self
             tableView.reloadData
             self.title = health_check.name
             show_edit_button
-          else
-            TinyMon.offline_alert
           end
+        else
+          TinyMon.offline_alert
         end
       end
     end
@@ -245,7 +236,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !@new_record && User.current.can_delete_health_checks?)].compact
+    } if !self.health_check.new_record && User.current.can_delete_health_checks?)].compact
     
     form = Formotion::Form.new({
       sections: sections

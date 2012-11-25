@@ -1,8 +1,7 @@
 class StepViewController < Formotion::FormableController
   attr_accessor :step
   
-  def initWithStep(step, parent:parent, newRecord:new_record)
-    @new_record = new_record
+  def initWithStep(step, parent:parent)
     @parent = parent
     self.step = step
     initWithModel(step)
@@ -20,7 +19,7 @@ class StepViewController < Formotion::FormableController
         done_editing
       end
 
-      unless new_record
+      unless step.new_record
         self.form.create_section(
           rows: [{
             title: "Delete",
@@ -40,25 +39,18 @@ class StepViewController < Formotion::FormableController
   def done_editing
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      if @new_record
-        self.step.create do |result|
-          SVProgressHUD.dismiss
-          if result
+      self.step.save do |result|
+        SVProgressHUD.dismiss
+        if result
+          if step.new_record
             @parent.steps << result
             target = self.navigationController.viewControllers[-3]
             self.navigationController.popToViewController(target, animated:true)
           else
-            TinyMon.offline_alert
-          end
-        end
-      else
-        self.step.save do |result|
-          SVProgressHUD.dismiss
-          if result
             self.navigationController.popViewControllerAnimated(true)
-          else
-            TinyMon.offline_alert
           end
+        else
+          TinyMon.offline_alert
         end
       end
     end
