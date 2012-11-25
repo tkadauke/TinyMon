@@ -17,10 +17,6 @@ Motion::Project::App.setup do |app|
   app.detect_dependencies = false
   app.files_dependencies 'app/controllers/all_health_checks_view_controller.rb' => 'app/controllers/health_checks_view_controller.rb'
   app.files_dependencies 'app/controllers/check_run_log_entry_view_controller.rb' => 'app/controllers/html_view_controller.rb'
-  app.files_dependencies 'app/models/role/account/admin.rb' => 'app/models/role/base.rb'
-  app.files_dependencies 'app/models/role/account/observer.rb' => 'app/models/role/base.rb'
-  app.files_dependencies 'app/models/role/account/user.rb' => 'app/models/role/base.rb'
-  app.files_dependencies 'app/models/role/admin.rb' => 'app/models/role/base.rb'
   
   app.pods do
     pod 'SVProgressHUD', '0.8'
