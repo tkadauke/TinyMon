@@ -165,7 +165,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !@new_record && User.current.can_delete_sites?)]
+    } if !@new_record && User.current.can_delete_sites?)].compact
     
     form = Formotion::Form.new({
       sections: sections
