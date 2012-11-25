@@ -33,7 +33,16 @@ module RemoteModule
               return
             end
             arr_rep.each { |one_obj_hash|
-              objs << self.new(one_obj_hash)
+              if one_obj_hash[:type]
+                begin
+                  klass = Object.const_get(one_obj_hash[:type].to_s)
+                  objs << klass.new(one_obj_hash)
+                rescue NameError
+                  objs << self.new(one_obj_hash)
+                end
+              else
+                objs << self.new(one_obj_hash)
+              end
             }
             request_block_call(block, objs, response)
           else

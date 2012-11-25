@@ -214,11 +214,7 @@ module RemoteModule
       end
       [klass, hash_symbol]
     end
-  end
-end
 
-module RemoteModule
-  class RemoteModel
     class << self
       def attributes
         @attributes ||= []
@@ -240,43 +236,6 @@ module RemoteModule
           end
         end
         self.attributes += fields
-      end
-      
-      def find_all(params = {}, &block)
-        get(RemoteModule::FormatableString.new(collection_url).format(params)) do |response, json|
-          if response.ok?
-            objs = []
-            arr_rep = nil
-            if json.class == Array
-              arr_rep = json
-            elsif json.class == Hash
-              plural_sym = self.pluralize.to_sym
-              if json.has_key? plural_sym
-                arr_rep = json[plural_sym]
-              end
-            else
-              # the returned data was something else
-              # ie a string, number
-              request_block_call(block, nil, response)
-              return
-            end
-            arr_rep.each { |one_obj_hash|
-              if one_obj_hash[:type]
-                begin
-                  klass = Object.const_get(one_obj_hash[:type].to_s)
-                  objs << klass.new(one_obj_hash)
-                rescue NameError
-                  objs << self.new(one_obj_hash)
-                end
-              else
-                objs << self.new(one_obj_hash)
-              end
-            }
-            request_block_call(block, objs, response)
-          else
-            request_block_call(block, nil, response)
-          end
-        end
       end
       
       def association(name, params)
@@ -328,41 +287,6 @@ module RemoteModule
             else
               request_block_call(block, nil, response)
             end
-          end
-        end
-      end
-      
-    private
-      def complete_url(fragment)
-        if fragment[0..3] == "http"
-          return fragment
-        end
-        (self.root_url || RemoteModule::RemoteModel.root_url) + fragment
-      end
-
-      def http_call(method, url, call_options = {}, &block)
-        options = call_options 
-        options.merge!(RemoteModule::RemoteModel.default_url_options || {})
-        url += self.extension
-        if query = options.delete(:query)
-          if url.index("?").nil?
-            url += "?"
-          end
-          url += query.map{|k,v| "#{k}=#{v}"}.join('&')
-        end
-        if self.default_url_options
-          options.merge!(self.default_url_options)
-        end
-        BubbleWrap::HTTP.send(method, complete_url(url), options) do |response|
-          if response.ok?
-            body = response.body.to_str.strip
-            if body.blank?
-              block.call(response, {})
-            else
-              block.call response, BubbleWrap::JSON.parse(body)
-            end
-          else
-            block.call response, nil
           end
         end
       end

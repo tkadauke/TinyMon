@@ -40,17 +40,18 @@ module RemoteModule
         http_call(:delete, url, params, &block)
       end
 
-      private
+    private
       def complete_url(fragment)
         if fragment[0..3] == "http"
           return fragment
         end
-        (self.root_url || RemoteModule::RemoteModel.root_url) + fragment +  self.extension
+        (self.root_url || RemoteModule::RemoteModel.root_url) + fragment
       end
 
       def http_call(method, url, call_options = {}, &block)
         options = call_options 
         options.merge!(RemoteModule::RemoteModel.default_url_options || {})
+        url += self.extension
         if query = options.delete(:query)
           if url.index("?").nil?
             url += "?"
@@ -63,8 +64,11 @@ module RemoteModule
         BubbleWrap::HTTP.send(method, complete_url(url), options) do |response|
           if response.ok?
             body = response.body.to_str.strip
-            json = BubbleWrap::JSON.parse(body.blank? ? "{}" : body)
-            block.call response, json
+            if body.blank?
+              block.call(response, {})
+            else
+              block.call response, BubbleWrap::JSON.parse(body)
+            end
           else
             block.call response, nil
           end
