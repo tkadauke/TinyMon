@@ -23,7 +23,7 @@ module RemoteModule
         
         define_method name do |&block|
           if block.nil?
-            instance_variable_get("@#{name}")
+            instance_variable_get("@#{name}") || []
           else
             cached = instance_variable_get("@#{name}")
             block.call(cached) and return if cached
