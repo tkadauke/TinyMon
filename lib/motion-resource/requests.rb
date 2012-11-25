@@ -8,6 +8,8 @@ module RemoteModule
       end
     end
 
+    class_inheritable_accessor :collection_url, :member_url
+
     class << self
       attr_accessor :root_url, :default_url_options
       attr_writer :extension
@@ -15,8 +17,6 @@ module RemoteModule
       def extension
         @extension || (self == RemoteModel ? false : RemoteModel.extension) || ".json"
       end
-      
-      class_inheritable_accessor :collection_url, :member_url
       
       def collection_url=(value)
         @collection_url = RemoteModule::FormatableString.new(value)
