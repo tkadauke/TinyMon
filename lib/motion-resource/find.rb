@@ -1,6 +1,4 @@
 module RemoteModule
-  #################################
-  # ActiveRecord-esque methods
   class RemoteModel
     class << self
       def find(id, params = {}, &block)
