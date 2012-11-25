@@ -8,25 +8,6 @@ class UserViewController < Formotion::FormController
     self
   end
   
-  def viewDidLoad
-    TinyMon.when_reachable do
-      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.user.reload do |result|
-        SVProgressHUD.dismiss
-        if result
-          self.user = result
-          self.form = build_form
-          self.form.controller = self
-          self.title = result.full_name
-        else
-          TinyMon.offline_alert
-        end
-      end
-    end
-    
-    super
-  end
-  
 private
   def build_form
     form = Formotion::Form.new({
@@ -40,12 +21,6 @@ private
           title: "Email",
           type: :label
         }]
-      }, {
-        title: "Accounts",
-        rows: user.accounts.map { |account| {
-          title: account.name.to_s,
-          type: :label
-        } }
       }]
     })
     
