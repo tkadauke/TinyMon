@@ -1,8 +1,6 @@
 class SelectCheckBoxStep < Step
   data_attribute :name
   
-  collection_url "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps"
-  member_url "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/:id"
   custom_urls :sort_url => "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/sort"
   
   include Formotion::Formable

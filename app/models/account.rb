@@ -3,8 +3,8 @@ class Account < RemoteModule::RemoteModel
   
   cattr_accessor :current
   
-  collection_url "accounts"
-  member_url "accounts/:id"
+  self.collection_url = "accounts"
+  self.member_url = "accounts/:id"
   
   custom_urls :switch_url => member_url + "/switch"
   
