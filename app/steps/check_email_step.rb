@@ -7,10 +7,6 @@ class CheckEmailStep < Step
   form_property :login, :string
   form_property :password, :string, :secure => true
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Check E-Mail"
   end

@@ -5,10 +5,6 @@ class CheckCurrentUrlStep < Step
   
   form_property :url, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Check current URL"
   end

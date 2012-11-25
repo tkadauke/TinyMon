@@ -5,10 +5,6 @@ class CheckContentStep < Step
   
   form_property :content, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Check content"
   end

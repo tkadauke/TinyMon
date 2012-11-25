@@ -5,10 +5,6 @@ class ClickLinkStep < Step
   
   form_property :name, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Click link"
   end

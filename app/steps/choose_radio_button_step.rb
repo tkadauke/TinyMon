@@ -5,10 +5,6 @@ class ChooseRadioButtonStep < Step
   
   form_property :name, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Choose radio button"
   end

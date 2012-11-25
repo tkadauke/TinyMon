@@ -5,10 +5,6 @@ class WaitStep < Step
   
   form_property :duration, :number
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Wait"
   end

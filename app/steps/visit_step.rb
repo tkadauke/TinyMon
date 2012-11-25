@@ -5,10 +5,6 @@ class VisitStep < Step
   
   form_property :url, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Visit"
   end

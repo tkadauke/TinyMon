@@ -5,10 +5,6 @@ class SubmitFormStep < Step
   
   form_property :name, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Submit form"
   end

@@ -5,10 +5,6 @@ class ClickEmailLinkStep < Step
   
   form_property :link_pattern, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Click email link"
   end

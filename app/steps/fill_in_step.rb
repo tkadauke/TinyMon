@@ -6,10 +6,6 @@ class FillInStep < Step
   form_property :field, :string
   form_property :value, :string
   
-  def self.attributes
-    superclass.attributes
-  end
-  
   def summary
     "Fill in"
   end
