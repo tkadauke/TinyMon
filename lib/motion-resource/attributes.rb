@@ -1,14 +1,8 @@
 module RemoteModule
   class RemoteModel
+    class_inheritable_array :attributes
+    
     class << self
-      def attributes
-        @attributes ||= []
-      end
-      
-      def attributes=(value)
-        @attributes = value
-      end
-      
       def attribute(*fields)
         attr_reader *fields
         fields.each do |field|
