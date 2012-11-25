@@ -18,18 +18,67 @@ module RemoteModule
         make_fn_lookup "has_one", params, singular_klass_str_lambda
       end
 
-      # EX 
-      # self.has_many :questions, :answers, :camel_cases
-      # => {:questions => Question, :answers => Answer, :camel_cases => CamelCase}
-      def has_many(params = [])
-        make_fn_lookup "has_many", params, lambda { |sym| sym.to_s.singularize.split("_").collect {|s| s.capitalize}.join }
+      def has_many(name, params = lambda { nil })
+        backwards_association = self.name.underscore
+        
+        define_method name do |&block|
+          if block.nil?
+            instance_variable_get("@#{name}")
+          else
+            cached = instance_variable_get("@#{name}")
+            block.call(cached) and return if cached
+          
+            Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results|
+              if results
+                results.each do |result|
+                  result.send("#{backwards_association}=", self)
+                end
+              end
+              instance_variable_set("@#{name}", results)
+              block.call(results)
+            end
+          end
+        end
+        
+        define_method "#{name}=" do |array|
+          klass = Object.const_get(name.to_s.classify)
+          instance_variable_set("@#{name}", []) if instance_variable_get("@#{name}").blank?
+          
+          array.each do |value|
+            value = klass.new(value) if value.is_a?(Hash)
+            instance_variable_get("@#{name}") << value
+          end
+        end
+        
+        define_method "reset_#{name}" do
+          instance_variable_set("@#{name}", nil)
+        end
       end
 
-      # EX 
-      # self.belongs_to :question, :answer, :camel_case
-      # => {:question => Question, :answer => Answer, :camel_case => CamelCase}
-      def belongs_to(params = [])
-        make_fn_lookup "belongs_to", params, singular_klass_str_lambda
+      def belongs_to(name, params = lambda { nil })
+        define_method name do |&block|
+          if block.nil?
+            instance_variable_get("@#{name}")
+          else
+            cached = instance_variable_get("@#{name}")
+            block.call(cached) and return if cached
+          
+            Object.const_get(name.to_s.classify).find(self.send("#{name}_id"), params.call(self)) do |result|
+              instance_variable_set("@#{name}", result)
+              block.call(result)
+            end
+          end
+        end
+        
+        define_method "#{name}=" do |value|
+          klass = Object.const_get(name.to_s.classify)
+          value = klass.new(value) if value.is_a?(Hash)
+          instance_variable_set("@#{name}", value)
+        end
+        
+        define_method "reset_#{name}" do
+          instance_variable_set("@#{name}", nil)
+        end
       end
 
       def method_missing(method, *args, &block)
@@ -105,7 +154,7 @@ module RemoteModule
 
     def remote_model_methods
       methods = []
-      [self.class.has_one, self.class.has_many, self.class.belongs_to].each {|fn_hash|
+      [self.class.has_one].each {|fn_hash|
         methods += fn_hash.collect {|sym, klass|
           [sym, (sym.to_s + "=:").to_sym, ("set" + sym.to_s.capitalize).to_sym]
         }.flatten
@@ -132,46 +181,15 @@ module RemoteModule
       end
 
       # has_one relationships
-      if self.class.has_one.has_key?(method) || self.class.belongs_to.has_key?(method)
+      if self.class.has_one.has_key?(method)
         return instance_variable_get("@" + method.to_s)
-      elsif (setter_vals = setter_klass(self.class.has_one, method) || setter_vals = setter_klass(self.class.belongs_to, method))
+      elsif setter_vals = setter_klass(self.class.has_one, method)
         klass, hash_symbol = setter_vals
         obj = args[0]
         if obj.class != klass
           obj = klass.new(obj)
         end
         return instance_variable_set("@" + hash_symbol.to_s, obj)
-      end
-
-      # has_many relationships
-      if self.class.has_many.has_key?(method)
-        ivar = "@" + method.to_s
-        if !instance_variable_defined? ivar
-          instance_variable_set(ivar, [])
-        end
-        return instance_variable_get ivar
-      elsif (setter_vals = setter_klass(self.class.has_many, method))
-        klass, hash_symbol = setter_vals
-        ivar = "@" + hash_symbol.to_s
-
-        tmp = []
-        args[0].each do |arg|
-          rep = nil
-          if arg.class == Hash
-            rep = klass.new(arg)
-          elsif arg.class == klass
-            rep = arg
-          end
-
-          if rep.class.belongs_to.values.member? self.class
-            rep.send((rep.class.belongs_to.invert[self.class].to_s + "=").to_sym, self)
-          end
-
-          tmp << rep
-        end
-
-        instance_variable_set(ivar, tmp)
-        return instance_variable_get(ivar)
       end
 
       # HTTP methods
@@ -234,29 +252,6 @@ module RemoteModule
         self.attributes += fields
       end
       
-      def association(name, params)
-        backwards_association = self.name.underscore
-        
-        define_method name do |&block|
-          cached = instance_variable_get("@#{name}")
-          block.call(cached) and return if cached
-          
-          Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results|
-            if results
-              results.each do |result|
-                result.send("#{backwards_association}=", self)
-              end
-            end
-            instance_variable_set("@#{name}", results)
-            block.call(results)
-          end
-        end
-    
-        define_method "reset_#{name}" do
-          instance_variable_set("@#{name}", nil)
-        end
-      end
-      
       def scope(name)
         metaclass.send(:define_method, name) do |&block|
           get(send("#{name}_url")) do |response, json|
@@ -288,6 +283,7 @@ module RemoteModule
       end
     end
     
+    public
     def attributes
       self.class.attributes.inject({}) do |hash, attr|
         hash[attr] = send(attr)

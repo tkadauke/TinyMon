@@ -8,8 +8,8 @@ class HealthCheck < RemoteModule::RemoteModel
   custom_urls :all_url => 'health_checks'
   custom_urls :upcoming_url => 'health_checks/upcoming'
   
-  association :check_runs, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
-  association :steps, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
+  has_many :check_runs, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
+  has_many :steps, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
   
   scope :all
   scope :upcoming
