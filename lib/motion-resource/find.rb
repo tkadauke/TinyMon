@@ -48,21 +48,6 @@ module MotionResource
         end
       end
     
-      def instantiate(json)
-        result = if json[:type]
-          begin
-            klass = Object.const_get(json[:type].to_s)
-            klass.new(json)
-          rescue NameError
-            self.new(json)
-          end
-        else
-          self.new(json)
-        end
-        result.new_record = false
-        result
-      end
-
     private
       def request_block_call(block, default_arg, extra_arg)
         if block

@@ -18,13 +18,6 @@ module MotionResource
       end
     end
     
-    attr_accessor :new_record
-    
-    def initialize(params = {})
-      @new_record = true
-      update_attributes(params)
-    end
-
     def update_attributes(params = {})
       attributes = self.methods - Object.methods
       params.each do |key, value|

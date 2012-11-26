@@ -41,7 +41,7 @@ module MotionResource
         
         define_method "#{name}=" do |array|
           klass = Object.const_get(name.to_s.classify)
-          instance_variable_set("@#{name}", []) if instance_variable_get("@#{name}").blank?
+          instance_variable_set("@#{name}", [])
           
           array.each do |value|
             value = klass.instantiate(value) if value.is_a?(Hash)
