@@ -50,7 +50,7 @@ task :resources do
   icons += (0..5).to_a.collect { |i| "weather-#{i}" }
   
   icons.each do |icon|
-    sh "convert -resize 88x88 res_src/#{icon}.png resources/#{icon}@2x.png"
-    sh "convert -resize 44x44 res_src/#{icon}.png resources/#{icon}.png"
+    sh "convert -resize 88x88 app/assets/#{icon}.png resources/#{icon}@2x.png"
+    sh "convert -resize 44x44 app/assets/#{icon}.png resources/#{icon}.png"
   end
 end
