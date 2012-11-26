@@ -1,5 +1,5 @@
-module RemoteModule
-  class RemoteModel
+module MotionResource
+  class Base
     class << self
       def find(id, params = {}, &block)
         fetch_member(member_url.format(params.merge(id: id)), &block)

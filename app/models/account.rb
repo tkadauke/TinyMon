@@ -1,4 +1,4 @@
-class Account < RemoteModule::RemoteModel
+class Account < MotionResource::Base
   attr_accessor :id, :name, :status, :role
   
   cattr_accessor :current

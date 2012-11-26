@@ -1,4 +1,4 @@
-class UserAccount < RemoteModule::RemoteModel
+class UserAccount < MotionResource::Base
   attr_accessor :id, :role, :account_id
   
   self.collection_url = "accounts/:account_id/user_accounts"

@@ -1,29 +1,29 @@
-module RemoteModule
-  class RemoteModel
+module MotionResource
+  class Base
     class_inheritable_accessor :collection_url, :member_url
     class_inheritable_accessor :root_url, :default_url_options
     cattr_writer :extension
     
     class << self
       def extension
-        @extension || (self == RemoteModel ? false : RemoteModel.extension) || ".json"
+        @extension || (self == Base ? false : Base.extension) || ".json"
       end
       
       def collection_url=(value)
-        @collection_url = RemoteModule::FormatableString.new(value)
+        @collection_url = MotionResource::FormatableString.new(value)
       end
       
       def member_url=(value)
-        @member_url = RemoteModule::FormatableString.new(value)
+        @member_url = MotionResource::FormatableString.new(value)
       end
       
       def custom_urls(params = {})
         params.each do |name, url_format|
           define_method name do |params = {}|
-            RemoteModule::FormatableString.new(url_format).format(params, self)
+            MotionResource::FormatableString.new(url_format).format(params, self)
           end
           metaclass.send :define_method, name do
-            RemoteModule::FormatableString.new(url_format)
+            MotionResource::FormatableString.new(url_format)
           end
         end
       end

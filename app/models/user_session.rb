@@ -1,4 +1,4 @@
-class UserSession < RemoteModule::RemoteModel
+class UserSession < MotionResource::Base
   attribute :email, :password
   
   self.collection_url = "login"

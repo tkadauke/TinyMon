@@ -1,5 +1,5 @@
-module RemoteModule
-  class RemoteModel
+module MotionResource
+  class Base
     class_inheritable_array :attributes
     
     class << self

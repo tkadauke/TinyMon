@@ -1,5 +1,5 @@
-module RemoteModule
-  class RemoteModel
+module MotionResource
+  class Base
     class << self
       def has_one(name)
         define_method name do

@@ -1,4 +1,4 @@
-class HealthCheck < RemoteModule::RemoteModel
+class HealthCheck < MotionResource::Base
   attribute :name, :enabled, :interval, :description
   attr_accessor :id, :permalink, :status, :site_id, :weather, :last_checked_at_to_now, :next_check_at_to_now
   

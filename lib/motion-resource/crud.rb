@@ -1,5 +1,5 @@
-module RemoteModule
-  class RemoteModel
+module MotionResource
+  class Base
     def save(&block)
       @new_record ? create(&block) : update(&block)
     end

@@ -1,3 +1,3 @@
-module RemoteModel
-  VERSION = "0.0.3"
+module MotionResource
+  VERSION = "0.0.1"
 end

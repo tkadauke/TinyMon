@@ -116,7 +116,7 @@ class LoggedInMenuViewController < UITableViewController
   end
   
   def logout
-    RemoteModule::RemoteModel.default_url_options = nil
+    MotionResource::Base.default_url_options = nil
     UIApplication.sharedApplication.delegate.window.rootViewController = MonitorNavigationController.alloc.init
   end
 end

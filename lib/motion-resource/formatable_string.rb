@@ -1,4 +1,4 @@
-module RemoteModule
+module MotionResource
   class FormatableString < String
     # Takes in a hash and spits out the formatted string
     # Checks the delegate first

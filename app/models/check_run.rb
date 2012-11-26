@@ -1,4 +1,4 @@
-class CheckRun < RemoteModule::RemoteModel
+class CheckRun < MotionResource::Base
   attr_accessor :health_check_id, :deployment_id, :log, :account_id, :id, :error_message, :status, :duration, :created_at_to_now
   attribute :user_id
   

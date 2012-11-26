@@ -25,7 +25,7 @@ class LoginViewController < Formotion::FormController
   def submit(form)
     login_data = form.render
     server = login_data.delete(:server)
-    RemoteModule::RemoteModel.root_url = "http://#{server}/"
+    MotionResource::Base.root_url = "http://#{server}/"
     TinyMon.server = server.split(":").first
 
     TinyMon.when_reachable do

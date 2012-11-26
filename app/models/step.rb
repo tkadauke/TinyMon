@@ -1,4 +1,4 @@
-class Step < RemoteModule::RemoteModel
+class Step < MotionResource::Base
   attr_accessor :id, :type, :position, :health_check_id
   attribute :data
   

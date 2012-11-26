@@ -1,5 +1,5 @@
-module RemoteModule
-  class RemoteModel
+module MotionResource
+  class Base
     HTTP_METHODS = [:get, :post, :put, :delete]
 
     HTTP_METHODS.each do |method|
@@ -30,12 +30,12 @@ module RemoteModule
         if fragment[0..3] == "http"
           return fragment
         end
-        (self.root_url || RemoteModule::RemoteModel.root_url) + fragment
+        (self.root_url || MotionResource::Base.root_url) + fragment
       end
 
       def http_call(method, url, call_options = {}, &block)
         options = call_options 
-        options.merge!(RemoteModule::RemoteModel.default_url_options || {})
+        options.merge!(MotionResource::Base.default_url_options || {})
         url += self.extension
         if query = options.delete(:query)
           if url.index("?").nil?

@@ -1,4 +1,4 @@
-class Site < RemoteModule::RemoteModel
+class Site < MotionResource::Base
   attribute :url, :name
   attr_accessor :account_id, :permalink, :status
   
