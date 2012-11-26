@@ -8,7 +8,7 @@ Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.identifier = "org.tinymon.TinyMon"
   app.name = 'TinyMon'
-  app.files = (app.files - Dir.glob('./app/**/*.rb')) + Dir.glob("./lib/**/*.rb") + Dir.glob("./app/**/*.rb")
+  app.files = (app.files - Dir.glob('./app/**/*.rb')) + Dir.glob("./lib/**/*.rb") + Dir.glob("./config/**/*.rb") + Dir.glob("./app/**/*.rb")
   app.vendor_project('vendor/Reachability', :static)
   app.vendor_project('vendor/iOSPlot', :static)
   app.vendor_project('vendor/TVNavigationController', :static)
@@ -34,9 +34,9 @@ Motion::Project::App.setup do |app|
   end
 end
 
-if File.exists?('devices.yml')
+if File.exists?('config/devices.yml')
   namespace :device do
-    YAML.load(File.read('devices.yml')).each do |name, id|
+    YAML.load(File.read('config/devices.yml')).each do |name, id|
       desc "Deploy on #{name}"
       task name do
         sh "rake device id=#{id}"
