@@ -29,6 +29,7 @@ GEM
     json (1.7.5)
     motion-cocoapods (1.2.1)
       cocoapods (>= 0.14.0)
+    motion-support (0.0.1)
     motion-testflight (1.4)
     multi_json (1.3.7)
     multipart-post (1.1.5)
@@ -52,6 +53,7 @@ DEPENDENCIES
   bubble-wrap
   formotion
   motion-cocoapods
+  motion-support
   motion-testflight
   rake
   teacup
