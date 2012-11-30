@@ -29,7 +29,9 @@ GEM
     json (1.7.5)
     motion-cocoapods (1.2.1)
       cocoapods (>= 0.14.0)
-    motion-resource (0.0.1)
+    motion-resource (0.0.2)
+      bubble-wrap
+      motion-support
     motion-support (0.0.1)
     motion-testflight (1.4)
     multi_json (1.3.7)
