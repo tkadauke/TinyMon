@@ -36,6 +36,10 @@ class StepsViewController < UITableViewController
     tableView.reloadData
   end
   
+  def viewWillDisappear(animated)
+    self.viewDeckController.panningMode = IIViewDeckFullViewPanning
+  end
+  
   def numberOfSectionsInTableView(tableView)
     1
   end
