@@ -20,7 +20,7 @@ class HealthCheckViewController < Formotion::FormController
   
   def viewDidLoad
     if User.current.can_edit_health_checks?
-      show_edit_button unless self.health_check.new_record
+      show_edit_button unless self.health_check.new_record?
     end
     super
   end
@@ -40,7 +40,7 @@ class HealthCheckViewController < Formotion::FormController
       self.health_check.save do |result|
         SVProgressHUD.dismiss
         if result
-          if self.health_check.new_record
+          if self.health_check.new_record?
             @parent.health_checks << result
             self.navigationController.popViewControllerAnimated(true)
           else
@@ -236,7 +236,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !self.health_check.new_record && User.current.can_delete_health_checks?)].compact
+    } if !self.health_check.new_record? && User.current.can_delete_health_checks?)].compact
     
     form = Formotion::Form.new({
       sections: sections

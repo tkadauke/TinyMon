@@ -19,7 +19,7 @@ class StepViewController < Formotion::FormableController
         done_editing
       end
 
-      unless step.new_record
+      unless step.new_record?
         self.form.create_section(
           rows: [{
             title: "Delete",
@@ -42,7 +42,7 @@ class StepViewController < Formotion::FormableController
       self.step.save do |result|
         SVProgressHUD.dismiss
         if result
-          if step.new_record
+          if step.new_record?
             @parent.steps << result
             target = self.navigationController.viewControllers[-3]
             self.navigationController.popToViewController(target, animated:true)

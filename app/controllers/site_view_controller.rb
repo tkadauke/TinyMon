@@ -19,7 +19,7 @@ class SiteViewController < Formotion::FormController
   
   def viewDidLoad
     if User.current.can_edit_sites?
-      show_edit_button unless self.site.new_record
+      show_edit_button unless self.site.new_record?
     end
     super
   end
@@ -39,7 +39,7 @@ class SiteViewController < Formotion::FormController
       self.site.save do |result|
         SVProgressHUD.dismiss
         if result
-          if self.site.new_record
+          if self.site.new_record?
             @parent.sites << result
             self.navigationController.popViewControllerAnimated(true)
           else
@@ -156,7 +156,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !self.site.new_record && User.current.can_delete_sites?)].compact
+    } if !self.site.new_record? && User.current.can_delete_sites?)].compact
     
     form = Formotion::Form.new({
       sections: sections
