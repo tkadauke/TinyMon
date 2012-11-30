@@ -15,8 +15,6 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
     # Remove plus button from base class
     self.navigationItem.rightBarButtonItem = nil
     
-    load_data
-    
     on_refresh do
       load_data
     end
