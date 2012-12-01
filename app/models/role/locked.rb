@@ -5,10 +5,6 @@ module Role::Locked
     user == self
   end
 
-  def can_see_account?(account)
-    !user_account_for(account).nil?
-  end
-
   def method_missing(method, *args)
     if method.to_s =~ /^can_.*\?$/
       false
