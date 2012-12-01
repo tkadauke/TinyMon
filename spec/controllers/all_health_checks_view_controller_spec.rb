@@ -2,7 +2,7 @@ describe AllHealthChecksViewController do
   extend WebStub::SpecHelpers
   
   before do
-    Account.current = Account.instantiate(:id => 10, :role => 'user')
+    Account.current = Account.instantiate(:id => 5, :role => 'user')
     User.current = User.instantiate(:id => 1, :role => 'user')
     
     stub_request(:get, "http://mon.tinymon.org/health_checks.json").to_return(json: { :health_checks => [{ :id => 10, :status => 'success', :enabled => true, :name => 'Test', :site => { :id => 10, :name => 'Test-Site' } }, { :id => 15, :status => 'failure', :enabled => true, :name => 'Foo', :site => { :id => 10, :name => 'Test-Site' } }] })
@@ -47,15 +47,18 @@ describe AllHealthChecksViewController do
       stub_request(:get, "http://mon.tinymon.org/health_checks.json").to_return(json: { :health_checks => [{ :id => 10, :status => 'success', :name => 'Test', :enabled => false, :site => { :id => 10, :name => 'Test-Site' } }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
+      view("offline.png").should.not.be.nil
       controller.health_checks.size.should == 1
       controller.tableView.numberOfRowsInSection(0).should == 1
-      view("offline.png").should.not.be.nil
     end
   end
   
   it "should filter health checks" do
     tap controller.search_bar
     controller.search_bar.text = 'Test'
-    controller.filtered_health_checks.size.should == 1
+    RunLoopHelpers.wait_till do
+      controller.filtered_health_checks.size.should == 1
+      controller.search_bar.resignFirstResponder
+    end
   end
 end
