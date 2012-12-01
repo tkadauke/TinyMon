@@ -1,12 +1,12 @@
 class HealthChecksViewController < UITableViewController
   include Refreshable
   
+  attr_accessor :search_bar
   attr_accessor :site
   attr_accessor :health_checks
   attr_accessor :filtered_health_checks
   
   def init
-    $h=self
     self.health_checks = []
     self.filtered_health_checks = []
     super
