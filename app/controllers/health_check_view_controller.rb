@@ -41,8 +41,11 @@ class HealthCheckViewController < Formotion::FormController
         SVProgressHUD.dismiss
         if result
           if self.health_check.new_record?
-            @parent.health_checks << result
-            self.navigationController.popViewControllerAnimated(true)
+            @created = true
+            if @parent
+              @parent.health_checks << result
+              self.navigationController.popViewControllerAnimated(true)
+            end
           else
             self.form = build_form
             self.form.controller = self
@@ -68,13 +71,13 @@ class HealthCheckViewController < Formotion::FormController
   end
   
   def delete
-    actionSheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+    @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
                                                              delegate:self,
                                                     cancelButtonTitle:"No",
                                                destructiveButtonTitle:"Yes, delete",
                                                     otherButtonTitles:nil)
   
-    actionSheet.showInView(UIApplication.sharedApplication.keyWindow)
+    @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)
   end
   
   def actionSheet(sender, clickedButtonAtIndex:index)
@@ -84,8 +87,11 @@ class HealthCheckViewController < Formotion::FormController
         self.health_check.destroy do |result|
           SVProgressHUD.dismiss
           if result
-            @parent.health_checks.delete(self.health_check)
-            self.navigationController.popViewControllerAnimated(true)
+            @deleted = true
+            if @parent
+              @parent.health_checks.delete(self.health_check)
+              self.navigationController.popViewControllerAnimated(true)
+            end
           else
             TinyMon.offline_alert
           end

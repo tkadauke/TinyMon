@@ -1,5 +1,5 @@
 class Account < MotionResource::Base
-  attr_accessor :id, :name, :status, :role
+  attr_accessor :name, :status, :role
   
   cattr_accessor :current
   

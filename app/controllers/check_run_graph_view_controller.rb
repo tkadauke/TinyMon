@@ -35,6 +35,7 @@ class CheckRunGraphViewController < UIViewController
   def graph_view
     line_chart_view = PCLineChartView.alloc.initWithFrame([[0,0], [self.view.bounds.size.width,self.view.bounds.size.height]])
     line_chart_view.setAutoresizingMask(UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight)
+    line_chart_view.accessibilityLabel = "Chart data"
     
     component = PCLineChartViewComponent.alloc.init
     component.setTitle("sec")

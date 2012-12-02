@@ -1,12 +1,12 @@
 class Step < MotionResource::Base
-  attr_accessor :id, :type, :position, :health_check_id
+  attr_accessor :type, :position, :health_check_id
   attribute :data
   
   self.collection_url = "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps"
   self.member_url = "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/:id"
   custom_urls :sort_url => "accounts/:account_id/sites/:site_permalink/health_checks/:check_permalink/steps/sort"
   
-  attr_accessor :health_check
+  belongs_to :health_check
   
   def self.data_attribute(*fields)
     fields.each do |field|
@@ -27,8 +27,8 @@ class Step < MotionResource::Base
   end
   
   def create(&block)
-    self.class.post(collection_url, :payload => { self.class.name.underscore => attributes }, :query => { :type => self.name.sub("Step", "").underscore }) do |response, json|
-      block.call json ? self.class.new(json) : nil
+    self.class.post(collection_url, :payload => { self.class.name.underscore => attributes }, :query => { :type => self.type.sub("Step", "").underscore }) do |response, json|
+      block.call json ? self.class.instantiate(json) : nil
     end
   end
   

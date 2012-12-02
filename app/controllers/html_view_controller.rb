@@ -12,7 +12,7 @@ class HtmlViewController < UIViewController
   end
   
   def viewDidLoad
-    self.view = UIWebView.alloc.initWithFrame(navigationController.view.bounds)
+    self.view = UIWebView.alloc.initWithFrame(view.bounds)
     view.delegate = self
     
     reload_content

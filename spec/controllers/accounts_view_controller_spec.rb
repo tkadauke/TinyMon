@@ -42,10 +42,8 @@ describe AccountsViewController do
       stub_request(:get, "http://mon.tinymon.org/accounts.json").to_return(json: { :accounts => [{ :id => 10, :status => 'success', :name => 'Test' }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
-      RunLoopHelpers.wait_till do
-        controller.accounts.size.should == 1
-        controller.tableView.numberOfRowsInSection(0).should == 1
-      end
+      controller.accounts.size.should == 1
+      controller.tableView.numberOfRowsInSection(0).should == 1
     end
   end
 end

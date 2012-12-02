@@ -32,7 +32,8 @@ GEM
     motion-resource (0.0.2)
       bubble-wrap
       motion-support
-    motion-support (0.0.1)
+    motion-support (0.0.3)
+      bubble-wrap
     motion-testflight (1.4)
     multi_json (1.3.7)
     multipart-post (1.1.5)

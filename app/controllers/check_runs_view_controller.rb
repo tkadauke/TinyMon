@@ -44,7 +44,7 @@ class CheckRunsViewController < UITableViewController
     check_run = check_runs[indexPath.row]
     cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed(check_run.status)
+    cell.imageView.image = UIImage.imageNamed("#{check_run.status}.png")
     cell
   end
   
@@ -84,12 +84,12 @@ class CheckRunsViewController < UITableViewController
 
   def change_filter(sender)
     case sender.selectedSegmentIndex
-    when 0
-      self.check_runs = self.all_check_runs
     when 1
       self.check_runs = self.all_check_runs.select { |x| x.status == 'success' }
     when 2
       self.check_runs = self.all_check_runs.select { |x| x.status == 'failure' }
+    else
+      self.check_runs = self.all_check_runs
     end
     self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
   end

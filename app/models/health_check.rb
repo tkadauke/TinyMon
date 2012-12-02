@@ -1,6 +1,6 @@
 class HealthCheck < MotionResource::Base
   attribute :name, :enabled, :interval, :description
-  attr_accessor :id, :permalink, :status, :site_id, :weather, :last_checked_at_to_now, :next_check_at_to_now
+  attr_accessor :permalink, :status, :site_id, :weather, :last_checked_at_to_now, :next_check_at_to_now
   
   self.collection_url = "accounts/:account_id/sites/:site_permalink/health_checks"
   self.member_url = "accounts/:account_id/sites/:site_permalink/health_checks/:permalink"

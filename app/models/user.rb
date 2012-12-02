@@ -1,5 +1,5 @@
 class User < MotionResource::Base
-  attr_accessor :id, :role, :full_name, :current_account_id, :email
+  attr_accessor :role, :full_name, :current_account_id, :email
   
   self.member_url = "users/:id"
   
