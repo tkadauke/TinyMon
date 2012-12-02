@@ -172,13 +172,7 @@ describe HealthCheckViewController do
   end
   
   it "should save changes" do
-    stub_request(:put, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test.json').to_return(json: {
-      :id => 30,
-      :name => 'Test',
-      :description => 'This is a test',
-      :enabled => true,
-      :interval => 60
-    })
+    stub_request(:put, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test.json').to_return(json: {})
     
     edit_name('Hello')
     edit_description('How are things')
