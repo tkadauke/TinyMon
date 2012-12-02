@@ -31,6 +31,7 @@ describe LoggedInNavigationController do
   end
   
   it "should show toolbar" do
+    proper_wait 0.5
     controller.isToolbarHidden.should == false
   end
 end

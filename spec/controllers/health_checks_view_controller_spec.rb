@@ -113,6 +113,7 @@ describe HealthChecksViewController do
       controller.search_bar.text = 'Test'
       controller.filtered_health_checks.size.should == 1
       view('Test').should.not.be.nil
+      controller.search_bar.resignFirstResponder
     end
   end
   
@@ -122,6 +123,7 @@ describe HealthChecksViewController do
     filter_button(3)
     controller.filtered_health_checks.size.should == 1
     view('Test').should.not.be.nil
+    controller.search_bar.resignFirstResponder
   end
   
   def filter_button(number)
