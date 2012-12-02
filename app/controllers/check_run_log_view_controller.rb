@@ -10,10 +10,6 @@ class CheckRunLogViewController < UITableViewController
     self.title = "Log"
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
   def tableView(tableView, numberOfRowsInSection:section)
     self.check_run.log.size
   end

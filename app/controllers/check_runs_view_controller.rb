@@ -29,10 +29,6 @@ class CheckRunsViewController < UITableViewController
     super
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
   def tableView(tableView, numberOfRowsInSection:section)
     self.check_runs.size
   end

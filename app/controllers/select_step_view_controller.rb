@@ -24,10 +24,6 @@ class SelectStepViewController < UITableViewController
     self
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-
   def tableView(tableView, numberOfRowsInSection:section)
     STEPS.size
   end

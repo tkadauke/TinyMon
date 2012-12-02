@@ -40,10 +40,6 @@ class StepsViewController < UITableViewController
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
   def tableView(tableView, numberOfRowsInSection:section)
     self.steps.size
   end

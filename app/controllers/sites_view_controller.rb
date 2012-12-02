@@ -44,10 +44,6 @@ class SitesViewController < UITableViewController
     tableView.reloadData
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
   def tableView(tableView, numberOfRowsInSection:section)
     self.filtered_sites.size
   end

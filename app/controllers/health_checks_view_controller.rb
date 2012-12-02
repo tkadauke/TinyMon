@@ -52,10 +52,6 @@ class HealthChecksViewController < UITableViewController
     tableView.reloadData
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
   def tableView(tableView, numberOfRowsInSection:section)
     self.filtered_health_checks.size
   end

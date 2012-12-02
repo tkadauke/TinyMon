@@ -26,10 +26,6 @@ class UserAccountsViewController < UITableViewController
     tableView.reloadData
   end
   
-  def numberOfSectionsInTableView(tableView)
-    1
-  end
-  
   def tableView(tableView, numberOfRowsInSection:section)
     self.user_accounts.size
   end
