@@ -46,9 +46,9 @@ class UserAccountsViewController < UITableViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      UserAccount.find_all(:account_id => Account.current.id) do |results|
+      UserAccount.find_all(:account_id => Account.current.id) do |results, response|
         SVProgressHUD.dismiss
-        if results
+        if response.ok? && results
           self.user_accounts = results
         else
           TinyMon.offline_alert

@@ -16,9 +16,9 @@ class AllHealthChecksViewController < HealthChecksViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      HealthCheck.all do |results|
+      HealthCheck.all do |results, response|
         SVProgressHUD.dismiss
-        if results
+        if response.ok? && results
           self.health_checks = results
           self.filter_search("", animated:false)
         else

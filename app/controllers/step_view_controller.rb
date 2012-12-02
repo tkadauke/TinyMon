@@ -39,9 +39,9 @@ class StepViewController < Formotion::FormableController
   def done_editing
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.step.save do |result|
+      self.step.save do |result, response|
         SVProgressHUD.dismiss
-        if result
+        if response.ok? && result
           if step.new_record?
             @parent.steps << result
             target = self.navigationController.viewControllers[-3]
@@ -70,9 +70,9 @@ class StepViewController < Formotion::FormableController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        self.step.destroy do |result|
+        self.step.destroy do |result, response|
           SVProgressHUD.dismiss
-          if result
+          if response.ok? && result
             @parent.steps.delete(self.step)
             self.navigationController.popViewControllerAnimated(true)
           else

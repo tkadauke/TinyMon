@@ -14,8 +14,8 @@ class CheckRunViewController < Formotion::FormController
   end
   
   def reload
-    self.check_run.reload do |run|
-      if run
+    self.check_run.reload do |run, response|
+      if response.ok? && run
         self.check_run = run
         set_timer
         self.form = build_form

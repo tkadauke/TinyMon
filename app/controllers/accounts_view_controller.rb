@@ -55,9 +55,9 @@ class AccountsViewController < UITableViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      Account.find_all do |results|
+      Account.find_all do |results, response|
         SVProgressHUD.dismiss
-        if results
+        if response.ok? && results
           self.accounts = results
         else
           TinyMon.offline_alert

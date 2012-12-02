@@ -11,9 +11,9 @@ class UserViewController < Formotion::FormController
   def viewDidLoad
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.user.reload do |result|
+      self.user.reload do |result, response|
         SVProgressHUD.dismiss
-        if result
+        if response.ok? && result
           self.user = result
           self.form = build_form
           self.form.controller = self

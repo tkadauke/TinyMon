@@ -37,9 +37,9 @@ class HealthCheckViewController < Formotion::FormController
     self.health_check.update_attributes(form.render)
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.health_check.save do |result|
+      self.health_check.save do |result, response|
         SVProgressHUD.dismiss
-        if result
+        if response.ok? && result
           if self.health_check.new_record?
             @created = true
             if @parent
@@ -84,9 +84,9 @@ class HealthCheckViewController < Formotion::FormController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        self.health_check.destroy do |result|
+        self.health_check.destroy do |result, response|
           SVProgressHUD.dismiss
-          if result
+          if response.ok? && result
             @deleted = true
             if @parent
               @parent.health_checks.delete(self.health_check)
@@ -175,9 +175,9 @@ private
       when :run
         TinyMon.when_reachable do
           SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-          self.health_check.run do |result|
+          self.health_check.run do |result, response|
             SVProgressHUD.dismiss
-            if result
+            if response.ok? && result
               navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(result), animated:true)
             else
               TinyMon.offline_alert
@@ -187,9 +187,9 @@ private
       when :last_check
         TinyMon.when_reachable do
           SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-          health_check.check_runs do |results|
+          health_check.check_runs do |results, response|
             SVProgressHUD.dismiss
-            if results
+            if response.ok? && results
               navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(results.first), animated:true)
             else
               TinyMon.offline_alert

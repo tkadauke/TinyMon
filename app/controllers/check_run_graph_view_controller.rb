@@ -20,9 +20,9 @@ class CheckRunGraphViewController < UIViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      health_check.check_runs do |results|
+      health_check.check_runs do |results, response|
         SVProgressHUD.dismiss
-        if results
+        if response.ok? && results
           self.check_runs = results
           view.addSubview(graph_view)
         else

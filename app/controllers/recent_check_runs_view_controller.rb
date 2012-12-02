@@ -30,9 +30,9 @@ class RecentCheckRunsViewController < CheckRunsViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      CheckRun.recent do |results|
+      CheckRun.recent do |results, response|
         SVProgressHUD.dismiss
-        if results
+        if response.ok? && results
           self.all_check_runs = results
           change_filter(@filter)
         else

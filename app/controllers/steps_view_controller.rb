@@ -69,11 +69,9 @@ class StepsViewController < UITableViewController
     
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      Step.sort(self.steps) do |result|
+      Step.sort(self.steps) do |response, json|
         SVProgressHUD.dismiss
-        unless result
-          TinyMon.offline_alert
-        end
+        TinyMon.offline_alert unless response.ok?
       end
     end
   end
@@ -95,9 +93,9 @@ class StepsViewController < UITableViewController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        @step_to_delete.destroy do |result|
+        @step_to_delete.destroy do |result, response|
           SVProgressHUD.dismiss
-          if result
+          if response.ok? && result
             self.steps.delete(@step_to_delete)
             tableView.reloadData
           else
@@ -115,9 +113,9 @@ class StepsViewController < UITableViewController
   def load_data
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      health_check.steps do |results|
+      health_check.steps do |results, response|
         SVProgressHUD.dismiss
-        if results
+        if response.ok? && results
           self.steps = results
         else
           TinyMon.offline_alert

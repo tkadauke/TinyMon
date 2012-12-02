@@ -36,9 +36,9 @@ class SiteViewController < Formotion::FormController
     self.site.update_attributes(form.render)
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.site.save do |result|
+      self.site.save do |result, response|
         SVProgressHUD.dismiss
-        if result
+        if response.ok? && result
           if self.site.new_record?
             @parent.sites << result
             self.navigationController.popViewControllerAnimated(true)
@@ -80,9 +80,9 @@ class SiteViewController < Formotion::FormController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        self.site.destroy do |result|
+        self.site.destroy do |result, response|
           SVProgressHUD.dismiss
-          if result
+          if response.ok? && result
             @parent.sites.delete(self.site)
             self.navigationController.popViewControllerAnimated(true)
           else
