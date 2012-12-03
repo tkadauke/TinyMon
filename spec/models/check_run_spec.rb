@@ -1,5 +1,6 @@
 describe CheckRun do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   it "should extract attributes" do
     check_run = CheckRun.new(:health_check_id => 1, :deployment_id => 1, :log => ['foo', 'bar'], :error_message => 'Test', :status => 'success', :duration => 1.0, :created_at_to_now => 1, :user_id => 1)

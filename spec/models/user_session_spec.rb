@@ -1,5 +1,6 @@
 describe UserSession do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   it "should extract attributes" do
     user_session = UserSession.new(:email => 'john@doe.com', :password => 'password')

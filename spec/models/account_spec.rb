@@ -1,5 +1,6 @@
 describe Account do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   it "should extract attributes" do
     account = Account.new(:name => 'Test', :status => 'success', :role => 'user')

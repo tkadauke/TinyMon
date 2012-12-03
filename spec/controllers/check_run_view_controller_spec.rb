@@ -81,6 +81,7 @@ describe CheckRunViewController do
   
   describe "with loading check run" do
     extend WebStub::SpecHelpers
+    extend MotionResource::SpecHelpers
     
     before do
       @check_run = CheckRun.instantiate(
@@ -120,6 +121,7 @@ describe CheckRunViewController do
 
   describe "with loading failing check run" do
     extend WebStub::SpecHelpers
+    extend MotionResource::SpecHelpers
     
     before do
       @check_run = CheckRun.instantiate(

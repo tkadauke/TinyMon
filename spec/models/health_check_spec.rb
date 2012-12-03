@@ -1,5 +1,6 @@
 describe HealthCheck do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   it "should extract attributes" do
     health_check = HealthCheck.new(:name => 'Test', :enabled => true, :interval => 60, :description => 'This is a test', :permalink => 'test', :status => 'success', :site_id => 1, :weather => 5, :last_checked_at_to_now => 1, :next_check_at_to_now => 1)

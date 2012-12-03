@@ -36,6 +36,7 @@ end
 
 describe HealthCheckViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   before do
     Account.current = Account.instantiate(:id => 5, :role => 'user')
@@ -104,6 +105,7 @@ end
 
 describe HealthCheckViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   extend HealthCheckViewControllerHelper
   
   before do
@@ -199,6 +201,7 @@ end
 
 describe HealthCheckViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   extend HealthCheckViewControllerHelper
   
   before do

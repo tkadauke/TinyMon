@@ -1,5 +1,6 @@
 describe AccountsViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   before do
     Account.current = Account.instantiate(:id => 10)

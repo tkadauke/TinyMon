@@ -1,5 +1,6 @@
 describe Step do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   it "should extract attributes" do
     step = Step.new(:type => 'VisitStep', :position => 1, :health_check_id => 1, :data => ['foo', 'bar'])

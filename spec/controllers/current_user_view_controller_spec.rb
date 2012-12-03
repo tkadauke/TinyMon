@@ -1,5 +1,6 @@
 describe CurrentUserViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   before do
     User.current = User.instantiate(:id => 1, :role => 'user')

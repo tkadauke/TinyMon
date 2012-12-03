@@ -1,5 +1,6 @@
 describe Site do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   it "should extract attributes" do
     site = Site.new(:url => 'http://test.url', :name => 'Test site', :account_id => 10, :permalink => 'test-site', :status => 'success')

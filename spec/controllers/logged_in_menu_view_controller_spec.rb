@@ -1,4 +1,6 @@
 describe LoggedInMenuViewController do
+  extend MotionResource::SpecHelpers
+
   before do
     Account.current = Account.instantiate(:id => 5, :role => 'user', :name => 'Test account')
     User.current = User.instantiate(:id => 1, :role => 'user', :full_name => 'John Doe')

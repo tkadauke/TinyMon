@@ -1,4 +1,6 @@
 describe UserAccount do
+  extend MotionResource::SpecHelpers
+  
   it "should extract attributes" do
     user_account = UserAccount.new(:role => 'user', :account_id => 1)
     user_account.role.should == 'user'

@@ -1,5 +1,6 @@
 describe CheckRunLogViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   before do
     check_run = CheckRun.new(

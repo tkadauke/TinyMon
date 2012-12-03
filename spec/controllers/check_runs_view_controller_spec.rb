@@ -1,5 +1,6 @@
 describe CheckRunsViewController do
   extend WebStub::SpecHelpers
+  extend MotionResource::SpecHelpers
   
   before do
     @health_check = HealthCheck.instantiate(
