@@ -32,6 +32,7 @@ GEM
     motion-resource (0.0.2)
       bubble-wrap
       motion-support
+    motion-stump (0.2.0)
     motion-support (0.0.3)
       bubble-wrap
     motion-testflight (1.4)
@@ -59,6 +60,7 @@ DEPENDENCIES
   formotion
   motion-cocoapods
   motion-resource
+  motion-stump
   motion-support
   motion-testflight
   rake
