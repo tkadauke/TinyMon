@@ -55,7 +55,7 @@ private
           title: "When",
           type: :label
         }, {
-          value: "#{"%2.1f" % check_run.duration} s",
+          value: "#{"%2.1f" % check_run.duration.to_f} s",
           title: "Duration",
           type: :label
         }, ({

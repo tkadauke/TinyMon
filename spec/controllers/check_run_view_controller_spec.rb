@@ -54,6 +54,13 @@ describe CheckRunViewController do
     it "should not have a message view" do
       views(UILabel).find {|l| l.accessibilityLabel == 'Message'}.should.be.nil
     end
+    
+    it "should disclose log" do
+      controller.navigationController.mock!(:pushViewController)
+      tap view("Log")
+      
+      1.should == 1
+    end
   end
   
   describe "with failed check run" do
@@ -76,6 +83,13 @@ describe CheckRunViewController do
     
     it "should have a failure symbol" do
       view("failure.png").should.not.be.nil
+    end
+    
+    it "should disclose message" do
+      controller.navigationController.mock!(:pushViewController)
+      tap view("Message")
+      
+      1.should == 1
     end
   end
   

@@ -101,6 +101,41 @@ describe HealthCheckViewController do
   it "should show weather icon" do
     view('weather-5.png').should.not.be.nil
   end
+  
+  it "should disclose description" do
+    controller.navigationController.mock!(:pushViewController)
+    tap view('Description')
+    1.should == 1
+  end
+  
+  it "should run health check" do
+    stub_request(:post, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: {
+      :id => 10,
+      :status => 'success',
+      :created_at_to_now => 1,
+      :health_check => {
+        :id => 10,
+        :name => 'Test',
+        :permalink => 'test',
+        :site => {
+          :id => 10,
+          :name => 'Test-Site',
+          :permalink => 'test-site',
+          :account_id => 10
+        }
+      }
+    })
+    controller.navigationController.mock!(:pushViewController)
+    tap view('Run now')
+    1.should == 1
+  end
+  
+  it "should disclose last check run" do
+    stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }, { :id => 15, :status => 'failure', :created_at_to_now => 1 }] })
+    controller.navigationController.mock!(:pushViewController)
+    tap view('Last Check')
+    1.should == 1
+  end
 end
 
 describe HealthCheckViewController do

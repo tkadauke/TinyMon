@@ -28,4 +28,11 @@ describe CheckRunLogViewController do
   it "should show disclosure indicator" do
     view('Nothing happened').superview.superview.accessoryType.should == UITableViewCellAccessoryDisclosureIndicator
   end
+  
+  it "should disclose log entry" do
+    controller.navigationController.mock!(:pushViewController)
+    tap view('Nothing happened')
+    
+    1.should == 1
+  end
 end

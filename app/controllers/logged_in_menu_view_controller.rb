@@ -24,7 +24,7 @@ class LoggedInMenuViewController < UITableViewController
   }, {
     title: "Account",
     rows: [{
-      title: "Switch account",
+      title: "Switch Account",
       key: :accounts
     }, {
       title: "Users",
@@ -104,7 +104,8 @@ class LoggedInMenuViewController < UITableViewController
     when :users
       UserAccountsViewController.alloc.init
     when :logout
-      logout and return
+      logout
+      return
     else
       SitesViewController.alloc.init
     end
@@ -117,6 +118,6 @@ class LoggedInMenuViewController < UITableViewController
   
   def logout
     MotionResource::Base.default_url_options = nil
-    UIApplication.sharedApplication.delegate.window.rootViewController = MonitorNavigationController.alloc.init
+    UIApplication.sharedApplication.keyWindow.rootViewController = MonitorNavigationController.alloc.init
   end
 end

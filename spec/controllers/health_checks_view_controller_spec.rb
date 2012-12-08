@@ -127,6 +127,24 @@ describe HealthChecksViewController do
     controller.search_bar.resignFirstResponder
   end
   
+  it "should disclose health check" do
+    controller.navigationController.mock!(:pushViewController)
+    tap view('Test')
+    1.should == 1
+  end
+  
+  it "should disclose health check after filtering" do
+    controller.navigationController.mock!(:pushViewController)
+
+    wait 0.5 do
+      filter_button(4)
+      wait 0.5 do
+        tap view('Bar')
+        1.should == 1
+      end
+    end
+  end
+  
   def filter_button(number)
     controller.instance_variable_get(:@filter).selectedSegmentIndex = number
     controller.change_filter(nil)

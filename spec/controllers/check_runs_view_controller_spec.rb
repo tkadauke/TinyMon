@@ -70,4 +70,11 @@ describe CheckRunsViewController do
       controller.tableView.numberOfRowsInSection(0).should == 1
     end
   end
+  
+  it "should disclose check run" do
+    controller.navigationController.mock!(:pushViewController)
+    tap view("just now")
+    
+    1.should == 1
+  end
 end

@@ -47,4 +47,15 @@ describe AccountsViewController do
       controller.tableView.numberOfRowsInSection(0).should == 1
     end
   end
+  
+  it "should switch account on tap" do
+    stub_request(:post, "http://mon.tinymon.org/accounts/10/switch.json").to_return(json: {})
+    
+    controller.viewDeckController.mock!(:leftController, :return => UITableViewController.alloc.init)
+    controller.viewDeckController.mock!(:centerController=)
+    
+    tap "Test"
+    
+    1.should == 1
+  end
 end
