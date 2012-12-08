@@ -13,7 +13,7 @@ describe AccountsViewController do
   tests AccountsViewController
   
   it "should show all accounts" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.accounts.size.should == 2
       controller.tableView.numberOfRowsInSection(0).should == 2
     end

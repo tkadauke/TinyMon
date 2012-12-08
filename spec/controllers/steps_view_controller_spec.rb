@@ -107,7 +107,7 @@ describe StepsViewController do
   tests StepsViewController
   
   it "should show all steps" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.steps.size.should == 3
       controller.tableView.numberOfRowsInSection(0).should == 3
     end

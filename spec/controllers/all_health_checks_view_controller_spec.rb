@@ -12,19 +12,19 @@ describe AllHealthChecksViewController do
   tests AllHealthChecksViewController
   
   it "should have speaking title" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.title.should == "All Health Checks"
     end
   end
   
   it "should have no plus button" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.navigationItem.rightBarButtonItem.should.be.nil
     end
   end
   
   it "should show all health checks" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.health_checks.size.should == 2
       controller.tableView.numberOfRowsInSection(0).should == 2
     end
@@ -55,7 +55,7 @@ describe AllHealthChecksViewController do
   it "should filter health checks" do
     tap controller.search_bar
     controller.search_bar.text = 'Test'
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.filtered_health_checks.size.should == 1
       controller.search_bar.resignFirstResponder
     end

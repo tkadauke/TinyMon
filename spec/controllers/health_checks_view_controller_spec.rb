@@ -23,7 +23,7 @@ describe HealthChecksViewController do
   tests HealthChecksViewController
   
   it "should have a plus button" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.navigationItem.rightBarButtonItem.should.not.be.nil
     end
   end
@@ -60,7 +60,7 @@ describe HealthChecksViewController do
   it "should search health checks" do
     tap controller.search_bar
     controller.search_bar.text = 'Test'
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.filtered_health_checks.size.should == 1
       controller.search_bar.resignFirstResponder
     end

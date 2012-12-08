@@ -21,7 +21,7 @@ describe CheckRunsViewController do
   tests CheckRunsViewController
   
   it "should show all check runs" do
-    RunLoopHelpers.wait_till do
+    wait 0.2 do
       controller.check_runs.size.should == 2
       controller.tableView.numberOfRowsInSection(0).should == 2
     end
