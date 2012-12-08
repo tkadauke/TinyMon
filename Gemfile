@@ -7,5 +7,8 @@ gem "motion-cocoapods"
 gem "teacup"
 gem "motion-support"
 gem "motion-resource"
-gem "webstub"
-gem "motion-stump"
+
+group :spec do
+  gem "webstub"
+  gem "motion-stump"
+end
