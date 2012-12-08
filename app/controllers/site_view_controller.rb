@@ -40,7 +40,8 @@ class SiteViewController < Formotion::FormController
         SVProgressHUD.dismiss
         if response.ok? && result
           if self.site.new_record?
-            @parent.sites << result
+            @created = true
+            @parent.sites << result if @parent
             self.navigationController.popViewControllerAnimated(true)
           else
             self.form = build_form
@@ -67,13 +68,13 @@ class SiteViewController < Formotion::FormController
   end
   
   def delete
-    actionSheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+    @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
                                                              delegate:self,
                                                     cancelButtonTitle:"No",
                                                destructiveButtonTitle:"Yes, delete",
                                                     otherButtonTitles:nil)
   
-    actionSheet.showInView(UIApplication.sharedApplication.keyWindow)
+    @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)
   end
   
   def actionSheet(sender, clickedButtonAtIndex:index)
@@ -83,7 +84,8 @@ class SiteViewController < Formotion::FormController
         self.site.destroy do |result, response|
           SVProgressHUD.dismiss
           if response.ok? && result
-            @parent.sites.delete(self.site)
+            @deleted = true
+            @parent.sites.delete(self.site) if @parent
             self.navigationController.popViewControllerAnimated(true)
           else
             TinyMon.offline_alert

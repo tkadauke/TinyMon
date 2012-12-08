@@ -43,7 +43,8 @@ class StepViewController < Formotion::FormableController
         SVProgressHUD.dismiss
         if response.ok? && result
           if step.new_record?
-            @parent.steps << result
+            @created = true
+            @parent.steps << result if @parent
             target = self.navigationController.viewControllers[-3]
             self.navigationController.popToViewController(target, animated:true)
           else
@@ -57,13 +58,13 @@ class StepViewController < Formotion::FormableController
   end
 
   def delete
-    actionSheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+    @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
                                                              delegate:self,
                                                     cancelButtonTitle:"No",
                                                destructiveButtonTitle:"Yes, delete",
                                                     otherButtonTitles:nil)
   
-    actionSheet.showInView(UIApplication.sharedApplication.keyWindow)
+    @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)
   end
   
   def actionSheet(sender, clickedButtonAtIndex:index)
@@ -73,7 +74,8 @@ class StepViewController < Formotion::FormableController
         self.step.destroy do |result, response|
           SVProgressHUD.dismiss
           if response.ok? && result
-            @parent.steps.delete(self.step)
+            @deleted = true
+            @parent.steps.delete(self.step) if @parent
             self.navigationController.popViewControllerAnimated(true)
           else
             TinyMon.offline_alert

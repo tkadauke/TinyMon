@@ -2,6 +2,7 @@ class SitesViewController < UITableViewController
   include Refreshable
   include RootController
   
+  attr_reader :search_bar
   attr_accessor :sites
   attr_accessor :filtered_sites
   

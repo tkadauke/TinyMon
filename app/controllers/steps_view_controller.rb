@@ -79,13 +79,13 @@ class StepsViewController < UITableViewController
   def tableView(tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
     if editingStyle == UITableViewCellEditingStyleDelete
       @step_to_delete = steps[indexPath.row]
-      actionSheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+      @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
                                                                delegate:self,
                                                       cancelButtonTitle:"No",
                                                  destructiveButtonTitle:"Yes, delete",
                                                       otherButtonTitles:nil)
 
-      actionSheet.showInView(UIApplication.sharedApplication.keyWindow)
+      @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)
     end
   end
   
@@ -95,7 +95,7 @@ class StepsViewController < UITableViewController
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
         @step_to_delete.destroy do |result, response|
           SVProgressHUD.dismiss
-          if response.ok? && result
+          if response.ok?
             self.steps.delete(@step_to_delete)
             tableView.reloadData
           else

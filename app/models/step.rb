@@ -28,7 +28,7 @@ class Step < MotionResource::Base
   
   def create(&block)
     self.class.post(collection_url, :payload => { self.class.name.underscore => attributes }, :query => { :type => self.type.sub("Step", "").underscore }) do |response, json|
-      block.call json ? self.class.instantiate(json) : nil
+      self.class.request_block_call(block, json ? self.class.instantiate(json) : nil, response) if block
     end
   end
   
