@@ -25,18 +25,22 @@ describe LoginViewController do
   end
   
   it "should set root URL when logging in" do
+    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(body: "")
     UIAlertView.stub!(:alert, :return => nil) { |title, text| title.should == "Login failed" }
     
     MotionResource::Base.root_url = ""
     controller.submit(controller.form)
+    proper_wait 0.2
     MotionResource::Base.root_url.should == "http://mon.tinymon.org/"
   end
   
   it "should set tinymon server when logging in" do
+    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(body: "")
     UIAlertView.stub!(:alert, :return => nil) { |title, text| title.should == "Login failed" }
     
     TinyMon.server = ""
     controller.submit(controller.form)
+    proper_wait 0.2
     TinyMon.server.should == "mon.tinymon.org"
   end
   
@@ -45,7 +49,7 @@ describe LoginViewController do
     
     UIAlertView.mock!(:alert, :return => nil) { |title, text| title.should == 'Login failed' }
     controller.submit(controller.form)
-    proper_wait 0.5
+    proper_wait 0.2
   end
   
   it "should set current user when logging in" do
@@ -55,7 +59,7 @@ describe LoginViewController do
     
     User.current = nil
     controller.submit(controller.form)
-    proper_wait 0.5
+    proper_wait 0.2
     User.current.should.not.be.nil
   end
   
@@ -66,7 +70,7 @@ describe LoginViewController do
     
     Account.current = nil
     controller.submit(controller.form)
-    proper_wait 0.5
+    proper_wait 0.2
     Account.current.should.not.be.nil
   end
 end
