@@ -29,16 +29,21 @@ class SelectStepViewController < UITableViewController
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-
-    cell.textLabel.text = STEPS[indexPath.row].first
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell
+    fresh_cell.tap do |cell|
+      cell.textLabel.text = STEPS[indexPath.row].first
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     klass = Object.const_get(STEPS[indexPath.row].last)
     navigationController.pushViewController(StepViewController.alloc.initWithStep(klass.new(:health_check => @health_check), parent:@parent), animated:true)
+  end
+  
+private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
   end
 end

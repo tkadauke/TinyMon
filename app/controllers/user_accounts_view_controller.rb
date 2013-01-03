@@ -31,12 +31,9 @@ class UserAccountsViewController < UITableViewController
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UserTableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
-    cell.user_account = user_accounts[indexPath.row]
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell
+    fresh_cell.tap do |cell|
+      cell.user_account = user_accounts[indexPath.row]
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
@@ -56,6 +53,14 @@ class UserAccountsViewController < UITableViewController
         tableView.reloadData
         end_refreshing
       end
+    end
+  end
+
+private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UserTableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     end
   end
 end

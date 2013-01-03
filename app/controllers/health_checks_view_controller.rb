@@ -49,17 +49,14 @@ class HealthChecksViewController < UITableViewController
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
-    health_check = filtered_health_checks[indexPath.row]
-    cell.textLabel.text = health_check.name
-    detail_info = [health_check.site.name]
-    detail_info << Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled
-    cell.detailTextLabel.text = detail_info.join(", ")
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
-    cell
+    fresh_cell.tap do |cell|
+      health_check = filtered_health_checks[indexPath.row]
+      cell.textLabel.text = health_check.name
+      detail_info = [health_check.site.name]
+      detail_info << Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled
+      cell.detailTextLabel.text = detail_info.join(", ")
+      cell.imageView.image = UIImage.imageNamed("#{health_check.status_icon}.png")
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
@@ -144,6 +141,13 @@ class HealthChecksViewController < UITableViewController
   end
   
 private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
+  end
+  
   def build_search_bar
     @search_bar = UISearchBar.alloc.initWithFrame([[0, 0], [320, 44]])
     @search_bar.delegate = self

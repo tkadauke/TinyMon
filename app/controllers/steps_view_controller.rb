@@ -45,14 +45,11 @@ class StepsViewController < UITableViewController
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
-    step = steps[indexPath.row]
-    cell.textLabel.text = step.summary
-    cell.detailTextLabel.text = step.detail
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell
+    fresh_cell.tap do |cell|
+      step = steps[indexPath.row]
+      cell.textLabel.text = step.summary
+      cell.detailTextLabel.text = step.detail
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
@@ -140,5 +137,13 @@ class StepsViewController < UITableViewController
     tableView.setEditing false, animated:true
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning
     self.navigationItem.setRightBarButtonItems [@plus_button, @edit_button]
+  end
+
+private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
   end
 end

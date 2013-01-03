@@ -55,22 +55,13 @@ class LoggedInMenuViewController < UITableViewController
   def tableView(tableView, titleForHeaderInSection:section)
     ITEMS[section][:title]
   end
-  
-  def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
-      layout cell, :cell do
-        subview(UIView, :top_line)
-        subview(UIView, :bottom_line)
-      end
-      
-      cell.setSelectedBackgroundView(layout(UIView.alloc.init, :selected))
-    end
 
-    text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
-    text = text.call if text.respond_to?(:call)
-    cell.textLabel.text = text
-    cell
+  def tableView(tableView, cellForRowAtIndexPath:indexPath)
+    fresh_cell.tap do |cell|
+      text = ITEMS[indexPath.section][:rows][indexPath.row][:title]
+      text = text.call if text.respond_to?(:call)
+      cell.textLabel.text = text
+    end
   end
   
   def tableView(tableView, heightForHeaderInSection:section)
@@ -119,5 +110,18 @@ class LoggedInMenuViewController < UITableViewController
   def logout
     MotionResource::Base.default_url_options = nil
     UIApplication.sharedApplication.keyWindow.rootViewController = MonitorNavigationController.alloc.init
+  end
+
+private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      layout cell, :cell do
+        subview(UIView, :top_line)
+        subview(UIView, :bottom_line)
+      end
+      
+      cell.setSelectedBackgroundView(layout(UIView.alloc.init, :selected))
+    end
   end
 end

@@ -43,14 +43,11 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
-    site = @filtered_sites[indexPath.row]
-    cell.textLabel.text = site.name
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
-    cell
+    fresh_cell.tap do |cell|
+      site = @filtered_sites[indexPath.row]
+      cell.textLabel.text = site.name
+      cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
@@ -131,6 +128,13 @@ class SitesViewController < UITableViewController
   end
 
 private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
+  end
+  
   def build_search_controller
     UISearchDisplayController.alloc.initWithSearchBar(@search_bar, contentsController:self).tap do |controller|
       controller.delegate = self

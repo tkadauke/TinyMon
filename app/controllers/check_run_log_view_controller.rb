@@ -15,16 +15,21 @@ class CheckRunLogViewController < UITableViewController
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
-    cell.textLabel.text = check_run.log[indexPath.row].last
-    cell.detailTextLabel.text = check_run.log[indexPath.row].first
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell
+    fresh_cell.tap do |cell|
+      cell.textLabel.text = check_run.log[indexPath.row].last
+      cell.detailTextLabel.text = check_run.log[indexPath.row].first
+    end
   end
-
+  
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     navigationController.pushViewController(CheckRunLogEntryViewController.alloc.initWithCheckRun(check_run, index:indexPath.row), animated:true)
+  end
+
+private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
   end
 end

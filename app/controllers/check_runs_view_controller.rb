@@ -34,14 +34,11 @@ class CheckRunsViewController < UITableViewController
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
-    cell = tableView.dequeueReusableCellWithIdentifier('Cell')
-    cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
-    
-    check_run = check_runs[indexPath.row]
-    cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.imageView.image = UIImage.imageNamed("#{check_run.status}.png")
-    cell
+    fresh_cell.tap do |cell|
+      check_run = check_runs[indexPath.row]
+      cell.textLabel.text = Time.ago_in_words(check_run.created_at_to_now)
+      cell.imageView.image = UIImage.imageNamed("#{check_run.status}.png")
+    end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
@@ -90,5 +87,13 @@ class CheckRunsViewController < UITableViewController
       @check_runs = @all_check_runs
     end
     self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
+  end
+
+private
+  def fresh_cell
+    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
   end
 end
