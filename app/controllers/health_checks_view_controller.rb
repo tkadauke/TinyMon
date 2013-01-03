@@ -7,13 +7,13 @@ class HealthChecksViewController < UITableViewController
   attr_accessor :filtered_health_checks
   
   def init
-    self.health_checks = []
-    self.filtered_health_checks = []
+    @health_checks = []
+    @filtered_health_checks = []
     super
   end
   
   def initWithSite(site)
-    self.site = site
+    @site = site
     init
   end
   
@@ -45,7 +45,7 @@ class HealthChecksViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.filtered_health_checks.size
+    @filtered_health_checks.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -75,19 +75,19 @@ class HealthChecksViewController < UITableViewController
     string ||= @search_bar.text || ""
     string = string.downcase
     
-    self.filtered_health_checks = case @filter.selectedSegmentIndex
+    @filtered_health_checks = case @filter.selectedSegmentIndex
     when 0
-      self.health_checks
+      @health_checks
     when 1
-      self.health_checks.select { |x| x.status == 'success' && x.enabled == true }
+      @health_checks.select { |x| x.status == 'success' && x.enabled == true }
     when 2
-      self.health_checks.select { |x| x.status == 'failure' && x.enabled == true }
+      @health_checks.select { |x| x.status == 'failure' && x.enabled == true }
     when 3
-      self.health_checks.select { |x| x.enabled == true }
+      @health_checks.select { |x| x.enabled == true }
     when 4
-      self.health_checks.select { |x| x.enabled == false }
+      @health_checks.select { |x| x.enabled == false }
     end
-    self.filtered_health_checks = self.filtered_health_checks.select { |h| h.name.downcase.include?(string) } unless string.blank?
+    @filtered_health_checks = @filtered_health_checks.select { |h| h.name.downcase.include?(string) } unless string.blank?
     
     if animated
       if self.searchDisplayController.isActive
@@ -114,7 +114,7 @@ class HealthChecksViewController < UITableViewController
       site.health_checks do |results, response|
         SVProgressHUD.dismiss
         if response.ok? && results
-          self.health_checks = results
+          @health_checks = results
           self.filter_search("", animated:false)
         else
           TinyMon.offline_alert
@@ -132,13 +132,6 @@ class HealthChecksViewController < UITableViewController
   def toolbar_items
     space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
  
-    @filter = UISegmentedControl.alloc.initWithItems(filter_items)
-    @filter.segmentedControlStyle = UISegmentedControlStyleBar
-    @filter.selectedSegmentIndex = 0
-    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
- 
-    filter_button_item = UIBarButtonItem.alloc.initWithCustomView(@filter)
-    
     [space, filter_button_item, space]
   end
   
@@ -165,5 +158,14 @@ private
       controller.searchResultsDelegate = self
       controller.searchResultsTableView.backgroundColor = UIColor.whiteColor
     end
+  end
+  
+  def filter_button_item
+    @filter = UISegmentedControl.alloc.initWithItems(filter_items)
+    @filter.segmentedControlStyle = UISegmentedControlStyleBar
+    @filter.selectedSegmentIndex = 0
+    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
+ 
+    UIBarButtonItem.alloc.initWithCustomView(@filter)
   end
 end

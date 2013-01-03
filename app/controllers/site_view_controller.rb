@@ -3,7 +3,7 @@ class SiteViewController < Formotion::FormController
   
   def initWithSite(site, parent:parent)
     @parent = parent
-    self.site = site
+    @site = site
     initWithForm(build_form)
     self.title = site.name
     self
@@ -11,7 +11,7 @@ class SiteViewController < Formotion::FormController
   
   def initWithParent(parent)
     @parent = parent
-    self.site = Site.new
+    @site = Site.new
     initWithForm(build_edit_form)
     self.title = "New Site"
     self
@@ -19,7 +19,7 @@ class SiteViewController < Formotion::FormController
   
   def viewDidLoad
     if User.current.can_edit_sites?
-      show_edit_button unless self.site.new_record?
+      show_edit_button unless @site.new_record?
     end
     super
   end
@@ -33,13 +33,13 @@ class SiteViewController < Formotion::FormController
   end
   
   def done_editing
-    self.site.update_attributes(form.render)
+    @site.update_attributes(form.render)
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.site.save do |result, response|
+      @site.save do |result, response|
         SVProgressHUD.dismiss
         if response.ok? && result
-          if self.site.new_record?
+          if @site.new_record?
             @created = true
             @parent.sites << result if @parent
             self.navigationController.popViewControllerAnimated(true)
@@ -81,11 +81,11 @@ class SiteViewController < Formotion::FormController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        self.site.destroy do |result, response|
+        @site.destroy do |result, response|
           SVProgressHUD.dismiss
           if response.ok? && result
             @deleted = true
-            @parent.sites.delete(self.site) if @parent
+            @parent.sites.delete(@site) if @parent
             self.navigationController.popViewControllerAnimated(true)
           else
             TinyMon.offline_alert
@@ -158,7 +158,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !self.site.new_record? && User.current.can_delete_sites?)].compact
+    } if !@site.new_record? && User.current.can_delete_sites?)].compact
     
     form = Formotion::Form.new({
       sections: sections

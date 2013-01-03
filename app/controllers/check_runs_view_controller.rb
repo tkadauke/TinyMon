@@ -6,12 +6,12 @@ class CheckRunsViewController < UITableViewController
   attr_accessor :check_runs
   
   def init
-    self.check_runs = []
+    @check_runs = []
     super
   end
   
   def initWithHealthCheck(health_check)
-    self.health_check = health_check
+    @health_check = health_check
     init
   end
   
@@ -30,7 +30,7 @@ class CheckRunsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.check_runs.size
+    @check_runs.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -54,7 +54,7 @@ class CheckRunsViewController < UITableViewController
       health_check.check_runs do |results, response|
         SVProgressHUD.dismiss
         if response.ok? && results
-          self.all_check_runs = results
+          @all_check_runs = results
           change_filter(@filter)
         else
           TinyMon.offline_alert
@@ -83,11 +83,11 @@ class CheckRunsViewController < UITableViewController
   def change_filter(sender)
     case sender.selectedSegmentIndex
     when 1
-      self.check_runs = self.all_check_runs.select { |x| x.status == 'success' }
+      @check_runs = @all_check_runs.select { |x| x.status == 'success' }
     when 2
-      self.check_runs = self.all_check_runs.select { |x| x.status == 'failure' }
+      @check_runs = @all_check_runs.select { |x| x.status == 'failure' }
     else
-      self.check_runs = self.all_check_runs
+      @check_runs = @all_check_runs
     end
     self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
   end

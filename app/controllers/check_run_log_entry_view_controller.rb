@@ -3,8 +3,8 @@ class CheckRunLogEntryViewController < HtmlViewController
   attr_accessor :current_index
   
   def initWithCheckRun(check_run, index:index)
-    self.check_run = check_run
-    self.current_index = index
+    @check_run = check_run
+    @current_index = index
     refresh_title
     initWithHTML(check_run.log[index].last)
   end
@@ -17,14 +17,14 @@ class CheckRunLogEntryViewController < HtmlViewController
 
   def up_down(sender)
     if sender.selectedSegmentIndex == 0
-      self.current_index -= 1
-      self.current_index = 0 if self.current_index < 0
+      @current_index -= 1
+      @current_index = 0 if @current_index < 0
     else
-      self.current_index += 1
-      self.current_index = check_run.log.size - 1 if self.current_index >= check_run.log.size
+      @current_index += 1
+      @current_index = check_run.log.size - 1 if @current_index >= check_run.log.size
     end
     
-    self.html = check_run.log[self.current_index].last
+    self.html = check_run.log[@current_index].last
     refresh_title
     reload_content
   end

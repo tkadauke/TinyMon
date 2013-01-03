@@ -2,7 +2,7 @@ class CheckRunViewController < Formotion::FormController
   attr_accessor :check_run
   
   def initWithCheckRun(check_run)
-    self.check_run = check_run
+    @check_run = check_run
     initWithForm(build_form)
     self.title = "Check Run"
     self
@@ -14,9 +14,9 @@ class CheckRunViewController < Formotion::FormController
   end
   
   def reload
-    self.check_run.reload do |run, response|
+    @check_run.reload do |run, response|
       if response.ok? && run
-        self.check_run = run
+        @check_run = run
         set_timer
         self.form = build_form
         self.form.controller = self

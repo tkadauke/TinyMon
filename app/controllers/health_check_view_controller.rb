@@ -3,7 +3,7 @@ class HealthCheckViewController < Formotion::FormController
   
   def initWithHealthCheck(health_check, parent:parent)
     @parent = parent
-    self.health_check = health_check
+    @health_check = health_check
     initWithForm(build_form)
     self.title = health_check.name
     self
@@ -11,8 +11,8 @@ class HealthCheckViewController < Formotion::FormController
   
   def initWithSite(site, parent:parent)
     @parent = parent
-    self.health_check = HealthCheck.new
-    self.health_check.site = site
+    @health_check = HealthCheck.new
+    @health_check.site = site
     initWithForm(build_edit_form)
     self.title = "New Health Check"
     self
@@ -20,7 +20,7 @@ class HealthCheckViewController < Formotion::FormController
   
   def viewDidLoad
     if User.current.can_edit_health_checks?
-      show_edit_button unless self.health_check.new_record?
+      show_edit_button unless @health_check.new_record?
     end
     super
   end
@@ -34,13 +34,13 @@ class HealthCheckViewController < Formotion::FormController
   end
   
   def done_editing
-    self.health_check.update_attributes(form.render)
+    @health_check.update_attributes(form.render)
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.health_check.save do |result, response|
+      @health_check.save do |result, response|
         SVProgressHUD.dismiss
         if response.ok? && result
-          if self.health_check.new_record?
+          if @health_check.new_record?
             @created = true
             if @parent
               @parent.health_checks << result
@@ -84,12 +84,12 @@ class HealthCheckViewController < Formotion::FormController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        self.health_check.destroy do |result, response|
+        @health_check.destroy do |result, response|
           SVProgressHUD.dismiss
           if response.ok? && result
             @deleted = true
             if @parent
-              @parent.health_checks.delete(self.health_check)
+              @parent.health_checks.delete(@health_check)
               self.navigationController.popViewControllerAnimated(true)
             end
           else
@@ -190,7 +190,7 @@ private
   def run
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.health_check.run do |result, response|
+      @health_check.run do |result, response|
         SVProgressHUD.dismiss
         if response.ok? && result
           navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(result), animated:true)
@@ -250,7 +250,7 @@ private
         title: "Delete",
         type: :delete
       }]
-    } if !self.health_check.new_record? && User.current.can_delete_health_checks?)].compact
+    } if !@health_check.new_record? && User.current.can_delete_health_checks?)].compact
     
     form = Formotion::Form.new({
       sections: sections

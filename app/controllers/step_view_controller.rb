@@ -3,7 +3,7 @@ class StepViewController < Formotion::FormableController
   
   def initWithStep(step, parent:parent)
     @parent = parent
-    self.step = step
+    @step = step
     initWithModel(step)
     self.title = step.summary
     
@@ -39,7 +39,7 @@ class StepViewController < Formotion::FormableController
   def done_editing
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.step.save do |result, response|
+      @step.save do |result, response|
         SVProgressHUD.dismiss
         if response.ok? && result
           if step.new_record?
@@ -71,11 +71,11 @@ class StepViewController < Formotion::FormableController
     if index == sender.destructiveButtonIndex
       TinyMon.when_reachable do
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-        self.step.destroy do |result, response|
+        @step.destroy do |result, response|
           SVProgressHUD.dismiss
           if response.ok? && result
             @deleted = true
-            @parent.steps.delete(self.step) if @parent
+            @parent.steps.delete(@step) if @parent
             self.navigationController.popViewControllerAnimated(true)
           else
             TinyMon.offline_alert

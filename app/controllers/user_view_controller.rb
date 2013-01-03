@@ -2,7 +2,7 @@ class UserViewController < Formotion::FormController
   attr_accessor :user
   
   def initWithUser(user)
-    self.user = user
+    @user = user
     initWithForm(build_form)
     self.title = user.full_name
     self
@@ -11,10 +11,10 @@ class UserViewController < Formotion::FormController
   def viewDidLoad
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      self.user.reload do |result, response|
+      @user.reload do |result, response|
         SVProgressHUD.dismiss
         if response.ok? && result
-          self.user = result
+          @user = result
           self.form = build_form
           self.form.controller = self
           self.title = result.full_name

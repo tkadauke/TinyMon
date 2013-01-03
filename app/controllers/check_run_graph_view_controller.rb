@@ -3,8 +3,8 @@ class CheckRunGraphViewController < UIViewController
   attr_accessor :check_runs
   
   def initWithHealthCheck(health_check)
-    self.health_check = health_check
-    self.check_runs = []
+    @health_check = health_check
+    @check_runs = []
     self.view.backgroundColor = UIColor.whiteColor
     init
   end
@@ -23,7 +23,7 @@ class CheckRunGraphViewController < UIViewController
       health_check.check_runs do |results, response|
         SVProgressHUD.dismiss
         if response.ok? && results
-          self.check_runs = results
+          @check_runs = results
           view.addSubview(graph_view)
         else
           TinyMon.offline_alert

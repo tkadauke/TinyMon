@@ -2,7 +2,7 @@ class HtmlViewController < UIViewController
   attr_accessor :html
   
   def initWithHTML(html)
-    self.html = html
+    @html = html
     init
   end
   

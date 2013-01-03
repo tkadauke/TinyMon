@@ -5,8 +5,8 @@ class StepsViewController < UITableViewController
   attr_accessor :steps
   
   def initWithHealthCheck(health_check)
-    self.health_check = health_check
-    self.steps = []
+    @health_check = health_check
+    @steps = []
     init
   end
   
@@ -41,7 +41,7 @@ class StepsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.steps.size
+    @steps.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -69,7 +69,7 @@ class StepsViewController < UITableViewController
     
     TinyMon.when_reachable do
       SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-      Step.sort(self.steps) do |response, json|
+      Step.sort(@steps) do |response, json|
         SVProgressHUD.dismiss
         TinyMon.offline_alert unless response.ok?
       end
@@ -96,7 +96,7 @@ class StepsViewController < UITableViewController
         @step_to_delete.destroy do |result, response|
           SVProgressHUD.dismiss
           if response.ok?
-            self.steps.delete(@step_to_delete)
+            @steps.delete(@step_to_delete)
             tableView.reloadData
           else
             TinyMon.offline_alert
@@ -116,7 +116,7 @@ class StepsViewController < UITableViewController
       health_check.steps do |results, response|
         SVProgressHUD.dismiss
         if response.ok? && results
-          self.steps = results
+          @steps = results
         else
           TinyMon.offline_alert
         end
@@ -127,7 +127,7 @@ class StepsViewController < UITableViewController
   end
   
   def add
-    navigationController.pushViewController(SelectStepViewController.alloc.initWithHealthCheck(self.health_check, parent:self), animated:true)
+    navigationController.pushViewController(SelectStepViewController.alloc.initWithHealthCheck(@health_check, parent:self), animated:true)
   end
   
   def edit

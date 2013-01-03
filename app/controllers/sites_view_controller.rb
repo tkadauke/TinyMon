@@ -7,8 +7,8 @@ class SitesViewController < UITableViewController
   attr_accessor :filtered_sites
   
   def init
-    self.sites = []
-    self.filtered_sites = []
+    @sites = []
+    @filtered_sites = []
     super
   end
   
@@ -39,14 +39,14 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.filtered_sites.size
+    @filtered_sites.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCellWithIdentifier('Cell')
     cell ||= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell')
     
-    site = self.filtered_sites[indexPath.row]
+    site = @filtered_sites[indexPath.row]
     cell.textLabel.text = site.name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.imageView.image = UIImage.imageNamed("#{site.status}.png")
@@ -54,7 +54,7 @@ class SitesViewController < UITableViewController
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    navigationController.pushViewController(SiteViewController.alloc.initWithSite(self.filtered_sites[indexPath.row], parent:self), animated:true)
+    navigationController.pushViewController(SiteViewController.alloc.initWithSite(@filtered_sites[indexPath.row], parent:self), animated:true)
   end
   
   def searchDisplayController(controller, shouldReloadTableForSearchString:string)
@@ -66,15 +66,15 @@ class SitesViewController < UITableViewController
     string ||= @search_bar.text || ""
     string = string.downcase
     
-    self.filtered_sites = case @filter.selectedSegmentIndex
+    @filtered_sites = case @filter.selectedSegmentIndex
     when 0
-      self.sites
+      @sites
     when 1
-      self.sites.select { |x| x.status == 'success' }
+      @sites.select { |x| x.status == 'success' }
     when 2
-      self.sites.select { |x| x.status == 'failure' }
+      @sites.select { |x| x.status == 'failure' }
     end
-    self.filtered_sites = self.filtered_sites.select { |s| s.name.downcase.include?(string) } unless string.blank?
+    @filtered_sites = @filtered_sites.select { |s| s.name.downcase.include?(string) } unless string.blank?
     
     if animated
       if self.searchDisplayController.isActive
@@ -101,7 +101,7 @@ class SitesViewController < UITableViewController
       Site.find_all do |results, response|
         SVProgressHUD.dismiss
         if response.ok? && results
-          self.sites = results
+          @sites = results
           self.filter_search("", animated:false)
         else
           TinyMon.offline_alert
@@ -119,13 +119,6 @@ class SitesViewController < UITableViewController
   def toolbar_items
     space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
  
-    @filter = UISegmentedControl.alloc.initWithItems(filter_items)
-    @filter.segmentedControlStyle = UISegmentedControlStyleBar
-    @filter.selectedSegmentIndex = 0
-    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
- 
-    filter_button_item = UIBarButtonItem.alloc.initWithCustomView(@filter)
-    
     [space, filter_button_item, space]
   end
   
@@ -151,5 +144,14 @@ private
     @search_bar = UISearchBar.alloc.initWithFrame([[0, 0], [320, 44]])
     @search_bar.delegate = self
     @search_bar
+  end
+  
+  def filter_button_item
+    @filter = UISegmentedControl.alloc.initWithItems(filter_items)
+    @filter.segmentedControlStyle = UISegmentedControlStyleBar
+    @filter.selectedSegmentIndex = 0
+    @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
+ 
+    UIBarButtonItem.alloc.initWithCustomView(@filter)
   end
 end

@@ -2,7 +2,7 @@ class CheckRunLogViewController < UITableViewController
   attr_accessor :check_run
   
   def initWithCheckRun(check_run)
-    self.check_run = check_run
+    @check_run = check_run
     init
   end
   
@@ -11,7 +11,7 @@ class CheckRunLogViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.check_run.log.size
+    @check_run.log.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)

@@ -5,7 +5,7 @@ class AccountsViewController < UITableViewController
   attr_accessor :accounts
   
   def init
-    self.accounts = []
+    @accounts = []
     super
   end
   
@@ -27,7 +27,7 @@ class AccountsViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    self.accounts.size
+    @accounts.size
   end
   
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -58,7 +58,7 @@ class AccountsViewController < UITableViewController
       Account.find_all do |results, response|
         SVProgressHUD.dismiss
         if response.ok? && results
-          self.accounts = results
+          @accounts = results
         else
           TinyMon.offline_alert
         end
