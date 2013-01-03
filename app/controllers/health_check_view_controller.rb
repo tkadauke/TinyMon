@@ -173,29 +173,9 @@ private
       when :description
         navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(health_check.description, title:"Description"), animated:true)
       when :run
-        TinyMon.when_reachable do
-          SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-          self.health_check.run do |result, response|
-            SVProgressHUD.dismiss
-            if response.ok? && result
-              navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(result), animated:true)
-            else
-              TinyMon.offline_alert
-            end
-          end
-        end
+        run
       when :last_check
-        TinyMon.when_reachable do
-          SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
-          health_check.check_runs do |results, response|
-            SVProgressHUD.dismiss
-            if response.ok? && results
-              navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(results.first), animated:true)
-            else
-              TinyMon.offline_alert
-            end
-          end
-        end
+        show_last_check
       when :steps
         navigationController.pushViewController(StepsViewController.alloc.initWithHealthCheck(health_check), animated:true)
       when :check_runs
@@ -205,6 +185,34 @@ private
       end
     end
     form
+  end
+  
+  def run
+    TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
+      self.health_check.run do |result, response|
+        SVProgressHUD.dismiss
+        if response.ok? && result
+          navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(result), animated:true)
+        else
+          TinyMon.offline_alert
+        end
+      end
+    end
+  end
+  
+  def show_last_check
+    TinyMon.when_reachable do
+      SVProgressHUD.showWithMaskType(SVProgressHUDMaskTypeClear)
+      health_check.check_runs do |results, response|
+        SVProgressHUD.dismiss
+        if response.ok? && results
+          navigationController.pushViewController(CheckRunViewController.alloc.initWithCheckRun(results.first), animated:true)
+        else
+          TinyMon.offline_alert
+        end
+      end
+    end
   end
 
   def build_edit_form

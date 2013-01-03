@@ -16,15 +16,8 @@ class SitesViewController < UITableViewController
     self.title = "Sites"
     self.toolbarItems = toolbar_items
 
-    @search_bar = UISearchBar.alloc.initWithFrame([[0, 0], [320, 44]])
-    @search_bar.delegate = self
-    tableView.tableHeaderView = @search_bar
-    search_controller = UISearchDisplayController.alloc.initWithSearchBar(@search_bar, contentsController:self)
-    search_controller.delegate = self
-    search_controller.searchContentsController = self
-    search_controller.searchResultsDataSource = self
-    search_controller.searchResultsDelegate = self
-    self.searchDisplayController = search_controller
+    tableView.tableHeaderView = build_search_bar
+    self.searchDisplayController = build_search_controller
     
     load_data
     
@@ -142,5 +135,21 @@ class SitesViewController < UITableViewController
   
   def searchBarCancelButtonClicked(searchBar)
     filter_search("", animated:true)
+  end
+
+private
+  def build_search_controller
+    UISearchDisplayController.alloc.initWithSearchBar(@search_bar, contentsController:self).tap do |controller|
+      controller.delegate = self
+      controller.searchContentsController = self
+      controller.searchResultsDataSource = self
+      controller.searchResultsDelegate = self
+    end
+  end
+  
+  def build_search_bar
+    @search_bar = UISearchBar.alloc.initWithFrame([[0, 0], [320, 44]])
+    @search_bar.delegate = self
+    @search_bar
   end
 end

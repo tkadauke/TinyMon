@@ -68,14 +68,16 @@ class CheckRunsViewController < UITableViewController
   def toolbar_items
     space = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
  
+    [space, filter_button_item, space]
+  end
+  
+  def filter_button_item
     @filter = UISegmentedControl.alloc.initWithItems(["All", "Success", "Failure"])
     @filter.segmentedControlStyle = UISegmentedControlStyleBar
     @filter.selectedSegmentIndex = 0
     @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)
  
-    filter_button_item = UIBarButtonItem.alloc.initWithCustomView(@filter)
-    
-    [space, filter_button_item, space]
+    UIBarButtonItem.alloc.initWithCustomView(@filter)
   end
 
   def change_filter(sender)

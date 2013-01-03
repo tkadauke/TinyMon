@@ -15,8 +15,7 @@ class LoginViewController < Formotion::FormController
     super
     return unless self.class.first_login
     
-    login_data = @form.render
-    if login_data[:server].present? && login_data[:email].present? && login_data[:password].present? && login_data[:auto_login]
+    if valid?
       submit(@form)
       self.class.first_login = false
     end
@@ -97,5 +96,10 @@ private
         }]
       }]
     })
+  end
+  
+  def valid?
+    login_data = @form.render
+    login_data[:server].present? && login_data[:email].present? && login_data[:password].present? && login_data[:auto_login]
   end
 end
