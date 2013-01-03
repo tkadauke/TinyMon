@@ -12,13 +12,6 @@ class CheckRunLogEntryViewController < HtmlViewController
   def viewDidLoad
     super
     
-    @up_down = UISegmentedControl.alloc.initWithItems([" ▲ ", " ▼ "])
-    @up_down.segmentedControlStyle = UISegmentedControlStyleBar
-    @up_down.momentary = true
-    @up_down.addTarget(self, action:"up_down:", forControlEvents:UIControlEventValueChanged)
- 
-    up_down_button_item = UIBarButtonItem.alloc.initWithCustomView(@up_down)
-    
     self.navigationItem.rightBarButtonItem = up_down_button_item
   end
 
@@ -39,5 +32,14 @@ class CheckRunLogEntryViewController < HtmlViewController
 private
   def refresh_title
     self.title = "Log Entry #{current_index + 1} of #{check_run.log.size}"
+  end
+  
+  def up_down_button_item
+    up_down = UISegmentedControl.alloc.initWithItems([" ▲ ", " ▼ "])
+    up_down.segmentedControlStyle = UISegmentedControlStyleBar
+    up_down.momentary = true
+    up_down.addTarget(self, action:"up_down:", forControlEvents:UIControlEventValueChanged)
+    
+    UIBarButtonItem.alloc.initWithCustomView(up_down)
   end
 end
