@@ -74,17 +74,9 @@ class SitesViewController < UITableViewController
     @filtered_sites = @filtered_sites.select { |s| s.name.downcase.include?(string) } unless string.blank?
     
     if animated
-      if self.searchDisplayController.isActive
-        searchDisplayController.searchResultsTableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
-      else
-        self.tableView.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
-      end
+      table_view_for_context.reloadSections(NSIndexSet.indexSetWithIndex(0), withRowAnimation:UITableViewRowAnimationFade)
     else
-      if self.searchDisplayController.isActive
-        searchDisplayController.searchResultsTableView.reloadData
-      else
-        self.tableView.reloadData
-      end
+      table_view_for_context.reloadData
     end
   end
   
@@ -129,9 +121,17 @@ class SitesViewController < UITableViewController
 
 private
   def fresh_cell
-    tableView.dequeueReusableCellWithIdentifier('Cell') ||
+    table_view_for_context.dequeueReusableCellWithIdentifier('Cell') ||
     UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:'Cell').tap do |cell|
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
+  end
+  
+  def table_view_for_context
+    if self.searchDisplayController.isActive
+      searchDisplayController.searchResultsTableView
+    else
+      self.tableView
     end
   end
   
