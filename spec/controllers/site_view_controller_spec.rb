@@ -110,7 +110,7 @@ describe SiteViewController do
   end
   
   it "should save changes" do
-    stub_request(:put, 'http://mon.tinymon.org/accounts/10/sites/test-site.json').to_return(json: {})
+    stub_request(:put, 'http://mon.tinymon.org/en/accounts/10/sites/test-site.json').to_return(json: {})
     
     edit_name('Super site')
     edit_base_url('http://test.site/foo')
@@ -121,7 +121,7 @@ describe SiteViewController do
   
   it "should delete health check" do
     controller.navigationController.mock!(:popViewControllerAnimated)
-    stub_request(:delete, 'http://mon.tinymon.org/accounts/10/sites/test-site.json').to_return(json: { id: 30 })
+    stub_request(:delete, 'http://mon.tinymon.org/en/accounts/10/sites/test-site.json').to_return(json: { id: 30 })
     tap view('Delete')
     tap controller.instance_variable_get(:@action_sheet).viewByName('Yes, delete')
     controller.instance_variable_get(:@deleted).should == true
@@ -158,7 +158,7 @@ describe SiteViewController do
   
   it "should create site" do
     controller.navigationController.mock!(:popViewControllerAnimated)
-    stub_request(:post, 'http://mon.tinymon.org/sites.json').to_return(json: {
+    stub_request(:post, 'http://mon.tinymon.org/en/sites.json').to_return(json: {
       :id => 30,
       :name => 'Test site',
       :url => 'http://test.site'

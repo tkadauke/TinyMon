@@ -28,7 +28,7 @@ describe HealthCheck do
     end
     
     it "should have many check runs" do
-      stub_request(:get, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json').to_return(json: { check_runs: [{ id: 10 }, { id: 11 }] })
+      stub_request(:get, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json').to_return(json: { check_runs: [{ id: 10 }, { id: 11 }] })
       @health_check.check_runs do |results|
         @results = results
         resume
@@ -40,7 +40,7 @@ describe HealthCheck do
     end
   
     it "should have many steps" do
-      stub_request(:get, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json').to_return(json: { steps: [{ id: 10 }, { id: 11 }] })
+      stub_request(:get, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json').to_return(json: { steps: [{ id: 10 }, { id: 11 }] })
       @health_check.steps do |results|
         @results = results
         resume
@@ -53,7 +53,7 @@ describe HealthCheck do
   end
   
   it "should have all scope" do
-    stub_request(:get, 'http://mon.tinymon.org/health_checks.json').to_return(json: { health_checks: [{ id: 10 }, { id: 11 }] })
+    stub_request(:get, 'http://mon.tinymon.org/en/health_checks.json').to_return(json: { health_checks: [{ id: 10 }, { id: 11 }] })
     HealthCheck.all do |result|
       @all = result
       resume
@@ -65,7 +65,7 @@ describe HealthCheck do
   end
   
   it "should have upcoming scope" do
-    stub_request(:get, 'http://mon.tinymon.org/health_checks/upcoming.json').to_return(json: { health_checks: [{ id: 10 }, { id: 11 }] })
+    stub_request(:get, 'http://mon.tinymon.org/en/health_checks/upcoming.json').to_return(json: { health_checks: [{ id: 10 }, { id: 11 }] })
     HealthCheck.upcoming do |result|
       @upcoming = result
       resume
@@ -128,7 +128,7 @@ describe HealthCheck do
         :account_id => 10
       }
     )
-    stub_request(:post, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json').to_return(json: { id: 10 })
+    stub_request(:post, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json').to_return(json: { id: 10 })
     health_check.run do |result|
       @result = result
       resume

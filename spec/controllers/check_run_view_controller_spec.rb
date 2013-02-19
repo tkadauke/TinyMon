@@ -105,7 +105,7 @@ describe CheckRunViewController do
         :health_check => @health_check_attributes
       )
       
-      stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs/10.json").to_return(json: { :id => 10, :status => 'success', :duration => 1.0 })
+      stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs/10.json").to_return(json: { :id => 10, :status => 'success', :duration => 1.0 })
       
       self.controller = CheckRunViewController.alloc.initWithCheckRun(@check_run)
     end
@@ -145,7 +145,7 @@ describe CheckRunViewController do
         :health_check => @health_check_attributes
       )
       
-      stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs/10.json").to_return(json: { :id => 10, :status => 'failure', :error_message => 'It failed!', :duration => 1.0 })
+      stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs/10.json").to_return(json: { :id => 10, :status => 'failure', :error_message => 'It failed!', :duration => 1.0 })
       
       self.controller = CheckRunViewController.alloc.initWithCheckRun(@check_run)
     end

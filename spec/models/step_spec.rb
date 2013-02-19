@@ -58,7 +58,7 @@ describe Step do
   end
   
   it "should sort" do
-    stub_request(:post, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/sort.json').to_return(body: "")
+    stub_request(:post, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/sort.json').to_return(body: "")
     check = HealthCheck.new(
       :id => 20,
       :permalink => 'test',
@@ -80,7 +80,7 @@ describe Step do
   end
   
   it "should create with type as query parameter" do
-    stub_request(:post, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json?type=visit').to_return(json: { id: 40, type: "VisitStep" })
+    stub_request(:post, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json?type=visit').to_return(json: { id: 40, type: "VisitStep" })
     @step = Step.new(
       :type => 'VisitStep',
       :id => 40,

@@ -25,17 +25,17 @@ describe LoginViewController do
   end
   
   it "should set root URL when logging in" do
-    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(body: "")
+    stub_request(:post, "http://mon.tinymon.org/en/login.json").to_return(body: "")
     UIAlertView.stub!(:alert, :return => nil) { |title, text| title.should == "Login failed" }
     
     MotionResource::Base.root_url = ""
     controller.submit(controller.form)
     proper_wait 0.2
-    MotionResource::Base.root_url.should == "http://mon.tinymon.org/"
+    MotionResource::Base.root_url.should == "http://mon.tinymon.org/en/"
   end
   
   it "should set tinymon server when logging in" do
-    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(body: "")
+    stub_request(:post, "http://mon.tinymon.org/en/login.json").to_return(body: "")
     UIAlertView.stub!(:alert, :return => nil) { |title, text| title.should == "Login failed" }
     
     TinyMon.server = ""
@@ -45,7 +45,7 @@ describe LoginViewController do
   end
   
   it "should alert error message if session is invalid" do
-    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(body: "")
+    stub_request(:post, "http://mon.tinymon.org/en/login.json").to_return(body: "")
     
     UIAlertView.mock!(:alert, :return => nil) { |title, text| title.should == 'Login failed' }
     controller.submit(controller.form)
@@ -54,8 +54,8 @@ describe LoginViewController do
   
   it "should set current user when logging in" do
     UIApplication.sharedApplication.delegate.window.stub!(:rootViewController=, :return => nil) { |arg| }
-    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(json: { :attempted_record => { :full_name => 'John Doe', :current_account_id => 10 } })
-    stub_request(:get, "http://mon.tinymon.org/accounts/10.json").to_return(json: { id: 10, name: 'Test account' })
+    stub_request(:post, "http://mon.tinymon.org/en/login.json").to_return(json: { :attempted_record => { :full_name => 'John Doe', :current_account_id => 10 } })
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10.json").to_return(json: { id: 10, name: 'Test account' })
     
     User.current = nil
     controller.submit(controller.form)
@@ -65,8 +65,8 @@ describe LoginViewController do
   
   it "should set current account when logging in" do
     UIApplication.sharedApplication.delegate.window.stub!(:rootViewController=, :return => nil) { |arg| }
-    stub_request(:post, "http://mon.tinymon.org/login.json").to_return(json: { :attempted_record => { :full_name => 'John Doe', :current_account_id => 10 } })
-    stub_request(:get, "http://mon.tinymon.org/accounts/10.json").to_return(json: { id: 10, name: 'Test account' })
+    stub_request(:post, "http://mon.tinymon.org/en/login.json").to_return(json: { :attempted_record => { :full_name => 'John Doe', :current_account_id => 10 } })
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10.json").to_return(json: { id: 10, name: 'Test account' })
     
     Account.current = nil
     controller.submit(controller.form)

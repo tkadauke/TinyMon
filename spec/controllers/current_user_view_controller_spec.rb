@@ -5,7 +5,7 @@ describe CurrentUserViewController do
   before do
     User.current = User.instantiate(:id => 1, :role => 'user')
     
-    stub_request(:get, "http://mon.tinymon.org/users/1.json").to_return(json: { :id => 1, :role => 'user', :full_name => 'John Doe', :email => 'john@doe.com', :accounts => [] })
+    stub_request(:get, "http://mon.tinymon.org/en/users/1.json").to_return(json: { :id => 1, :role => 'user', :full_name => 'John Doe', :email => 'john@doe.com', :accounts => [] })
     
     self.controller = CurrentUserViewController.alloc.init
   end

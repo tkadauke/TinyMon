@@ -13,7 +13,7 @@ describe CheckRunsViewController do
       }
     )
     
-    stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }, { :id => 15, :status => 'failure', :created_at_to_now => 1 }] })
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }, { :id => 15, :status => 'failure', :created_at_to_now => 1 }] })
     
     self.controller = CheckRunsViewController.alloc.initWithHealthCheck(@health_check)
   end
@@ -63,7 +63,7 @@ describe CheckRunsViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }] })
+      stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
       controller.check_runs.size.should == 1

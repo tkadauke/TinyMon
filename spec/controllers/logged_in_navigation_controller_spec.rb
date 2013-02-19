@@ -20,7 +20,7 @@ describe LoggedInNavigationController do
   extend MotionResource::SpecHelpers
   
   before do
-    stub_request(:get, "http://mon.tinymon.org/check_runs/recent.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :health_check => { :id => 10, :site => { :id => 10, :name => 'Test site' } } }] })
+    stub_request(:get, "http://mon.tinymon.org/en/check_runs/recent.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :health_check => { :id => 10, :site => { :id => 10, :name => 'Test site' } } }] })
     
     self.controller = LoggedInNavigationController.alloc.init
   end

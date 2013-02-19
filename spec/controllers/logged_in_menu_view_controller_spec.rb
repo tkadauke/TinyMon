@@ -53,7 +53,7 @@ describe LoggedInMenuViewController do
     end
     
     it "should disclose current user" do
-      stub_request(:get, "http://mon.tinymon.org/users/1.json").to_return(json: { :id => 1, :role => 'user', :full_name => 'John Doe', :email => 'john@doe.com', :accounts => [] })
+      stub_request(:get, "http://mon.tinymon.org/en/users/1.json").to_return(json: { :id => 1, :role => 'user', :full_name => 'John Doe', :email => 'john@doe.com', :accounts => [] })
       tap view("John Doe")
       1.should == 1
     end

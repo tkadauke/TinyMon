@@ -13,7 +13,7 @@ describe CheckRunGraphViewController do
       }
     )
     
-    stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :duration => 5 }, { :id => 11, :duration => 6 }, { :id => 12, :duration => 4 }] })
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :duration => 5 }, { :id => 11, :duration => 6 }, { :id => 12, :duration => 4 }] })
     
     self.controller = CheckRunGraphViewController.alloc.initWithHealthCheck(@health_check)
   end

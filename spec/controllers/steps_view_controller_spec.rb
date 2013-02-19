@@ -16,7 +16,7 @@ describe StepsViewController do
       }
     )
     
-    stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: {
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: {
       :steps => [
         { :id => 10, :type => 'VisitStep', :url => '/' },
         { :id => 11, :type => 'FillInStep', :field => 'username', :value => 'johndoe' },
@@ -64,7 +64,7 @@ describe StepsViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: { :steps => [{ :id => 10, :type => 'VisitStep', :url => '/' }] })
+      stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: { :steps => [{ :id => 10, :type => 'VisitStep', :url => '/' }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
       controller.steps.size.should == 1
@@ -91,7 +91,7 @@ describe StepsViewController do
       }
     )
     
-    stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: {
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: {
       :steps => [
         { :id => 10, :type => 'VisitStep', :url => '/' },
         { :id => 11, :type => 'FillInStep', :field => 'username', :value => 'johndoe' },
@@ -124,7 +124,7 @@ describe StepsViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: { :steps => [{ :id => 10, :type => 'VisitStep', :url => '/' }] })
+      stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json").to_return(json: { :steps => [{ :id => 10, :type => 'VisitStep', :url => '/' }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
       controller.steps.size.should == 1
@@ -133,7 +133,7 @@ describe StepsViewController do
   end
   
   it "should reorder cells" do
-    stub_request(:post, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/sort.json").to_return(json: {})
+    stub_request(:post, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/sort.json").to_return(json: {})
     cells = views(UITableViewCell)
     handle = cells.first.viewByName("Reorder")
     drag handle, :to => :bottom, :duration => 1
@@ -142,7 +142,7 @@ describe StepsViewController do
   end
   
   it "should delete step" do
-    stub_request(:delete, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/10.json").to_return(json: {})
+    stub_request(:delete, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/10.json").to_return(json: {})
     
     cell = views(UITableViewCell).first
     
@@ -157,7 +157,7 @@ describe StepsViewController do
   end
 
   it "should not delete step if minus button is tapped twice" do
-    stub_request(:delete, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/10.json").to_return(json: {})
+    stub_request(:delete, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/10.json").to_return(json: {})
     
     cell = views(UITableViewCell).first
     
@@ -170,7 +170,7 @@ describe StepsViewController do
   end
   
   it "should not delete step if deletion is canceled" do
-    stub_request(:delete, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/10.json").to_return(json: {})
+    stub_request(:delete, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/10.json").to_return(json: {})
     
     cell = views(UITableViewCell).first
     

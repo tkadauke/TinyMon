@@ -15,7 +15,7 @@ describe Account do
   end
   
   it "should switch account" do
-    stub_request(:post, 'http://mon.tinymon.org/accounts/10/switch.json').to_return(json: {})
+    stub_request(:post, 'http://mon.tinymon.org/en/accounts/10/switch.json').to_return(json: {})
     @account = Account.instantiate(:id => 10)
     @account.switch do
       resume

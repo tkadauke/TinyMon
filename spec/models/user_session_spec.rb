@@ -13,7 +13,7 @@ describe UserSession do
   end
   
   it "should login" do
-    stub_request(:post, 'http://mon.tinymon.org/login.json').to_return(json: { id: 1 })
+    stub_request(:post, 'http://mon.tinymon.org/en/login.json').to_return(json: { id: 1 })
     user_session = UserSession.new(:email => 'john@doe.com', :password => 'password')
     user_session.login do |response, json|
       @result = json

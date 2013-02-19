@@ -12,7 +12,7 @@ describe UserViewController do
       :email => 'johndoe@example.com'
     )
     
-    stub_request(:get, "http://mon.tinymon.org/users/10.json").to_return(json: { :id => 10, :accounts => [{ :id => 10, :name => 'Test' }, { :id => 11, :name => 'Foo' }] })
+    stub_request(:get, "http://mon.tinymon.org/en/users/10.json").to_return(json: { :id => 10, :accounts => [{ :id => 10, :name => 'Test' }, { :id => 11, :name => 'Foo' }] })
     
     self.controller = UserViewController.alloc.initWithUser(@user)
   end

@@ -6,7 +6,7 @@ describe SitesViewController do
     Account.current = Account.instantiate(:id => 5, :role => 'user')
     User.current = User.instantiate(:id => 1, :role => 'user')
     
-    stub_request(:get, "http://mon.tinymon.org/sites.json").to_return(json: {
+    stub_request(:get, "http://mon.tinymon.org/en/sites.json").to_return(json: {
       :sites => [
         { :id => 10, :name => 'Test-Site', :status => 'success' },
         { :id => 11, :name => 'Foo-Site', :status => 'failure' },
@@ -44,7 +44,7 @@ describe SitesViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/sites.json").to_return(json: { :sites => [{ :id => 10, :name => 'Test-Site', :status => 'success' }] })
+      stub_request(:get, "http://mon.tinymon.org/en/sites.json").to_return(json: { :sites => [{ :id => 10, :name => 'Test-Site', :status => 'success' }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
       view("success.png").should.not.be.nil

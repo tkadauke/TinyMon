@@ -21,7 +21,7 @@ describe CheckRun do
   end
   
   it "should have recent scope" do
-    stub_request(:get, 'http://mon.tinymon.org/check_runs/recent.json').to_return(json: { check_runs: [{ id: 10 }, { id: 11 }] })
+    stub_request(:get, 'http://mon.tinymon.org/en/check_runs/recent.json').to_return(json: { check_runs: [{ id: 10 }, { id: 11 }] })
     CheckRun.recent do |result|
       @recent = result
       resume

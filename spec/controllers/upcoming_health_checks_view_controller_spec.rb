@@ -6,7 +6,7 @@ describe UpcomingHealthChecksViewController do
     Account.current = Account.instantiate(:id => 5, :role => 'user')
     User.current = User.instantiate(:id => 1, :role => 'user')
     
-    stub_request(:get, "http://mon.tinymon.org/health_checks/upcoming.json").to_return(json: { :health_checks => [{ :id => 10, :status => 'success', :enabled => true, :name => 'Test', :site => { :id => 10, :name => 'Test-Site' } }, { :id => 15, :status => 'failure', :enabled => true, :name => 'Foo', :site => { :id => 10, :name => 'Test-Site' } }] })
+    stub_request(:get, "http://mon.tinymon.org/en/health_checks/upcoming.json").to_return(json: { :health_checks => [{ :id => 10, :status => 'success', :enabled => true, :name => 'Test', :site => { :id => 10, :name => 'Test-Site' } }, { :id => 15, :status => 'failure', :enabled => true, :name => 'Foo', :site => { :id => 10, :name => 'Test-Site' } }] })
   end
   
   tests UpcomingHealthChecksViewController
@@ -37,7 +37,7 @@ describe UpcomingHealthChecksViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/health_checks/upcoming.json").to_return(json: { :health_checks => [{ :id => 10, :status => 'success', :name => 'Test', :enabled => false, :site => { :id => 10, :name => 'Test-Site' } }] })
+      stub_request(:get, "http://mon.tinymon.org/en/health_checks/upcoming.json").to_return(json: { :health_checks => [{ :id => 10, :status => 'success', :name => 'Test', :enabled => false, :site => { :id => 10, :name => 'Test-Site' } }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
       view("offline.png").should.not.be.nil

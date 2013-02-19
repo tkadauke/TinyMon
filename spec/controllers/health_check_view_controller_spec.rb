@@ -109,7 +109,7 @@ describe HealthCheckViewController do
   end
   
   it "should run health check" do
-    stub_request(:post, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: {
+    stub_request(:post, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: {
       :id => 10,
       :status => 'success',
       :created_at_to_now => 1,
@@ -131,7 +131,7 @@ describe HealthCheckViewController do
   end
   
   it "should disclose last check run" do
-    stub_request(:get, "http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }, { :id => 15, :status => 'failure', :created_at_to_now => 1 }] })
+    stub_request(:get, "http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/check_runs.json").to_return(json: { :check_runs => [{ :id => 10, :status => 'success', :created_at_to_now => 1 }, { :id => 15, :status => 'failure', :created_at_to_now => 1 }] })
     controller.navigationController.mock!(:pushViewController)
     tap view('Last Check')
     1.should == 1
@@ -209,7 +209,7 @@ describe HealthCheckViewController do
   end
   
   it "should save changes" do
-    stub_request(:put, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test.json').to_return(json: {})
+    stub_request(:put, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test.json').to_return(json: {})
     
     edit_name('Hello')
     edit_description('How are things')
@@ -221,7 +221,7 @@ describe HealthCheckViewController do
   end
   
   it "should delete health check" do
-    stub_request(:delete, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test.json').to_return(json: { id: 30 })
+    stub_request(:delete, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test.json').to_return(json: { id: 30 })
     tap view('Delete')
     tap controller.instance_variable_get(:@action_sheet).viewByName('Yes, delete')
     controller.instance_variable_get(:@deleted).should == true
@@ -272,7 +272,7 @@ describe HealthCheckViewController do
   end
   
   it "should create health check" do
-    stub_request(:post, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks.json').to_return(json: {
+    stub_request(:post, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks.json').to_return(json: {
       :id => 30,
       :name => 'Test',
       :description => 'This is a test',

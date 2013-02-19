@@ -17,7 +17,7 @@ describe Site do
     end
     
     it "should have many health checks" do
-      stub_request(:get, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks.json').to_return(json: { health_checks: [{ id: 10 }, { id: 11 }] })
+      stub_request(:get, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks.json').to_return(json: { health_checks: [{ id: 10 }, { id: 11 }] })
       @site.health_checks do |results|
         @results = results
         resume

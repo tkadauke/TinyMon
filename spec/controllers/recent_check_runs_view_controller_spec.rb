@@ -3,7 +3,7 @@ describe RecentCheckRunsViewController do
   extend MotionResource::SpecHelpers
   
   before do
-    stub_request(:get, "http://mon.tinymon.org/check_runs/recent.json").to_return(json: {
+    stub_request(:get, "http://mon.tinymon.org/en/check_runs/recent.json").to_return(json: {
       :check_runs => [
         { :id => 10, :status => 'success', :created_at_to_now => 1, :health_check => { :id => 10, :name => 'test', :site => { :id => 10, :name => 'Test site' } } },
         { :id => 15, :status => 'failure', :created_at_to_now => 1, :health_check => { :id => 10, :name => 'test', :site => { :id => 10, :name => 'Test site' } } }
@@ -32,7 +32,7 @@ describe RecentCheckRunsViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/check_runs/recent.json").to_return(json: {
+      stub_request(:get, "http://mon.tinymon.org/en/check_runs/recent.json").to_return(json: {
         :check_runs => [
           { :id => 10, :status => 'success', :created_at_to_now => 1, :health_check => { :id => 10, :name => 'test', :site => { :id => 10, :name => 'Test site' } } }
         ]

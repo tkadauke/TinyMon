@@ -55,7 +55,7 @@ describe StepViewController do
   it "should create step" do
     controller.navigationController.stub!(:viewControllers, :return => [])
     controller.navigationController.mock!(:popToViewController)
-    stub_request(:post, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps.json?type=fill_in').to_return(json: {
+    stub_request(:post, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps.json?type=fill_in').to_return(json: {
       :id => 30,
       :type => 'FillInStep',
       :data => {
@@ -120,7 +120,7 @@ describe StepViewController do
   
   it "should save changes" do
     controller.navigationController.mock!(:popViewControllerAnimated)
-    stub_request(:put, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/10.json').to_return(json: {})
+    stub_request(:put, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/10.json').to_return(json: {})
     
     edit_field('Field', 'username')
     edit_field('Value', 'janedoe')
@@ -131,7 +131,7 @@ describe StepViewController do
   
   it "should delete step" do
     controller.navigationController.mock!(:popViewControllerAnimated)
-    stub_request(:delete, 'http://mon.tinymon.org/accounts/10/sites/test-site/health_checks/test/steps/10.json').to_return(json: { id: 30 })
+    stub_request(:delete, 'http://mon.tinymon.org/en/accounts/10/sites/test-site/health_checks/test/steps/10.json').to_return(json: { id: 30 })
     tap view('Delete')
     tap controller.instance_variable_get(:@action_sheet).viewByName('Yes, delete')
     controller.instance_variable_get(:@deleted).should == true

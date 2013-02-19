@@ -5,7 +5,7 @@ describe AccountsViewController do
   before do
     Account.current = Account.instantiate(:id => 10)
     
-    stub_request(:get, "http://mon.tinymon.org/accounts.json").to_return(json: { :accounts => [{ :id => 10, :status => 'success', :name => 'Test' }, { :id => 15, :status => 'failure', :name => 'Foo' }] })
+    stub_request(:get, "http://mon.tinymon.org/en/accounts.json").to_return(json: { :accounts => [{ :id => 10, :status => 'success', :name => 'Test' }, { :id => 15, :status => 'failure', :name => 'Foo' }] })
     
     self.controller = AccountsViewController.alloc.init
   end
@@ -40,7 +40,7 @@ describe AccountsViewController do
   it "should refresh on pull down" do
     wait 0.5 do
       reset_stubs
-      stub_request(:get, "http://mon.tinymon.org/accounts.json").to_return(json: { :accounts => [{ :id => 10, :status => 'success', :name => 'Test' }] })
+      stub_request(:get, "http://mon.tinymon.org/en/accounts.json").to_return(json: { :accounts => [{ :id => 10, :status => 'success', :name => 'Test' }] })
       drag controller.tableView, :to => :bottom, :duration => 1
       
       controller.accounts.size.should == 1
@@ -49,7 +49,7 @@ describe AccountsViewController do
   end
   
   it "should switch account on tap" do
-    stub_request(:post, "http://mon.tinymon.org/accounts/10/switch.json").to_return(json: {})
+    stub_request(:post, "http://mon.tinymon.org/en/accounts/10/switch.json").to_return(json: {})
     
     controller.viewDeckController.mock!(:leftController, :return => UITableViewController.alloc.init)
     controller.viewDeckController.mock!(:centerController=)
