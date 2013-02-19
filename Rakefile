@@ -39,17 +39,6 @@ Motion::Project::App.setup do |app|
   end
 end
 
-if File.exists?('config/devices.yml')
-  namespace :device do
-    YAML.load(File.read('config/devices.yml')).each do |name, id|
-      desc "Deploy on #{name}"
-      task name do
-        sh "rake device id=#{id}"
-      end
-    end
-  end
-end
-
 task :resources do
   icons = %w(success failure offline)
   icons += (0..5).to_a.collect { |i| "weather-#{i}" }
