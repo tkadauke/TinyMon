@@ -1,6 +1,6 @@
 source :rubygems
 gem "rake"
-gem "bubble-wrap"
+gem "bubble-wrap", "1.3.0.osx"
 gem "formotion"
 gem "motion-testflight"
 gem "motion-cocoapods", '1.3.0.rc1'
