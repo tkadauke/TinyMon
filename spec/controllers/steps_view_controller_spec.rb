@@ -25,6 +25,7 @@ describe StepsViewController do
     })
     
     self.controller = StepsViewController.alloc.initWithHealthCheck(@health_check)
+    self.controller.viewDeckController.stub!(:panningMode=) { |val| }
   end
   
   tests StepsViewController

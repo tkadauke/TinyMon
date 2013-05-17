@@ -54,7 +54,7 @@ describe SitesViewController do
   end
   
   it "should search sites" do
-    tap controller.search_bar
+    tap "Search"
     controller.search_bar.text = 'Test'
     wait 0.2 do
       controller.filtered_sites.size.should == 1
@@ -63,7 +63,7 @@ describe SitesViewController do
   end
   
   it "should cancel search for sites" do
-    tap controller.search_bar
+    tap "Search"
     controller.searchDisplayController.isActive.should == true
     tap "Cancel"
     controller.searchDisplayController.isActive.should == false
@@ -88,7 +88,7 @@ describe SitesViewController do
   it "should filter and then search" do
     wait 0.5 do
       filter_button(1)
-      tap controller.search_bar
+      tap "Search"
       controller.search_bar.text = 'Test'
       controller.filtered_sites.size.should == 1
       view('Test-Site').should.not.be.nil
@@ -97,7 +97,7 @@ describe SitesViewController do
   end
   
   it "should search and then filter" do
-    tap controller.search_bar
+    tap "Search"
     controller.search_bar.text = 'Test'
     filter_button(1)
     controller.filtered_sites.size.should == 1

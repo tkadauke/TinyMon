@@ -58,7 +58,7 @@ describe HealthChecksViewController do
   end
   
   it "should search health checks" do
-    tap controller.search_bar
+    tap "Search"
     controller.search_bar.text = 'Test'
     wait 0.2 do
       controller.filtered_health_checks.size.should == 1
@@ -67,7 +67,7 @@ describe HealthChecksViewController do
   end
   
   it "should cancel search for health checks" do
-    tap controller.search_bar
+    tap "Search"
     controller.searchDisplayController.isActive.should == true
     tap "Cancel"
     controller.searchDisplayController.isActive.should == false
@@ -110,7 +110,7 @@ describe HealthChecksViewController do
   it "should filter and then search" do
     wait 0.5 do
       filter_button(3)
-      tap controller.search_bar
+      tap "Search"
       controller.search_bar.text = 'Test'
       controller.filtered_health_checks.size.should == 1
       view('Test').should.not.be.nil
@@ -119,7 +119,7 @@ describe HealthChecksViewController do
   end
   
   it "should search and then filter" do
-    tap controller.search_bar
+    tap "Search"
     controller.search_bar.text = 'Test'
     filter_button(3)
     controller.filtered_health_checks.size.should == 1
