@@ -6,10 +6,10 @@ class WaitStep < Step
   form_property :duration, :number
   
   def self.summary
-    "Wait"
+    I18n.t("steps.wait.summary")
   end
   
   def detail
-    "for #{duration} seconds"
+    I18n.t("steps.wait.detail", :duration => self.duration)
   end
 end

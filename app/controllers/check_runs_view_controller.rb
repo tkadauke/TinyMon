@@ -16,7 +16,7 @@ class CheckRunsViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Check Runs"
+    self.title = I18n.t("check_runs_controller.title")
     self.toolbarItems = toolbar_items
     
     load_data
@@ -69,7 +69,7 @@ class CheckRunsViewController < UITableViewController
   end
   
   def filter_button_item
-    @filter = UISegmentedControl.alloc.initWithItems(["All", "Success", "Failure"])
+    @filter = UISegmentedControl.alloc.initWithItems([I18n.t("filter.all"), I18n.t("filter.success"), I18n.t("filter.failure")])
     @filter.segmentedControlStyle = UISegmentedControlStyleBar
     @filter.selectedSegmentIndex = 0
     @filter.addTarget(self, action:"change_filter:", forControlEvents:UIControlEventValueChanged)

@@ -10,7 +10,7 @@ class CheckRunGraphViewController < UIViewController
   end
   
   def viewDidLoad
-    self.title = "Check Runs Graph"
+    self.title = I18n.t("check_run_graph_controller.title")
     
     load_data
     

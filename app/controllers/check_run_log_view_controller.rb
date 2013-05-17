@@ -7,7 +7,7 @@ class CheckRunLogViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Log"
+    self.title = I18n.t("check_run_log_controller.title")
   end
   
   def tableView(tableView, numberOfRowsInSection:section)

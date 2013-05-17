@@ -4,7 +4,7 @@ class AllHealthChecksViewController < HealthChecksViewController
   def viewDidLoad
     super
     
-    self.title = "All Health Checks"
+    self.title = I18n.t("all_health_checks_controller.title")
     
     self.navigationItem.rightBarButtonItem = nil
     

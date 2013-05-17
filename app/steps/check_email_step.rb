@@ -8,10 +8,10 @@ class CheckEmailStep < Step
   form_property :password, :string, :secure => true
   
   def self.summary
-    "Check E-Mail"
+    I18n.t("steps.check_email.summary")
   end
   
   def detail
-    "with login '#{login}' on server '#{server}'"
+    I18n.t("steps.check_email.detail", :login => self.login, :server => self.server)
   end
 end

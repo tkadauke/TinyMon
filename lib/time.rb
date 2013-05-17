@@ -11,15 +11,15 @@ class Time
     duration = seconds.abs
     case duration
     when 0..15
-      'just now'
+      I18n.t("time.ago.just_now")
     when 15..60
-      'less than a minute ago'
+      I18n.t("time.ago.seconds")
     when 60..3600
-      "#{(duration / 60).to_i} minutes ago"
+      I18n.t("time.ago.minutes", :duration => (duration / 60).to_i)
     when 3600..86400
-      "#{(duration / 3600).to_i} hours ago"
+      I18n.t("time.ago.hours", :duration => (duration / 3600).to_i)
     else
-      "#{(duration / 86400).to_i} days ago"
+      I18n.t("time.ago.days", :duration => (duration / 86400).to_i)
     end 
   end
   
@@ -29,15 +29,15 @@ class Time
     duration = seconds.abs
     case duration
     when 0..15
-      'very soon'
+      I18n.t("time.future.soon")
     when 15..60
-      'in less than a minute'
+      I18n.t("time.future.seconds")
     when 60..3600
-      "in #{(duration / 60).to_i} minutes"
+      I18n.t("time.future.minutes", :duration => (duration / 60).to_i)
     when 3600..86400
-      "in #{(duration / 3600).to_i} hours"
+      I18n.t("time.future.hours", :duration => (duration / 3600).to_i)
     else
-      "in #{(duration / 86400).to_i} days"
+      I18n.t("time.future.days", :duration => (duration / 86400).to_i)
     end 
   end
 end

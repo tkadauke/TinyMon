@@ -6,10 +6,10 @@ class ClickButtonStep < Step
   form_property :name, :string
   
   def self.summary
-    "Click button"
+    I18n.t("steps.click_button.summary")
   end
   
   def detail
-    "with name '#{name}'"
+    I18n.t("steps.click_button.detail", :name => self.name)
   end
 end

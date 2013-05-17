@@ -10,30 +10,30 @@ class LoggedInMenuViewController < UITableViewController
       key: :account
     }]
   }, {
-    title: "Monitoring",
+    title: I18n.t("menu.monitoring"),
     rows: [{
-      title: "Activity",
+      title: I18n.t("menu.activity"),
       key: :activity
     }, {
-      title: "Sites",
+      title: I18n.t("menu.sites"),
       key: :sites
     }, {
-      title: "Health Checks",
+      title: I18n.t("menu.health_checks"),
       key: :health_checks
     }]
   }, {
-    title: "Account",
+    title: I18n.t("menu.account"),
     rows: [{
-      title: "Switch Account",
+      title: I18n.t("menu.switch_account"),
       key: :accounts
     }, {
-      title: "Users",
+      title: I18n.t("menu.users"),
       key: :users
     }]
   }, {
-    title: "General",
+    title: I18n.t("menu.general"),
     rows: [{
-      title: "Log out",
+      title: I18n.t("menu.log_out"),
       key: :logout
     }]
   }]

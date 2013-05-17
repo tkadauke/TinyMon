@@ -31,7 +31,7 @@ class CheckRunLogEntryViewController < HtmlViewController
 
 private
   def refresh_title
-    self.title = "Log Entry #{current_index + 1} of #{check_run.log.size}"
+    self.title = I18n.t("check_run_log_entry_controller.title", :number => current_index + 1, :from => check_run.log.size)
   end
   
   def up_down_button_item

@@ -33,15 +33,15 @@ private
       sections: [{
         rows: [{
           value: user.full_name,
-          title: "Name",
+          title: I18n.t("form.name"),
           type: :label
         }, {
           value: user.email,
-          title: "Email",
+          title: I18n.t("form.email"),
           type: :label
         }]
       }, {
-        title: "Accounts",
+        title: I18n.t("form.accounts"),
         rows: user.accounts.map { |account| {
           title: account.name.to_s,
           type: :label

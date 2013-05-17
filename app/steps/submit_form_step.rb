@@ -6,10 +6,10 @@ class SubmitFormStep < Step
   form_property :name, :string
   
   def self.summary
-    "Submit form"
+    I18n.t("steps.submit_form.summary")
   end
   
   def detail
-    "with name '#{name}'"
+    I18n.t("steps.submit_form.detail", :name => self.name)
   end
 end

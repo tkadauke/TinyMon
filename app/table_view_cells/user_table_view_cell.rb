@@ -19,7 +19,7 @@ class UserTableViewCell < UITableViewCell
     @user_account = value
     
     @name_label.text = user_account.user.full_name
-    @role_label.text = user_account.role
+    @role_label.text = I18n.t("user.role.#{user_account.role}")
     
     @image.url = NSURL.URLWithString(user_account.user.gravatar_url)
     ImageManager.instance.manage(@image)

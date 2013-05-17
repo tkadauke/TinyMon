@@ -38,6 +38,6 @@ class UpcomingHealthChecksViewController < HealthChecksViewController
   end
   
   def filter_items
-    ["All", "Success", "Failure"]
+    [I18n.t("filter.all"), I18n.t("filter.success"), I18n.t("filter.failure")]
   end
 end

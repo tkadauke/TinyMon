@@ -6,10 +6,10 @@ class ClickLinkStep < Step
   form_property :name, :string
   
   def self.summary
-    "Click link"
+    I18n.t("steps.click_link.summary")
   end
   
   def detail
-    "with name '#{name}'"
+    I18n.t("steps.click_link.detail", :name => self.name)
   end
 end

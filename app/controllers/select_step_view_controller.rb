@@ -3,7 +3,7 @@ class SelectStepViewController < UITableViewController
     @health_check = health_check
     @parent = parent
     
-    self.title = "Add Step"
+    self.title = I18n.t("select_step_controller.title")
     
     self
   end

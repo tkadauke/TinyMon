@@ -15,6 +15,6 @@ class TinyMon
   end
   
   def self.offline_alert
-    UIAlertView.alert("Internet connection", "Can not reach TinyMon server")
+    UIAlertView.alert(I18n.t("offline_alert.title"), I18n.t("offline_alert.text"))
   end
 end

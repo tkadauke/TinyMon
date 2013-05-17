@@ -10,7 +10,7 @@ class UserAccountsViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Users"
+    self.title = I18n.t("user_accounts_controller.title")
     
     load_data
     

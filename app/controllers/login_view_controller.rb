@@ -4,7 +4,7 @@ class LoginViewController < Formotion::FormController
   
   def init
     initWithForm(build_form)
-    self.title = "TinyMon - Login"
+    self.title = I18n.t("login_controller.title")
     @form.on_submit do |form|
       submit(form)
     end
@@ -33,7 +33,7 @@ class LoginViewController < Formotion::FormController
       session.login do |response, json|
         SVProgressHUD.dismiss
         if response.error_message
-          UIAlertView.alert("Login failed", response.error_message)
+          UIAlertView.alert(I18n.t("login_controller.alert.title"), response.error_message)
         else
           if json.present?
             User.current = User.new(json["attempted_record"])
@@ -42,11 +42,11 @@ class LoginViewController < Formotion::FormController
                 Account.current = account
                 UIApplication.sharedApplication.delegate.window.rootViewController = LoggedInViewDeckController.alloc.init
               else
-                UIAlertView.alert("Login failed", "Wrong username or password")
+                UIAlertView.alert(I18n.t("login_controller.alert.title"), I18n.t("login_controller.alert.text"))
               end
             end
           else
-            UIAlertView.alert("Login failed", "Wrong username or password")
+            UIAlertView.alert(I18n.t("login_controller.alert.title"), I18n.t("login_controller.alert.text"))
           end
         end
       end
@@ -59,39 +59,39 @@ private
       persist_as: :credentials,
       sections: [{
         rows: [{
-          title: "Email",
+          title: I18n.t("form.email"),
           key: :email,
-          placeholder: "me@mail.com",
+          placeholder: I18n.t("form.placeholder.email"),
           type: :email,
           auto_correction: :no,
           auto_capitalization: :none
         }, {
-          title: "Password",
+          title: I18n.t("form.password"),
           key: :password,
-          placeholder: "required",
+          placeholder: I18n.t("form.placeholder.required"),
           type: :string,
           secure: true
         }]
       }, {
-        title: "Server",
+        title: I18n.t("form.server"),
         rows: [{
-          title: "Host name",
-          value: "mon.tinymon.org",
+          title: I18n.t("form.hostname"),
+          value: I18n.t("form.placeholder.hostname"),
           key: :server,
           type: :string,
           auto_correction: :no,
           auto_capitalization: :none
         }]
       }, {
-        title: "Settings",
+        title: I18n.t("form.settings"),
         rows: [{
-          title: "Auto log in",
+          title: I18n.t("form.auto_login"),
           key: :auto_login,
           type: :switch
         }]
       }, {
         rows: [{
-          title: "Login",
+          title: I18n.t("form.login"),
           type: :submit
         }]
       }]

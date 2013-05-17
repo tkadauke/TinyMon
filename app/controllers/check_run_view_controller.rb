@@ -4,7 +4,7 @@ class CheckRunViewController < Formotion::FormController
   def initWithCheckRun(check_run)
     @check_run = check_run
     initWithForm(build_form)
-    self.title = "Check Run"
+    self.title = I18n.t("check_run_controller.title")
     self
   end
   
@@ -20,7 +20,7 @@ class CheckRunViewController < Formotion::FormController
         set_timer
         self.form = build_form
         self.form.controller = self
-        self.title = "Check Run"
+        self.title = I18n.t("check_run_controller.title")
         tableView.reloadData
       end
     end
@@ -38,35 +38,35 @@ private
       sections: [{
         rows: [{
           value: check_run.health_check.name,
-          title: "Health Check",
+          title: I18n.t("form.health_check"),
           type: :label
         }, {
           value: check_run.health_check.site.name,
-          title: "Site",
+          title: I18n.t("form.site"),
           type: :label
         }]
       }, {
         rows: [{
           value: UIImage.imageNamed("#{check_run.status}.png"),
-          title: "Status",
+          title: I18n.t("form.status"),
           type: check_run.status.present? ? :icon : :spinner
         }, {
           value: Time.ago_in_words(check_run.created_at_to_now),
-          title: "When",
+          title: I18n.t("form.when"),
           type: :label
         }, {
           value: "#{"%2.1f" % check_run.duration.to_f} s",
-          title: "Duration",
+          title: I18n.t("form.duration"),
           type: :label
         }, ({
           value: check_run.error_message,
-          title: "Message",
+          title: I18n.t("form.message"),
           key: :message,
           type: :disclose
         } if check_run.error_message.present?)].compact
       }, {
         rows: [{
-          title: "Log",
+          title: I18n.t("form.log"),
           key: :log,
           type: :disclose
         }]
@@ -76,7 +76,7 @@ private
     form.on_select do |key|
       case key
       when :message
-        navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(check_run.error_message, title:"Message"), animated:true)
+        navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(check_run.error_message, title:I18n.t("message_controller.title")), animated:true)
       when :log
         navigationController.pushViewController(CheckRunLogViewController.alloc.initWithCheckRun(check_run), animated:true)
       end

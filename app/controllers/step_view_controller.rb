@@ -10,7 +10,7 @@ class StepViewController < Formotion::FormableController
     if User.current.can_edit_health_checks?
       self.form.create_section(
         rows: [{
-          title: "Save",
+          title: I18n.t("form.save"),
           type: :submit
         }]
       )
@@ -22,7 +22,7 @@ class StepViewController < Formotion::FormableController
       unless step.new_record?
         self.form.create_section(
           rows: [{
-            title: "Delete",
+            title: I18n.t("form.delete"),
             type: :delete
           }]
         )
@@ -58,10 +58,10 @@ class StepViewController < Formotion::FormableController
   end
 
   def delete
-    @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+    @action_sheet = UIActionSheet.alloc.initWithTitle(I18n.t("alert.really_delete"),
                                                              delegate:self,
-                                                    cancelButtonTitle:"No",
-                                               destructiveButtonTitle:"Yes, delete",
+                                                    cancelButtonTitle:I18n.t("alert.no_answer"),
+                                               destructiveButtonTitle:I18n.t("alert.yes_answer"),
                                                     otherButtonTitles:nil)
   
     @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)

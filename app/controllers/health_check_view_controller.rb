@@ -14,7 +14,7 @@ class HealthCheckViewController < Formotion::FormController
     @health_check = HealthCheck.new
     @health_check.site = site
     initWithForm(build_edit_form)
-    self.title = "New Health Check"
+    self.title = I18n.t("health_check_controller.new_title")
     self
   end
   
@@ -71,10 +71,10 @@ class HealthCheckViewController < Formotion::FormController
   end
   
   def delete
-    @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+    @action_sheet = UIActionSheet.alloc.initWithTitle(I18n.t("alert.really_delete"),
                                                              delegate:self,
-                                                    cancelButtonTitle:"No",
-                                               destructiveButtonTitle:"Yes, delete",
+                                                    cancelButtonTitle:I18n.t("alert.no_answer"),
+                                               destructiveButtonTitle:I18n.t("alert.yes_answer"),
                                                     otherButtonTitles:nil)
   
     @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)
@@ -106,62 +106,62 @@ private
       sections: [{
         rows: [{
           value: health_check.name,
-          title: "Name",
+          title: I18n.t("form.name"),
           type: :label
         }, {
           value: health_check.site.name,
-          title: "Site",
+          title: I18n.t("form.site"),
           type: :label
         }, {
           value: health_check.description,
-          title: "Description",
+          title: I18n.t("form.description"),
           key: :description,
           type: health_check.description.blank? ? :label : :disclose
         }, {
           value: health_check.interval,
-          title: "Check Interval",
+          title: I18n.t("form.check_interval"),
           type: :label
         }, {
-          value: health_check.enabled ? 'Yes' : 'No',
-          title: "Active",
+          value: health_check.enabled ? I18n.t("form.enabled_yes") : I18n.t("form.enabled_no"),
+          title: I18n.t("form.active"),
           type: :label
         }]
       }, {
         rows: [{
-          title: "Run now",
+          title: I18n.t("form.run"),
           type: :disclose,
           key: :run
         }]
       }, {
         rows: [{
           value: Time.ago_in_words(health_check.last_checked_at_to_now),
-          title: "Last Check",
+          title: I18n.t("form.last_check"),
           type: :disclose,
           key: :last_check
         }, {
           value: (Time.future_in_words(health_check.next_check_at_to_now) if health_check.enabled),
-          title: "Next Check",
+          title: I18n.t("form.next_check"),
           type: :label
         }, {
           value: UIImage.imageNamed("#{health_check.status}.png"),
-          title: "Status",
+          title: I18n.t("form.status"),
           type: :icon
         }, {
           value: UIImage.imageNamed("weather-#{health_check.weather}.png"),
-          title: "Weather",
+          title: I18n.t("form.weather"),
           type: :icon
         }]
       }, {
         rows: [{
-          title: "Steps",
+          title: I18n.t("form.steps"),
           key: :steps,
           type: :disclose
         }, {
-          title: "Check runs",
+          title: I18n.t("form.check_runs"),
           key: :check_runs,
           type: :disclose
         }, {
-          title: "Graph",
+          title: I18n.t("form.graph"),
           key: :graph,
           type: :disclose
         }]
@@ -171,7 +171,7 @@ private
     form.on_select do |key|
       case key
       when :description
-        navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(health_check.description, title:"Description"), animated:true)
+        navigationController.pushViewController(HtmlViewController.alloc.initWithHTML(health_check.description, title:I18n.t("description_controller.title")), animated:true)
       when :run
         run
       when :last_check
@@ -219,35 +219,35 @@ private
     sections = [{
       rows: [{
         value: health_check.name,
-        title: "Name",
+        title: I18n.t("form.name"),
         key: :name,
         type: :string
       }, {
         value: health_check.description,
-        title: "Description",
+        title: I18n.t("form.description"),
         key: :description,
         type: :text,
         row_height: 100
       }, {
         value: health_check.interval.to_s,
-        title: "Check Interval",
+        title: I18n.t("form.check_interval"),
         key: :interval,
         type: :picker,
         items: ["1", "2", "3", "5", "10", "15", "20", "30", "60", "120", "180", "240", "360", "720", "1440"]
       }, {
         value: health_check.enabled,
-        title: "Active",
+        title: I18n.t("form.active"),
         key: :enabled,
         type: :switch
       }]
     }, {
       rows: [{
-        title: "Save",
+        title: I18n.t("form.save"),
         type: :submit
       }]
     }, ({
       rows: [{
-        title: "Delete",
+        title: I18n.t("form.delete"),
         type: :delete
       }]
     } if !@health_check.new_record? && User.current.can_delete_health_checks?)].compact

@@ -11,7 +11,7 @@ class StepsViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Steps"
+    self.title = I18n.t("steps_controller.title")
     
     load_data
     
@@ -76,10 +76,10 @@ class StepsViewController < UITableViewController
   def tableView(tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
     if editingStyle == UITableViewCellEditingStyleDelete
       @step_to_delete = steps[indexPath.row]
-      @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+      @action_sheet = UIActionSheet.alloc.initWithTitle(I18n.t("alert.really_delete"),
                                                                delegate:self,
-                                                      cancelButtonTitle:"No",
-                                                 destructiveButtonTitle:"Yes, delete",
+                                                      cancelButtonTitle:I18n.t("alert.no_answer"),
+                                                 destructiveButtonTitle:I18n.t("alert.yes_answer"),
                                                       otherButtonTitles:nil)
 
       @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)

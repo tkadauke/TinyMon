@@ -18,7 +18,7 @@ class HealthChecksViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Health Checks"
+    self.title = I18n.t("health_checks_controller.title")
     self.toolbarItems = toolbar_items
     
     tableView.tableHeaderView = build_search_bar
@@ -115,7 +115,7 @@ class HealthChecksViewController < UITableViewController
   end
   
   def filter_items
-    ["All", "Success", "Failure", "Enabled", "Disabled"]
+    [I18n.t("filter.all"), I18n.t("filter.success"), I18n.t("filter.failure"), I18n.t("filter.enabled"), I18n.t("filter.disabled")]
   end
   
   def toolbar_items

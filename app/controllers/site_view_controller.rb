@@ -13,7 +13,7 @@ class SiteViewController < Formotion::FormController
     @parent = parent
     @site = Site.new
     initWithForm(build_edit_form)
-    self.title = "New Site"
+    self.title = I18n.t("site_controller.title")
     self
   end
   
@@ -68,10 +68,10 @@ class SiteViewController < Formotion::FormController
   end
   
   def delete
-    @action_sheet = UIActionSheet.alloc.initWithTitle("Really delete?",
+    @action_sheet = UIActionSheet.alloc.initWithTitle(I18n.t("alert.really_delete"),
                                                              delegate:self,
-                                                    cancelButtonTitle:"No",
-                                               destructiveButtonTitle:"Yes, delete",
+                                                    cancelButtonTitle:I18n.t("alert.no_answer"),
+                                               destructiveButtonTitle:I18n.t("alert.yes_answer"),
                                                     otherButtonTitles:nil)
   
     @action_sheet.showInView(UIApplication.sharedApplication.keyWindow)
@@ -101,21 +101,21 @@ private
       sections: [{
         rows: [{
           value: site.name,
-          title: "Name",
+          title: I18n.t("form.name"),
           type: :label
         }, {
           value: site.url,
-          title: "Base URL",
+          title: I18n.t("form.base_url"),
           type: :disclose,
           key: :url
         }, {
           value: UIImage.imageNamed("#{site.status}.png"),
-          title: "Status",
+          title: I18n.t("form.status"),
           type: :icon,
         }]
       }, {
         rows: [{
-          title: "Health Checks",
+          title: I18n.t("form.health_checks"),
           type: :disclose,
           key: :checks
         }]
@@ -137,12 +137,12 @@ private
     sections = [{
       rows: [{
         value: site.name,
-        title: "Name",
+        title: I18n.t("form.name"),
         key: :name,
         type: :string
       }, {
         value: site.url,
-        title: "Base URL",
+        title: I18n.t("form.base_url"),
         key: :url,
         type: :string,
         auto_correction: :no,
@@ -150,12 +150,12 @@ private
       }]
     }, {
       rows: [{
-        title: "Save",
+        title: I18n.t("form.save"),
         type: :submit
       }]
     }, ({
       rows: [{
-        title: "Delete",
+        title: I18n.t("form.delete"),
         type: :delete
       }]
     } if !@site.new_record? && User.current.can_delete_sites?)].compact

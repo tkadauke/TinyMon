@@ -1,0 +1,164 @@
+--- 
+de: 
+  accounts_controller: 
+    title: Konten
+  alert: 
+    no_answer: "Nein"
+    really_delete: "Wirklich löschen?"
+    yes_answer: "Ja, löschen"
+  all_health_checks_controller: 
+    title: "Alle Funktionstests"
+  check_run_controller: 
+    title: "Testlauf"
+  check_run_graph_controller: 
+    title: "Testlauf-Graph"
+  check_run_log_controller: 
+    title: Log
+  check_run_log_entry_controller: 
+    title: "Logeintrag %{number} von %{from}"
+  check_runs_controller: 
+    title: "Testläufe"
+  description_controller: 
+    title: Beschreibung
+  filter: 
+    all: Alle
+    disabled: Inaktiv
+    enabled: Aktiv
+    failure: Fehler
+    recent: Letzte
+    success: Erfolg
+    upcoming: Nächste
+  form: 
+    accounts: Konten
+    active: Aktiv
+    auto_login: "Auto-Login"
+    base_url: "Basis-URL"
+    check_interval: "Prüf-Interval"
+    check_runs: "Testläufe"
+    delete: Löschen
+    description: Beschreibung
+    duration: Dauer
+    email: E-Mail
+    enabled_no: "Nein"
+    enabled_yes: "Ja"
+    graph: Graph
+    health_check: "Funktionstest"
+    health_checks: "Funktionstests"
+    hostname: "Hostname"
+    last_check: "Letzter Lauf"
+    log: Log
+    login: Login
+    message: Meldung
+    name: Name
+    next_check: "Nächster Lauf"
+    password: Passwort
+    placeholder: 
+      email: me@mail.de
+      hostname: mon.tinymon.org
+      required: Pflichtfeld
+    run: "Jetzt prüfen"
+    save: Speichern
+    server: Server
+    settings: Einstellungen
+    site: Site
+    status: Status
+    steps: Schritte
+    weather: Wetter
+    when: Wann
+  health_check_controller: 
+    new_title: "Neuer Funktionstest"
+  health_checks_controller: 
+    title: "Funktionstests"
+  login_controller: 
+    alert: 
+      text: "Benutzername oder Password falsch"
+      title: "Login fehlgeschlagen"
+    title: "TinyMon - Login"
+  menu: 
+    account: Konto
+    activity: Aktivität
+    general: Sonstiges
+    health_checks: "Funktionstests"
+    log_out: "Abmelden"
+    monitoring: Monitoring
+    sites: Sites
+    switch_account: "Konto wechseln"
+    users: Benutzer
+  menu_button: Menü
+  message_controller: 
+    title: Meldung
+  offline_alert: 
+    text: "Konnte TinyMon-Server nicht erreichen"
+    title: "Internetverbindung"
+  refreshable: 
+    last_update: "Zuletzt aktualisiert: %{timestamp}"
+    progress: "Aktualisiere ..."
+    title: "Ziehen zum Aktualisieren"
+  select_step_controller: 
+    title: "Neuer Schritt"
+  site_controller: 
+    title: "Neue Site"
+  sites_controller: 
+    title: Sites
+  steps: 
+    check_content: 
+      detail: "auf '%{content}'"
+      summary: "Prüfe Inhalt"
+    check_current_url: 
+      detail: "mit '%{url}'"
+      summary: "Vergleiche aktuelle URL"
+    check_email: 
+      detail: "mit Login '%{login}' auf Server '%{server}'"
+      summary: "Prüfe E-Mail"
+    choose_radio_button: 
+      detail: "mit Namen '%{name}'"
+      summary: "Wähle Radio-Button"
+    click_button: 
+      detail: "mit Namen '%{name}'"
+      summary: "Klicke Button"
+    click_email_link: 
+      detail: "mit Muster '%{link_pattern}'"
+      summary: "Klick Link in Email"
+    click_link: 
+      detail: "mit Namen '%{name}'"
+      summary: "Klicke Link"
+    deselect_check_box: 
+      detail: "mit Namen '%{name}'"
+      summary: "Wähle Checkbox ab"
+    fill_in: 
+      detail: "'%{field}' mit '%{value}'"
+      summary: "Fülle"
+    select_check_box: 
+      detail: "mit Namen '%{name}'"
+      summary: "Wähle Checkbox an"
+    submit_form: 
+      detail: "mit Namen '%{name}'"
+      summary: "Sende Formular"
+    visit: 
+      detail: "Seite '%{url}'"
+      summary: Besuche
+    wait: 
+      detail: "%{duration} Sekunden"
+      summary: Warte
+  steps_controller: 
+    title: Steps
+  time: 
+    ago: 
+      days: "vor %{duration} Tagen"
+      hours: "vor %{duration} Stunden"
+      just_now: "gerade eben"
+      minutes: "vor %{duration} Minuten"
+      seconds: "vor weniger als einer Minute"
+    future: 
+      days: "in %{duration} Tagen"
+      hours: "in %{duration} Stunden"
+      minutes: "in %{duration} Minuten"
+      seconds: "in weniger als einer Minuten"
+      soon: "gleich"
+  user: 
+    role: 
+      admin: Administrator
+      observer: Zuschauer
+      user: Benutzer
+  user_accounts_controller: 
+    title: Benutzer

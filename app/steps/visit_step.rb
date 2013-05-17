@@ -6,10 +6,10 @@ class VisitStep < Step
   form_property :url, :string
   
   def self.summary
-    "Visit"
+    I18n.t("steps.visit.summary")
   end
   
   def detail
-    "page '#{url}'"
+    I18n.t("steps.visit.detail", :url => self.url)
   end
 end

@@ -6,10 +6,10 @@ class ChooseRadioButtonStep < Step
   form_property :name, :string
   
   def self.summary
-    "Choose radio button"
+    I18n.t("steps.choose_radio_button.summary")
   end
   
   def detail
-    "with name '#{name}'"
+    I18n.t("steps.choose_radio_button.detail", :name => self.name)
   end
 end

@@ -1,0 +1,164 @@
+--- 
+en: 
+  accounts_controller: 
+    title: Accounts
+  alert: 
+    no_answer: "No"
+    really_delete: "Really delete?"
+    yes_answer: "Yes, delete"
+  all_health_checks_controller: 
+    title: "All Health Checks"
+  check_run_controller: 
+    title: "Check Run"
+  check_run_graph_controller: 
+    title: "Check Runs Graph"
+  check_run_log_controller: 
+    title: Log
+  check_run_log_entry_controller: 
+    title: "Log Entry %{number} of %{from}"
+  check_runs_controller: 
+    title: "Check Runs"
+  description_controller: 
+    title: Description
+  filter: 
+    all: All
+    disabled: Disabled
+    enabled: Enabled
+    failure: Failure
+    recent: Recent
+    success: Success
+    upcoming: Upcoming
+  form: 
+    accounts: Accounts
+    active: Active
+    auto_login: "Auto log in"
+    base_url: "Base URL"
+    check_interval: "Check Interval"
+    check_runs: "Check runs"
+    delete: Delete
+    description: Description
+    duration: Duration
+    email: Email
+    enabled_no: "No"
+    enabled_yes: "Yes"
+    graph: Graph
+    health_check: "Health Check"
+    health_checks: "Health Checks"
+    hostname: "Host name"
+    last_check: "Last Check"
+    log: Log
+    login: Login
+    message: Message
+    name: Name
+    next_check: "Next Check"
+    password: Password
+    placeholder: 
+      email: me@mail.com
+      hostname: mon.tinymon.org
+      required: required
+    run: "Run now"
+    save: Save
+    server: Server
+    settings: Settings
+    site: Site
+    status: Status
+    steps: Steps
+    weather: Weather
+    when: When
+  health_check_controller: 
+    new_title: "New Health Check"
+  health_checks_controller: 
+    title: "Health Checks"
+  login_controller: 
+    alert: 
+      text: "Wrong username or password"
+      title: "Login failed"
+    title: "TinyMon - Login"
+  menu: 
+    account: Account
+    activity: Activity
+    general: General
+    health_checks: "Health Checks"
+    log_out: "Log out"
+    monitoring: Monitoring
+    sites: Sites
+    switch_account: "Switch Account"
+    users: Users
+  menu_button: Menu
+  message_controller: 
+    title: Message
+  offline_alert: 
+    text: "Can not reach TinyMon server"
+    title: "Internet connection"
+  refreshable: 
+    last_update: "Last updated on %{timestamp}"
+    progress: "Refreshing data..."
+    title: "Pull to Refresh"
+  select_step_controller: 
+    title: "Add Step"
+  site_controller: 
+    title: "New Site"
+  sites_controller: 
+    title: Sites
+  steps: 
+    check_content: 
+      detail: "for '%{content}'"
+      summary: "Check content"
+    check_current_url: 
+      detail: "to be '%{url}'"
+      summary: "Check current URL"
+    check_email: 
+      detail: "with login '%{login}' on server '%{server}'"
+      summary: "Check E-Mail"
+    choose_radio_button: 
+      detail: "with name '%{name}'"
+      summary: "Choose radio button"
+    click_button: 
+      detail: "with name '%{name}'"
+      summary: "Click button"
+    click_email_link: 
+      detail: "with pattern '%{link_pattern}'"
+      summary: "Click email link"
+    click_link: 
+      detail: "with name '%{name}'"
+      summary: "Click link"
+    deselect_check_box: 
+      detail: "with name '%{name}'"
+      summary: "Deselect check box"
+    fill_in: 
+      detail: "'%{field}' with '%{value}'"
+      summary: "Fill in"
+    select_check_box: 
+      detail: "with name '%{name}'"
+      summary: "Select check box"
+    submit_form: 
+      detail: "with name '%{name}'"
+      summary: "Submit form"
+    visit: 
+      detail: "page '%{url}'"
+      summary: Visit
+    wait: 
+      detail: "for %{duration} seconds"
+      summary: Wait
+  steps_controller: 
+    title: Steps
+  time: 
+    ago: 
+      days: "%{duration} days ago"
+      hours: "%{duration} hours ago"
+      just_now: "just now"
+      minutes: "%{duration} minutes ago"
+      seconds: "less than a minute ago"
+    future: 
+      days: "in %{duration} days"
+      hours: "in %{duration} hours"
+      minutes: "in %{duration} minutes"
+      seconds: "in less than a minute"
+      soon: "very soon"
+  user: 
+    role: 
+      admin: Administrator
+      observer: Observer
+      user: User
+  user_accounts_controller: 
+    title: Users

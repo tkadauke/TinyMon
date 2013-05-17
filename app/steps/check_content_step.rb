@@ -6,10 +6,10 @@ class CheckContentStep < Step
   form_property :content, :string
   
   def self.summary
-    "Check content"
+    I18n.t("steps.check_content.summary")
   end
   
   def detail
-    "for '#{content}'"
+    I18n.t("steps.check_content.detail", :content => self.content)
   end
 end

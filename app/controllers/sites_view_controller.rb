@@ -13,7 +13,7 @@ class SitesViewController < UITableViewController
   end
   
   def viewDidLoad
-    self.title = "Sites"
+    self.title = I18n.t("sites_controller.title")
     self.toolbarItems = toolbar_items
 
     tableView.tableHeaderView = build_search_bar
@@ -102,7 +102,7 @@ class SitesViewController < UITableViewController
   end
   
   def filter_items
-    ["All", "Success", "Failure"]
+    [I18n.t("filter.all"), I18n.t("filter.success"), I18n.t("filter.failure")]
   end
   
   def toolbar_items

@@ -7,10 +7,10 @@ class FillInStep < Step
   form_property :value, :string
   
   def self.summary
-    "Fill in"
+    I18n.t("steps.fill_in.summary")
   end
   
   def detail
-    "'#{field}' with '#{value}'"
+    I18n.t("steps.fill_in.detail", :field => self.field, :value => self.value)
   end
 end

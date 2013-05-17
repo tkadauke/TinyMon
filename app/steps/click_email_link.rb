@@ -6,10 +6,10 @@ class ClickEmailLinkStep < Step
   form_property :link_pattern, :string
   
   def self.summary
-    "Click email link"
+    I18n.t("steps.click_email_link.summary")
   end
   
   def detail
-    "with pattern '#{link_pattern}'"
+    I18n.t("steps.click_email_link.detail", :link_pattern => self.link_pattern)
   end
 end
