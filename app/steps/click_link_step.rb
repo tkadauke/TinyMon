@@ -5,7 +5,7 @@ class ClickLinkStep < Step
   
   form_property :name, :string
   
-  def summary
+  def self.summary
     "Click link"
   end
   

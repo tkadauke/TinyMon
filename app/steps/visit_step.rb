@@ -5,7 +5,7 @@ class VisitStep < Step
   
   form_property :url, :string
   
-  def summary
+  def self.summary
     "Visit"
   end
   

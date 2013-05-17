@@ -1,20 +1,4 @@
 class SelectStepViewController < UITableViewController
-  STEPS = [
-    ["Check content", "CheckContentStep"],
-    ["Check current URL", "CheckCurrentUrlStep"],
-    ["Check E-Mail", "CheckEmailStep"],
-    ["Choose radio button", "ChooseRadioButtonStep"],
-    ["Click button", "ClickButtonStep"],
-    ["Click email link", "ClickEmailLinkStep"],
-    ["Click link", "ClickLinkStep"],
-    ["Deselect check box", "DeselectCheckBoxStep"],
-    ["Fill in", "FillInStep"],
-    ["Select check box", "SelectCheckBoxStep"],
-    ["Submit form", "SubmitFormStep"],
-    ["Visit", "VisitStep"],
-    ["Wait", "WaitStep"]
-  ]
-  
   def initWithHealthCheck(health_check, parent:parent)
     @health_check = health_check
     @parent = parent
@@ -25,18 +9,23 @@ class SelectStepViewController < UITableViewController
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
-    STEPS.size
+    self.class.steps.size
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     fresh_cell.tap do |cell|
-      cell.textLabel.text = STEPS[indexPath.row].first
+      cell.textLabel.text = self.class.steps[indexPath.row].first
     end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    klass = Object.const_get(STEPS[indexPath.row].last)
+    klass = Object.const_get(self.class.steps[indexPath.row].last)
     navigationController.pushViewController(StepViewController.alloc.initWithStep(klass.new(:health_check => @health_check), parent:@parent), animated:true)
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+  end
+  
+  def self.steps
+    @steps ||= Step.descendants.collect { |klass| [klass.summary, klass.name] }
   end
   
 private

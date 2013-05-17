@@ -5,7 +5,7 @@ class ClickButtonStep < Step
   
   form_property :name, :string
   
-  def summary
+  def self.summary
     "Click button"
   end
   

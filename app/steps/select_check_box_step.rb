@@ -5,7 +5,7 @@ class SelectCheckBoxStep < Step
   
   form_property :name, :string
   
-  def summary
+  def self.summary
     "Select check box"
   end
   

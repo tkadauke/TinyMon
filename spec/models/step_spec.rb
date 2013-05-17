@@ -105,10 +105,6 @@ describe Step do
     end
   end
   
-  it "should have a default summary field" do
-    Step.new(:type => 'VisitStep').summary.should == 'VisitStep'
-  end
-  
   it "should have an empty default detail field" do
     Step.new.detail.should == ""
   end

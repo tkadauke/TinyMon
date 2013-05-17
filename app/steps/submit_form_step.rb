@@ -5,7 +5,7 @@ class SubmitFormStep < Step
   
   form_property :name, :string
   
-  def summary
+  def self.summary
     "Submit form"
   end
   

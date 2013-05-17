@@ -5,7 +5,7 @@ class ChooseRadioButtonStep < Step
   
   form_property :name, :string
   
-  def summary
+  def self.summary
     "Choose radio button"
   end
   

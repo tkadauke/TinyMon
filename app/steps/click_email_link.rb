@@ -5,7 +5,7 @@ class ClickEmailLinkStep < Step
   
   form_property :link_pattern, :string
   
-  def summary
+  def self.summary
     "Click email link"
   end
   

@@ -5,7 +5,7 @@ class StepViewController < Formotion::FormableController
     @parent = parent
     @step = step
     initWithModel(step)
-    self.title = step.summary
+    self.title = step.class.summary
     
     if User.current.can_edit_health_checks?
       self.form.create_section(

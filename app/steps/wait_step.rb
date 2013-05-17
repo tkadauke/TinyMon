@@ -5,7 +5,7 @@ class WaitStep < Step
   
   form_property :duration, :number
   
-  def summary
+  def self.summary
     "Wait"
   end
   

@@ -6,7 +6,7 @@ class FillInStep < Step
   form_property :field, :string
   form_property :value, :string
   
-  def summary
+  def self.summary
     "Fill in"
   end
   

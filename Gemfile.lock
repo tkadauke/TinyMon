@@ -40,11 +40,11 @@ GEM
       cocoapods (>= 0.17.0)
     motion-devices (0.0.1)
     motion-require (0.0.6)
-    motion-resource (0.1.1)
+    motion-resource (0.1.2)
       bubble-wrap
       motion-support (>= 0.2.3)
     motion-stump (0.2.1)
-    motion-support (0.2.3)
+    motion-support (0.2.4)
       motion-require (>= 0.0.6)
     motion-testflight (1.5)
     multi_json (1.7.3)

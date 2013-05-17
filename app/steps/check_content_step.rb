@@ -5,7 +5,7 @@ class CheckContentStep < Step
   
   form_property :content, :string
   
-  def summary
+  def self.summary
     "Check content"
   end
   

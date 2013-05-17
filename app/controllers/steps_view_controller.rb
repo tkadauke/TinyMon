@@ -47,7 +47,7 @@ class StepsViewController < UITableViewController
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     fresh_cell.tap do |cell|
       step = steps[indexPath.row]
-      cell.textLabel.text = step.summary
+      cell.textLabel.text = step.class.summary
       cell.detailTextLabel.text = step.detail
     end
   end

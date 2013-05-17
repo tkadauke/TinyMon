@@ -5,7 +5,7 @@ class DeselectCheckBoxStep < Step
   
   form_property :name, :string
   
-  def summary
+  def self.summary
     "Deselect check box"
   end
   

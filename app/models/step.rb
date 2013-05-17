@@ -44,10 +44,6 @@ class Step < MotionResource::Base
     health_check && health_check.account_id
   end
   
-  def summary
-    type
-  end
-  
   def detail
     ""
   end

@@ -15,7 +15,7 @@ describe SelectStepViewController do
   
   it "should show all possible steps" do
     wait 0.2 do
-      controller.tableView.numberOfRowsInSection(0).should == SelectStepViewController::STEPS.size
+      controller.tableView.numberOfRowsInSection(0).should == SelectStepViewController.steps.size
     end
   end
   
