@@ -103,9 +103,11 @@ en:
   steps: 
     check_content: 
       detail: "for '%{content}'"
+      negated_detail: "for not containing '%{content}'"
       summary: "Check content"
     check_current_url: 
       detail: "to be '%{url}'"
+      negated_detail: "to not be '%{url}'"
       summary: "Check current URL"
     check_email: 
       detail: "with login '%{login}' on server '%{server}'"
@@ -134,6 +136,8 @@ en:
     submit_form: 
       detail: "with name '%{name}'"
       summary: "Submit form"
+    take_screenshot: 
+      summary: "Take screenshot"
     visit: 
       detail: "page '%{url}'"
       summary: Visit
