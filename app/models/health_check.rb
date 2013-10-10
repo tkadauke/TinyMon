@@ -5,8 +5,8 @@ class HealthCheck < MotionResource::Base
   self.collection_url = "accounts/:account_id/sites/:site_permalink/health_checks"
   self.member_url = "accounts/:account_id/sites/:site_permalink/health_checks/:permalink"
   
-  has_many :check_runs, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
-  has_many :steps, lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
+  has_many :check_runs, :params => lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
+  has_many :steps, :params => lambda { |r| { :account_id => r.account_id, :site_permalink => r.site_permalink, :check_permalink => r.permalink } }
   
   scope :all, :url => 'health_checks'
   scope :upcoming, :url => 'health_checks/upcoming'

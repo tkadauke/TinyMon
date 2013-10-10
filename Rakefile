@@ -37,6 +37,8 @@ Motion::Project::App.setup do |app|
       app.testflight.team_token = 'teamtoken'
     end
   end
+
+  app.frameworks += ["MapKit"]
 end
 
 task :resources do

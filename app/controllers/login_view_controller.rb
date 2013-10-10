@@ -55,8 +55,8 @@ class LoginViewController < Formotion::FormController
 
 private
   def build_form
-    @form ||= Formotion::Form.persist({
-      persist_as: :credentials,
+    @form ||= Formotion::Form.new({
+      # persist_as: :credentials,
       sections: [{
         rows: [{
           title: I18n.t("form.email"),
